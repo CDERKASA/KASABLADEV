@@ -1,0 +1,6 @@
+main.py
+setup.py
+KASABLADEV.egg-info/PKG-INFO
+KASABLADEV.egg-info/SOURCES.txt
+KASABLADEV.egg-info/dependency_links.txt
+KASABLADEV.egg-info/top_level.txt

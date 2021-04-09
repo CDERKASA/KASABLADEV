@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% load static %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'kasaapp/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="//code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+            integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"
+            integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw=="
+            crossorigin="anonymous"></script>
+    <title>KASA BLA</title>
+    <script>
+    $(document).ready(function(){
+        $("#cppdropdownselect").change(function(){
+            if ($(this).val() === 'No characterization data'){
+                $("#no-charac-alert1").show();
+                $("#charac-range").hide();
+            }
+        });
+        $("#study-appropriate-select").change(function(){
+            if ($(this).val() === 'No Characterization is not appropriate'){
+                $("#no-charac-alert2").show();
+            }
+        });
+        $("#study-appropriate-select").change(function(){
+            if ($(this).val() === 'Yes Characterization is appropriate'){
+                $("#charac-range").show();
+                $("#validation-module").show();
+            }
+
+        });
+        $("#pk-study-select").change(function(){
+            if ($(this).val() === 'No prior knowledge is not appropriate'){
+                $("#validation-module").show();
+                $("#no-pk-alert").show();
+                $("#validation-module").hide();
+            }
+        });
+        $("#pk-study-select").change(function(){
+            if ($(this).val() === 'Yes prior knowledge is appropriate'){
+                $("#validation-module").show();
+                $("#no-pk-alert").hide();
+            }
+        });
+        $("#cppdropdownselect").change(function(){
+            if ($(this).val() === 'Yes (Characterization data)'){
+                $("#characterization-study").show();
+                $("#pk-study").hide();
+                $("#no-study-modal").modal('hide');
+            }
+            else if ($(this).val() === 'Yes (Prior Knowledge data)'){
+                $("#characterization-study").hide();
+                $("#pk-study").show();
+                $("#no-study-modal").modal('hide');
+            }
+        });
+        $("#validation-select").change(function(){
+            if ($(this).val() === 'No'){
+                $("#validation-alert").show();
+                $("#pp-range-acceptable").hide();
+                $("#pp-range").hide();
+                $("#validation-range").hide();
+            }
+            else if ($(this).val() === 'Yes'){
+                $("#validation-range").show();
+                $("#pp-range").show();
+                $("#pp-range-acceptable").show();
+                $("#validation-alert").hide();
+            }
+        });
+        $("#response-select").change(function(){
+            if ($(this).val() === 'No'){
+                $("#dropdown-flag-modal").modal('show');
+
+            }
+            else if ($(this).val() === 'Yes'){
+                $("#validation-range").show();
+                $("#pp-range").show();
+                $("#pp-range-acceptable").show();
+                $("#response-adequate").hide();
+            }
+        });
+        $("#pp-range-select").change(function(){
+            if ($(this).val() === 'No'){
+                $("#par-alert").show();
+
+            }
+            else if ($(this).val() === 'Yes'){
+                $("#par-acceptable-alert").show();
+
+            }
+        });
+        $('#save').on('click', function() {
+            $('#ircommentsinput2').val( $('#ircomments2').val() );
+        });
+
+});
+function nocharacdata() {
+            $("#no-charac-alert").show();
+        }
+
+function closefunction() {
+	    $("#validation-module").show();
+        }
+function closefunction2() {
+	    $("#response-adequate").show();
+	    $("#pp-range-acceptable").hide();
+        }
+var buttons = document.getElementsByClassName('irbtn');
+function irFn() {
+    $("#irModal").modal('show');
+    this.style.backgroundColor =  "red";
+}
+for (var i =0; i< buttons.length; i++){
+    buttons[i].addEventListener('click', irFn, false);
+    }
+
+
+    </script>
+    <script>
+ function myfunction(){
+ if(window.myChart != undefined)
+    window.myChart.destroy();
+ var ctx =  document.getElementById('chart');
+ var   charac_range_low = document.getElementById("charac_range_low").value;
+ var   charac_range_high = document.getElementById("charac_range_high").value;
+ var  valid_range_low = document.getElementById("valid_range_low").value;
+ var  valid_range_high = document.getElementById("valid_range_high").value;
+ var par_range_low = document.getElementById("par_range_low").value;
+ var par_range_high = document.getElementById("par_range_high").value;
+
+   window.myChart = new Chart(ctx, {
+       type: 'bar',
+      data: {
+        labels: ['Characterization range', 'Validation range', 'PAR'],
+        datasets: [
+        {
+        label: 'Low',
+        data:[charac_range_low,valid_range_low, par_range_low],
+         backgroundColor: "rgba(0, 0, 0, 0)",
+
+         },
+         {
+        label: 'High',
+        data:[(charac_range_high-charac_range_low),(valid_range_high-valid_range_low),(par_range_high-par_range_low)],
+        backgroundColor: '#ff9f40' ,
+         },
+
+       ]
+       },
+       options: {
+        tooltips: {
+         enabled: false,
+        },
+       scales: {
+        xAxes: [{ stacked: true }],
+        yAxes: [{ stacked: true }]
+        }
+        }
+
+    });
+    $(".chart-container").show();
+}
+function closegraph(){
+    $(".chart-container").hide();
+}
+function irFn(x, y){
+    var x = document.getElementById(x);
+    var y = document.getElementById(y);
+    $(y).modal('show');
+    x.style.backgroundColor = "red";
+}
+
+function resolveIrFn(a, b){
+    var a = document.getElementById(a);
+    var b = document.getElementById(b);
+    $(b).modal('hide');
+    a.style.backgroundColor = "#28a745";
+
+}
+function saveFn(a, b){
+    var a = document.getElementById(a);
+    var b = document.getElementById(b);
+    $(a).val($(b).val());
+}
+
+
+    </script>
+    <style>
+    #kasasearch{
+    margin: auto;
+    text-align:center;
+    }
+.unitbuttons{
+    margin-left: 170px;
+    margin-bottom:20px;
+}
+ul{
+    list-style-position: inside;
+    margin: 0;
+    padding: 2px;
+}
+
+}
+.title
+{  margin:auto;
+   text-align: center;
+   margin-bottom: 2em;
+   margin-top: 0.5em;
+   }
+.textboxtitle{
+        border-style: outset;
+        box-shadow: 10px 10px 5px grey;
+        text-align: center;
+        background-color: dodgerblue;
+        border-radius: 7px;
+        width: 100%;
+        margin-bottom: 40px;
+        margin-top: 40px;
+        }
+
+.review{
+      border-style: outset;
+      box-shadow: 10px 10px 5px grey;
+      text-align: center;
+      background-color: #d7d7d7;
+      width: 80%;
+      margin-top: 2em;
+      margin-bottom: 2.5em;
+      margin-left: 100px;
+}
+.reviewiteration{
+      margin-top:20px;
+      margin-bottom:20px;
+      margin-left: 100px;
+      margin-right: 20px;
+}
+.buttonselection{
+      width:300px;
+      height: 80px;
+}
+#draggable{
+     text-align: center;
+     cursor: move;
+     list-style-type: none;
+    }
+
+.unitoperations{
+    margin-left: 30px;
+    margin-top: 20px;
+    margin-bottom:20px;
+}
+
+
+.blue_label {
+  background-color: #5cbB5c;
+  color: white;
+  border: none;
+  padding: 5px 5px;
+}
+
+.green_label{
+background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 5px 5px;
+   text-align: center;
+}
+
+
+.red{
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 5px 5px;
+   text-align: center;
+
+}
+
+.orange_label{
+    background-color: #ffc107;
+    color: white;
+  border: none;
+  padding: 5px 5px;
+   text-align: center;
+      }
+
+.buttondifferent {
+  border: none;
+  color: white;
+  padding: 10px 14px;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+/* Darker background on mouse-over */
+.buttondifferent:hover {
+  background-color: Red;
+}
+
+.close1:hover{
+    background-color: #dc3545; /* red */
+	color: white
+	cursor: pointer
+	}
+.Go_button:hover{
+    cursor: pointer;
+    background-color: #dc3545;;
+    }
+
+    .close1:hover{
+    background-color: #dc3545; /* red */
+	color: white
+	cursor: pointer
+	}
+.Go_button:hover{
+    cursor: pointer;
+    background-color: #dc3545;;
+    }
+
+
+    </style>
+
+
+</head>
+<body>
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary" id="navigation">
+    <a class="navbar-brand" href="index.html">KASA</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item dropdown active">
+                <a class="nav-link dropdown-toggle" href="index.html" id="navbarDropdown" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Home
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="Overview.html">Overview</a>
+                    <a class="dropdown-item" href="Risk Evaluation.html">Risk Evaluation</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Risk Summary</a>
+                </div>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Save<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Print<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Validate<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Finalize<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Email</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Submit<span class="sr-only">(current)</span></a>
+            </li>
+
+            <li class="nav-item" active>
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Audit</a>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+
+</nav>
+
+<h1 class="title">
+    Knowledge-Aided Assessment and Structured Application
+</h1>
+<h4 class="textboxtitle">Process parameter characterization Module</h4>
+<div class="p-3"></div>
+<div class="container p-3" id="">
+    <div class="row">
+        <div class="col-lg-6">
+            <label>Has the process parameter been characterized?</label>
+        </div>
+        <div class="col-lg-5">
+            <select class="form-control form-control-sm" id="cppdropdownselect">
+                <option>Yes (Characterization data)</option>
+                <option>Yes (Prior Knowledge data)</option>
+                <option>No characterization data</option>
+                <option selected disabled="true" value="default">Select</option>
+            </select>
+        </div>
+        <div class="col-lg-1">
+            <button class="btn btn-primary form-control form-control-sm" id="characirbtn"
+                    onclick="irFn('characirbtn', 'charac_IR')">IR
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" id="charac_IR">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">IR Additional comments</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <textarea class="form-control" name="ircomments_charac" id="ircomments_charac"
+                          placeholder="Enter additional comments about IR" rows="4" cols="50"></textarea>
+
+            </div>
+            <div class="modal-footer">
+                <button id="save_charac" type="submit" class="btn btn-secondary save" data-dismiss="modal" value=""
+                        onclick="saveFn('characir_comments', 'ircomments_charac')">
+                    Save
+                </button>
+                <button type="button" class="btn btn-primary" onclick="resolveIrFn('characirbtn', 'charac_IR')"
+                        id="resolve_proc">Resolve IR
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<input value="{{characir_comments}}" id="characir_comments" name="characir_comments" type="hidden">
+<!-- No characterization data module-->
+<div class="alert alert-danger" role="alert" style="text-align: center; display:none" id="no-charac-alert1">
+    No characterization data available. The proposed range must be based on validated range
+    <button class="btn btn-danger" onclick="closefunction()">Continue</button>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<!-- Characterization study available-->
+<div class="container p-3" id="characterization-study" style="display: none">
+    <div class="row">
+        <div class="col-lg-4">
+            <label for="study-appropriate-select">Is the characterization study appropriate?</label>
+        </div>
+        <div class="col-lg-4">
+            <select name="characterization-study" id="study-appropriate-select" class="form-control form-control-sm">
+                <option selected disabled="true" value="default">Select</option>
+                <option>Yes Characterization is appropriate</option>
+                <option>No Characterization is not appropriate</option>
+            </select>
+        </div>
+        <div class="col-lg-3">
+            <input type="text" class="comment form-control form-control-sm" placeholder="Additional comments">
+        </div>
+        <div class="col-lg-1">
+            <button class="btn btn-primary form-control form-control-sm" id="appro_charac_irbtn"
+                    onclick="irFn('appro_charac_irbtn', 'appro_charac_modal')">IR
+            </button>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal" tabindex="-1" id="appro_charac_modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">IR Additional comments</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <textarea class="form-control" name="ircomments_appro_charac" id="ircomments_appro_charac"
+                          placeholder="Enter additional comments about IR" rows="4" cols="50"></textarea>
+
+            </div>
+            <div class="modal-footer">
+                <button id="save_appro_charac" type="submit" class="btn btn-secondary save" data-dismiss="modal"
+                        value="" onclick="saveFn('appro_charac_ircomments', 'ircomments_appro_charac')">
+                    Save
+                </button>
+                <button type="button" class="btn btn-primary"
+                        onclick="resolveIrFn('appro_charac_irbtn', 'appro_charac_modal')" id="resolve_appro_charac">
+                    Resolve IR
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<input value="{{appro_charac_ircomments}}" id="appro_charac_ircomments" name="appro_charac_ircomments" type="hidden">
+
+<!-- Charac is not appropriate -->
+<div class="alert alert-warning" role="alert" style="text-align: center; display:none" id="no-charac-alert2">
+    Characterization data is not appropriate. The proposed range must be based on validated range
+    <button class="btn btn-danger" onclick="closefunction()">Continue</button>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<!--Prior knowledge -->
+<div class="container p-3" id="pk-study" style="display:none">
+    <div class="row">
+        <div class="col-lg-4">
+            <label for="pk-study-select">Is the prior knowledge appropriate?</label>
+        </div>
+        <div class="col-lg-4">
+            <select name="characterization-study" id="pk-study-select" class="form-control form-control-sm">
+                <option selected disabled="true" value="default">Select</option>
+                <option>Yes prior knowledge is appropriate</option>
+                <option>No prior knowledge is not appropriate</option>
+            </select>
+        </div>
+        <div class="col-lg-3">
+            <input type="text" class="comment form-control form-control-sm" placeholder="Additional comments">
+        </div>
+        <div class="col-lg-1">
+            <button class="btn btn-primary form-control form-control-sm" id="pk_ir_btn"
+                    onclick="irFn('pk_ir_btn', 'pk_ir_modal')">IR
+            </button>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal" tabindex="-1" id="pk_ir_modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">IR Additional comments</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <textarea class="form-control" name="pk_ircomments" id="ircommentspk"
+                          placeholder="Enter additional comments about IR" rows="4" cols="50"></textarea>
+
+            </div>
+            <div class="modal-footer">
+                <button id="save_pk" type="submit" class="btn btn-secondary save" data-dismiss="modal" value=""
+                        onclick="saveFn('pk_ircomments', 'ircommentspk')">
+                    Save
+                </button>
+                <button type="button" class="btn btn-primary" onclick="resolveIrFn('pk_ir_btn', 'pk_ir_modal')"
+                        id="resolve_pk">Resolve IR
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<input value="{{pk_ircomments}}" id="pk_ircomments" name="pk_ircomments" type="hidden">
+
+<!-- Prior knowledge not appropriate alert -->
+<div class="alert alert-warning" role="alert" style="text-align: center; display:none" id="no-pk-alert">
+    Prior Knowledge is not acceptable. The proposed range must be based on validated range.
+    <button class="btn btn-danger" onclick="closefunction()">Continue</button>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<!-- Characterization is appropriate -->
+<div class="container p-3" id="charac-range" style="display: none">
+    <div class="row">
+        <div class="col-lg-4">
+            <label>Characterization range:</label>
+        </div>
+        <div class="col-lg-4">
+            <input type="number" name="charac_range_low" placeholder="Enter low range"
+                   class="form-control form-control-sm" id="charac_range_low"
+                   value="{{charac_range_low}}">
+        </div>
+        <div class="col-lg-3">
+            <input type="number" name="charac_range_high" placeholder="Enter high range"
+                   class="form-control form-control-sm" id="charac_range_high" value="{{charac_range_high}}">
+        </div>
+        <div class="col-lg-1">
+            <button class="btn btn-primary form-control form-control-sm"
+                    onclick="irFn('charac_range_btn', 'charac_range_modal')" id="charac_range_btn"> IR
+            </button>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" id="charac_range_modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">IR Additional comments</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <textarea class="form-control" name="ircommentscharac_range" id="ircommentscharac_range"
+                          placeholder="Enter additional comments about IR" rows="4" cols="50"></textarea>
+
+            </div>
+            <div class="modal-footer">
+                <button id="save_charac_range" type="submit" class="btn btn-secondary save" data-dismiss="modal"
+                        value="" onclick="saveFn('charac_range_ircomments','ircommentscharac_range')">
+                    Save
+                </button>
+                <button type="button" class="btn btn-primary"
+                        onclick="resolveIrFn('charac_range_btn', 'charac_range_modal')" id="resolve_charac_range">
+                    Resolve IR
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<input value="{{charac_range_ircomments}}" id="charac_range_ircomments" name="charac_range_ircomments" type="hidden">
+
+<!-- Validation module -->
+
+<div class="container p-3" id="validation-module" style="display: none">
+    <div class="row">
+        <div class="col-lg-4">
+            <label>Is validation appropriate/acceptable?:</label>
+        </div>
+        <div class="col-lg-4">
+            <select class="form-control form-control-sm" id="validation-select">
+                <option disabled selected value="default">Select</option>
+                <option> Yes</option>
+                <option> No</option>
+            </select>
+        </div>
+        <div class="col-lg-3">
+            <input placeholder="Additional comments" class="comment form-control form-control-sm">
+        </div>
+        <div class="col-lg-1">
+            <button class="btn btn-primary form-control form-control-sm" id="val_ir_btn"
+                    onclick="irFn('val_ir_btn', 'val_ir_modal')">IR
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" id="val_ir_modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">IR Additional comments</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <textarea class="form-control" name="ircomments_val" id="ircomments_val"
+                          placeholder="Enter additional comments about IR" rows="4" cols="50"></textarea>
+
+            </div>
+            <div class="modal-footer">
+                <button id="save_val" type="submit" class="btn btn-secondary save" data-dismiss="modal" value=""
+                        onclick="saveFn('val_ircomments', 'ircomments_val')">
+                    Save
+                </button>
+                <button type="button" class="btn btn-primary" onclick="resolveIrFn('val_ir_btn', 'val_ir_modal')"
+                        id="resolve_val">Resolve IR
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<input value="{{val_ircomments}}" id="val_ircomments" name="val_ircomments" type="hidden">
+
+<!-- validation is not appropriate alert -->
+
+<div class="alert alert-warning" role="alert" style="text-align: center; display:none" id="validation-alert">
+    Validation is not appropriate.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="closefunction2()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<!-- Validation range -->
+
+<div class="container p-3" id="validation-range" style="display:none">
+    <div class="row">
+        <div class="col-lg-4">
+            <label>Validation range:</label>
+        </div>
+        <div class="col-lg-3">
+            <input type="number" name="valid_range_low" placeholder="Enter low range"
+                   class="form-control form-control-sm"
+                   id="valid_range_low" value="{{valid_range_low}}">
+        </div>
+        <div class="col-lg-3">
+            <input type="number" name="valid_range_high" placeholder="Enter high range"
+                   class="form-control form-control-sm"
+                   id="valid_range_high" value="{{valid_range_high}}">
+        </div>
+        <div class="col-lg-1">
+            <button class="btn btn-primary form-control form-control-sm irbtn" id="valrange_irbtn"
+                    onclick="irFn('valrange_irbtn', 'valrange_modal')">IR
+            </button>
+        </div>
+        <div class="col-lg-1">
+            <button class="btn btn-success form-control form-control-sm" onclick="myfunction()">Graph</button>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" id="valrange_modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">IR Additional comments</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <textarea class="form-control" name="ircommentsvalrange" id="ircommentsvalrange"
+                          placeholder="Enter additional comments about IR" rows="4" cols="50"></textarea>
+
+            </div>
+            <div class="modal-footer">
+                <button id="save_lowval" type="submit" class="btn btn-secondary save" data-dismiss="modal" value=""
+                        onclick="saveFn('valrange_ircomments', 'ircommentsvalrange')">
+                    Save
+                </button>
+                <button type="button" class="btn btn-primary" onclick="resolveIrFn('valrange_irbtn', 'valrange_modal')"
+                        id="resolve_valrange">Resolve IR
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<input value="{{valrange_ircomments}}" id="valrange_ircomments" name="valrange_ircomments" type="hidden">
+
+<div class="modal" tabindex="-1" id="par_modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">IR Additional comments</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <textarea class="form-control" name="ircommentspar" id="ircommentspar"
+                          placeholder="Enter additional comments about IR" rows="4" cols="50"></textarea>
+
+            </div>
+            <div class="modal-footer">
+                <button id="save_proc" type="submit" class="btn btn-secondary save" data-dismiss="modal"
+                        name="ircommentsbtn" value="" onclick="saveFn('par_ircomments','ircommentspar')">
+                    Save
+                </button>
+                <button type="button" class="btn btn-primary" onclick="resolveIrFn('par_ir_btn', 'par_modal')"
+                        id="resolve_par">Resolve IR
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<input value="{{par_ircomments}}" id="par_ircomments" name="par_ircomments" type="hidden">
+
+<div class="container p-3" id="pp-range" style="display:none">
+    <div class="row">
+        <div class="col-lg-4">
+            <label>Proposed process parameter range:</label>
+        </div>
+        <div class="col-lg-3">
+            <input type="number" name="par_range_low" placeholder="Enter low range" class="form-control form-control-sm"
+                   id="par_range_low" value="{{par_range_low}}">
+        </div>
+        <div class="col-lg-3">
+            <input type="number" name="par_range_low" placeholder="Enter high range"
+                   class="form-control form-control-sm"
+                   id="par_range_high" value="{{par_range_high}}">
+        </div>
+        <div class="col-lg-1">
+            <button class="btn btn-primary form-control form-control-sm" onclick="irFn('par_ir_btn', 'par_modal')"
+                    id="par_ir_btn">IR
+            </button>
+        </div>
+        <div class="col-lg-1">
+            <button class="btn btn-success form-control form-control-sm" onclick="myfunction()">Graph</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-4"></div>
+        <div class="col-lg-6">
+            <div class="chart-container" style="position: relative; height:40vh; width:40vw; display:none">
+                <canvas id="chart"></canvas>
+            </div>
+        </div>
+        <div class="col-lg-2"></div>
+    </div>
+</div>
+
+<!-- Response adequate -->
+<div class="container p-3" id="response-adequate" style="display:none">
+    <div class="row">
+        <div class="col-lg-4">
+            <label>Is the response adequate:</label>
+        </div>
+        <div class="col-lg-4">
+            <select class="form-control form-control-sm" id="response-select">
+                <option selected disabled value="default">Select</option>
+                <option>Yes</option>
+                <option>No</option>
+            </select>
+        </div>
+        <div class="col-lg-3">
+            <input type="text" placeholder="Additional comments" class="form-control form-control-sm comment">
+        </div>
+        <div class="col-lg-1">
+            <button class="btn btn-primary form-control form-control-sm irbtn">IR</button>
+        </div>
+    </div>
+</div>
+
+<!-- Proposed pp range acceptable -->
+
+
+<div class="container p-3" id="pp-range-acceptable" style="display:none">
+    <div class="row">
+        <div class="col-lg-4">
+            <label>Is the proposed PAR acceptable:</label>
+        </div>
+        <div class="col-lg-4">
+            <select class="form-control form-control-sm" id="pp-range-select">
+                <option selected disabled value="default">Select</option>
+                <option>Yes</option>
+                <option>No</option>
+            </select>
+        </div>
+        <div class="col-lg-3">
+            <input type="text" placeholder="Additional comments" class="form-control form-control-sm comment">
+        </div>
+        <div class="col-lg-1">
+            <button class="btn btn-primary form-control form-control-sm" id="prop_par_irbtn"
+                    onclick="irFn('prop_par_irbtn', 'prop_par_modal')"> IR
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" id="prop_par_modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">IR Additional comments</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <textarea class="form-control" name="ircommentsprop_par" id="ircommentsprop_par"
+                          placeholder="Enter additional comments about IR" rows="4" cols="50"></textarea>
+
+            </div>
+            <div class="modal-footer">
+                <button id="save_prop_par" type="submit" class="btn btn-secondary save" data-dismiss="modal" value=""
+                        onclick="saveFn('prop_par_ircomments','ircommentsprop_par')">
+                    Save
+                </button>
+                <button type="button" class="btn btn-primary" onclick="resolveIrFn('prop_par_irbtn', 'prop_par_modal')"
+                        id="resolve_proppar">Resolve IR
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<input value="{{prop_par_ircomments}}" id="prop_par_ircomments" name="prop_par_ircomments" type="hidden">
+
+<!-- PAR is not appropriate alert -->
+<div class="alert alert-warning" role="alert" style="text-align: center; display:none" id="par-alert">
+    PAR is not acceptable.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="closefunction2()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<!-- Proposed range is acceptable alert -->
+<div class="alert alert-success" role="alert" style="text-align: center; display:none" id="par-acceptable-alert">
+    The proposed process parameter range is acceptable. <a type="button" class="btn btn-success"
+                                                           href="summary">Summary</a>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="p-3">
+
+
+</div>
+
+</body>
+</html>

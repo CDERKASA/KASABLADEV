@@ -1,0 +1,2395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% load static %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'kasaapp/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="//code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    {% load static %}
+    <script type="text/javascript" src="{% static 'kasaapp/app.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+            integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"
+            integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw=="
+            crossorigin="anonymous"></script>
+    <title>KASA BLA</title>
+
+    <style>
+
+    .close1:hover{
+    background-color: #dc3545; /* red */
+	color: white
+	cursor: pointer
+	}
+.Go_button:hover{
+    cursor: pointer;
+    background-color: #dc3545;;
+    }
+
+    </style>
+
+    <script>
+    function doSomething(alpha, beta) {
+    var y = document.getElementById(alpha).textContent;
+    alert("you have selected: " + y);
+    document.getElementById(beta).innerHTML = y;
+    var b = document.getElementById("unitoperations");
+    var option = document.createElement("option");
+    for (var i=0; i<b.length; i++){
+    var opt = b.options[i];
+
+    if (opt.text === y){
+
+     return;
+     }
+     }
+    option.text = y;
+    b.append(option);
+
+    if(option.text === "Chromatography-Protein A") {
+        option.value = 1;
+    } else if(option.text === "Chromatography-Mixed Mode") {
+        option.value = 2;
+    }  else if(option.text === "Chromatography-Hydrophobic Interaction") {
+        option.value = 3;
+    }  else if(option.text === "Chromatography-Anion Exchange") {
+        option.value = 4;
+    }   else if(option.text === "Chromatography-Cation Exchange") {
+        option.value = 5;
+    }    else if(option.text === "Cell Culture - Seed Bioreactor") {
+        option.value = 6;
+    }    else if(option.text === "Cell Culture - Vial thaw and inoculation expansion") {
+        option.value = 7;
+    }    else if(option.text === "Cell Culture - Production Bioreactor") {
+        option.value = 8;
+    }    else if(option.text === "Cell Culture - Harvest") {
+        option.value = 9;
+    }    else if(option.text === "Ultrafiltration/Diafiltration") {
+        option.value = 10;
+    }    else {
+        option.value = 11;
+    }
+};
+
+    </script>
+
+    <script>
+function intoDrop(alpha1, beta1) {
+    clicked = true;
+    var a = document.getElementById(alpha1);
+    var b = document.getElementById("unitoperations");
+    var c = document.getElementById(beta1);
+    var children = document.getElementById("draggable").getElementsByTagName("li");
+    var i;
+    for(i=0; i <children.length; i++){
+    children[i].firstChild.style.background='';
+    }
+    while(clicked) {
+        clicked = false;
+        a.style.background ='dodgerblue';
+        var option = document.createElement("option");
+        option.text = c.textContent;
+        b.append(option);
+
+        if(option.text === "Chromatography-Protein A") {
+            option.value = 1;
+         else if(option.text === "Chromatography-Mixed Mode")
+        } else {
+            option.value = 2;
+        }
+        b.options.remove(b.a);
+    }
+
+};
+
+    </script>
+    <script id="linked_droplist1">
+    $(document).ready(function() {
+    var $select1 = $('#unitoperations'),
+        $select2 = $('#processparameter'),
+        $OBPrisk = $('#riskselect');
+
+ $options2 = $select2.find('option');
+ $span3 = $OBPrisk.find('span');
+
+
+  $select1.on('change', function() {
+
+  $span3.each(function() {
+    this.style.display = "none";
+  });
+
+  $select2.html($options2.filter(
+  function() {
+    var opt_val = this.value;
+    if (opt_val === 'default') {
+      return true;
+    }
+    return opt_val.includes('-' + $select1.val() + '-');
+  }));
+  $select2.val("default");
+}).trigger('change');
+
+$select2.on('change', function() {
+  var selected = this.value;
+  $span3.each(function() {
+    if ($(this).attr('id') === selected) {
+      this.style.display = "inline";
+    } else {
+      this.style.display = "none";
+    }
+  });
+}).trigger('change');
+});
+
+    </script>
+
+    <script id="linked_droplist2">
+   $(document).ready(function() {
+    var $select11 = $('#unitoperations'),
+   $select22 = $('#surprocselect'),
+   $surrogateOBPrisk = $('#surriskselect');
+
+ $options22 = $select22.find('option');
+ $span33 = $surrogateOBPrisk.find('span1');
+
+
+  $select11.on('change', function() {
+
+  $span33.each(function() {
+    this.style.display = "none";
+  });
+
+  $select22.html($options22.filter(
+  function() {
+    var opt_val = this.value;
+    if (opt_val === 'default') {
+      return true;
+    }
+    return opt_val.includes('-' + $select11.val() + '-');
+  }));
+  $select22.val("default");
+}).trigger('change');
+
+$select22.on('change', function() {
+  var selected = this.value;
+  $span33.each(function() {
+    if ($(this).attr('id') === selected) {
+      this.style.display = "inline";
+    } else {
+      this.style.display = "none";
+    }
+  });
+}).trigger('change');
+});
+
+
+    </script>
+
+    <script id="blockmyFunction1">
+    function blockmyFunction1() {
+        var new_pp1 = document.getElementById("new_pp");
+        var surrogate_yesno1 = document.getElementById("surrogate_yesno");
+        var surrogate_pp1 = document.getElementById("surrogate_pp");
+        var applicant_risk_sur1 = document.getElementById("applicant_risk_sur");
+        var sur_risk1 = document.getElementById("sur_risk");
+        var surrogate_agree_mssg1 = document.getElementById("surrogate_agree_mssg");
+        var surrogate_final_risk_block1 = document.getElementById("surrogate_final_risk_block");
+        var surrogate_notagree_m1 = document.getElementById("surrogate_notagree_m");
+        var surrogate_notagree1 = document.getElementById("surrogate_notagree");
+        var surrogate_cpp1 = document.getElementById("surrogate_cpp");
+        var surrogate_ntagree_final_risk_block1 = document.getElementById("surrogate_ntagree_final_risk_block");
+
+        new_pp1.style.display = "none";
+        surrogate_yesno1.style.display = "none";
+        surrogate_pp1.style.display = "none";
+        applicant_risk_sur1.style.display = "none";
+        sur_risk1.style.display = "none";
+        surrogate_agree_mssg1.style.display = "none";
+        surrogate_final_risk_block1.style.display = "none";
+        surrogate_notagree_m1.style.display = "none";
+        surrogate_notagree1.style.display = "none";
+        surrogate_cpp1.style.display = "none";
+        surrogate_ntagree_final_risk_block1.style.display = "none";
+    }
+
+    </script>
+
+    <script id="myFunction">
+function myFunction() {
+        var assessor = document.getElementById("Assessor");
+        var ranking = document.getElementById("Ranking");
+        var selectrisk = document.getElementById("riskselect");
+        var applicantrisk = document.getElementById("risk");
+        var finalrisk = document.getElementById("final_risk_block");
+
+        var agree_message = document.getElementById("agree_message");
+        var ntagree = document.getElementById("notagree");
+        var ntagree_m = document.getElementById("notagree_m");
+        var ntagree_message = document.getElementById("notagree_message");
+        var finalrisk_m = document.getElementById("Final_Risk_Ranking_ntagree");
+        var assignrisk_m = document.getElementById("Assign_Risk");
+        var cpp = document.getElementById("cpp");
+        var cpp_kpp = document.getElementById("CPP_KPP");
+        cpp_kpp.selectedIndex = "default";
+        assignrisk_m.selectedIndex = "default";
+
+
+        var finalrisk_ntagree = document.getElementById("ntagree_final_risk_block");
+        var risk_r = selectrisk.innerText;
+        var risk_p = applicantrisk.options[applicantrisk.selectedIndex].text;
+        var risk_n = assignrisk_m.options[assignrisk_m.selectedIndex].text;
+        finalrisk_m.innerHTML = "";
+        blockmyFunction1();
+
+
+            if (risk_p === risk_r) {
+                    blockmyFunction1();
+                    ranking.innerHTML = risk_r;
+                    document.getElementById("applicant_risktext").value = ranking.innerHTML;
+                    finalrisk.style.display = "block";
+                    agree_message.style.display = "block";
+                    assessor.innerHTML= "Assessor agrees with Applicant Risk Ranking";
+                    ntagree.style.display = "none";
+                    ntagree_m.style.display = "none";
+                    finalrisk_ntagree.style.display = "none";
+                    cpp.style.display= "block";
+                    cpp_kpp.selectedIndex = "default";
+                    if (risk_p === "Low risk") {
+                    blockmyFunction1();
+                    cpp.style.display = "none";
+                    } else {
+                    blockmyFunction1();
+                    cpp.style.display = "block";
+                    cpp_kpp.selectedIndex = "default";
+                    }
+            } else {
+                if (risk_p === "--Select--") {
+                    agree_message.style.display = "none";
+                    finalrisk.style.display = "none";
+                    ntagree_m.style.display = "none";
+                    ntagree.style.display = "none";
+                    finalrisk_ntagree.style.display = "none";
+                    cpp.style.display= "none";
+                } else {
+                    blockmyFunction1();
+                    agree_message.style.display = "none";
+                    finalrisk.style.display = "none";
+                    ntagree_m.style.display = "block";
+                    ntagree_message.innerHTML= "Assessor does not agree with Applicant Risk Ranking";
+                    ntagree.style.display = "block";
+                    finalrisk_ntagree.style.display = "block";
+                }
+            }
+        }
+
+function myFun() {
+    var assignrisk_m1 = document.getElementById("Assign_Risk");
+    var risk_n1 = assignrisk_m1.options[assignrisk_m1.selectedIndex].text;
+    var finalrisk_m1 = document.getElementById("Final_Risk_Ranking_ntagree");
+    var cpp1 = document.getElementById("cpp");
+    var cpp_kpp1 = document.getElementById("CPP_KPP");
+    cpp_kpp1.selectedIndex = "default";
+
+    if (risk_n1 === "--Select--") {
+        blockmyFunction1();
+        finalrisk_m1.style.visibility = "hidden";
+        cpp1.style.display = "none";
+        } else if (risk_n1 === "Low risk") {
+        blockmyFunction1();
+        cpp1.style.display = "none";
+        finalrisk_m1.style.visibility = "visible";
+        finalrisk_m1.innerHTML = risk_n1;
+        document.getElementById("applicant_risk2").value = risk_n1;
+        } else {
+        blockmyFunction1();
+        cpp1.style.display = "block";
+        cpp_kpp1.selectedIndex = "default";
+        finalrisk_m1.style.visibility = "visible";
+        finalrisk_m1.innerHTML = risk_n1;
+        document.getElementById("applicant_risk2").value = risk_n1;
+    }
+}
+
+    </script>
+
+    <script id="blockmyFunction">
+    function blockmyFunction() {
+        var agree_message1 = document.getElementById("agree_message");
+        var finalrisk1 = document.getElementById("final_risk_block");
+        var notagree_m1 = document.getElementById("notagree_m");
+        var notagree1 = document.getElementById("notagree");
+        var cpp1 = document.getElementById("cpp");
+        var ntagree_final_risk_block1 = document.getElementById("ntagree_final_risk_block");
+
+        agree_message1.style.display = "none";
+        finalrisk1.style.display = "none";
+        notagree_m1.style.display = "none";
+        notagree1.style.display = "none";
+        cpp1.style.display = "none";
+        ntagree_final_risk_block1.style.display = "none";
+    }
+
+    </script>
+
+    <script id="myFunction1">
+function newppFun() {
+     var procdrop11 = document.getElementById("processparameter");
+     var proc_para11 = procdrop11.options[procdrop11.selectedIndex].text;
+
+
+     var newpp_block11 = document.getElementById("new_pp");
+     var sur_risk11 = document.getElementById("sur_risk");
+     var surrogate_yesno11 = document.getElementById("surrogate_yesno");
+     var surr_yesno11 = document.getElementById("surr_yesno");
+
+     var applicant_risk11 = document.getElementById("applicant_risk");
+     var obp_risk11 = document.getElementById("obp_risk");
+     var risk1 = document.getElementById("risk");
+     risk1.selectedIndex = "default";
+     var newppinput =  document.getElementById("new_parameter");
+     newppinput.value = "";
+
+
+     blockmyFunction();
+
+     if (proc_para11 === "New process parameter") {
+        blockmyFunction();
+        newpp_block11.style.display = "block";
+        sur_risk11.style.display="block";
+        surrogate_yesno11.style.display ="block";
+        applicant_risk11.style.display ="none";
+        obp_risk11.style.display ="none";
+     } else {
+        blockmyFunction();
+        document.getElementById("procname_text").value = proc_para11;
+
+        surr_yesno11.selectedIndex = "default";
+        applicant_risk11.style.display = "block";
+        obp_risk11.style.display = "block";
+        myFunction();
+
+     }
+}
+
+function yesnoFun() {
+    blockmyFunction();
+
+    var applicant_risk1 = document.getElementById("applicant_risk");
+    var obp_risk1 = document.getElementById("obp_risk");
+
+    var applicant_risk_sur = document.getElementById("applicant_risk_sur");
+    var surrogate_pp =  document.getElementById("surrogate_pp");
+    var finalrisk_sur = document.getElementById("surrogate_final_risk_block");
+    var agree_message_sur = document.getElementById("surrogate_agree_mssg");
+    var finalrisk_m_sur = document.getElementById("surr_Final_Risk_Ranking_ntagree");
+    var ntagree_sur = document.getElementById("surrogate_notagree");
+    var ntagree_m_sur = document.getElementById("surrogate_notagree_m");
+    var cpp_surr = document.getElementById("surrogate_cpp");
+    var finalrisk_ntagree_sur = document.getElementById("surrogate_ntagree_final_risk_block");
+    var sur_risk = document.getElementById("sur_risk");
+    var app_sur = document.getElementById("app_sur");
+    app_sur.selectedIndex = "default";
+    var newppinput =  document.getElementById("new_parameter");
+    newppinput.value = "";
+    var surprocselect =  document.getElementById("surprocselect");
+    surprocselect.selectedIndex = "default";
+    var sur_riskselect = document.getElementById("surriskselect");
+    var sur_riskselectdrop = "";
+    var assignrisk_m_sur = document.getElementById("surr_Assign_Risk");
+    assignrisk_m_sur.selectedIndex = "default";
+    finalrisk_m_sur.innerHTML = "";
+    var cpp_kpp_sur1 = document.getElementById("surr_CPP_KPP");
+    cpp_kpp_sur1.selectedIndex = "default";
+    var surrogate_yesno= document.getElementById("surrogate_yesno");
+    var surr_yesno= document.getElementById("surr_yesno");
+    var sur_yesno_drop = surr_yesno.options[surr_yesno.selectedIndex].text;
+
+    if (sur_yesno_drop === "--Select--") {
+        blockmyFunction();
+        applicant_risk1.style.display ="none";
+        obp_risk1.style.display ="none";
+        applicant_risk_sur.style.display="none";
+        surrogate_pp.style.display ="none";
+        finalrisk_sur.style.display = "none";
+        agree_message_sur.style.display = "none";
+        ntagree_sur.style.display = "none";
+        ntagree_m_sur.style.display = "none";
+        cpp_surr.style.display = "none";
+        finalrisk_ntagree_sur.style.display = "none";
+        sur_risk.style.display="none";
+    } else if (sur_yesno_drop === "YES") {
+        blockmyFunction();
+        applicant_risk1.style.display ="none";
+        obp_risk1.style.display ="none";
+        applicant_risk_sur.style.display="block";
+        surrogate_pp.style.display ="block";
+
+
+        finalrisk_sur.style.display = "none";
+        agree_message_sur.style.display = "none";
+        ntagree_sur.style.display = "none";
+        ntagree_m_sur.style.display = "none";
+        cpp_surr.style.display = "none";
+        finalrisk_ntagree_sur.style.display = "none";
+        sur_risk.style.display="block";
+    } else {
+        blockmyFunction();
+        applicant_risk1.style.display ="none";
+        obp_risk1.style.display ="none";
+        applicant_risk_sur.style.display="block";
+        surrogate_pp.style.display ="none";
+        sur_risk.style.display="none";
+        finalrisk_sur.style.display = "none";
+        ntagree_sur.style.display = "block";
+        agree_message_sur.style.display = "none";
+        ntagree_m_sur.style.display = "none";
+        cpp_surr.style.display = "block";
+        finalrisk_ntagree_sur.style.display = "block";
+    }
+}
+
+function surrppFun() {
+    var app_sur = document.getElementById("app_sur");
+    app_sur.selectedIndex = "default";
+    var ntagree_m_sur = document.getElementById("surrogate_notagree_m");
+    ntagree_m_sur.style.display = "none";
+    var ntagree_sur = document.getElementById("surrogate_notagree");
+    ntagree_sur.style.display = "none";
+    var agree_message_sur = document.getElementById("surrogate_agree_mssg");
+    agree_message_sur.style.display = "none";
+    var finalrisk_sur = document.getElementById("surrogate_final_risk_block");
+    finalrisk_sur.style.display = "none";
+    var cpp_surr = document.getElementById("surrogate_cpp");
+    cpp_surr.style.display = "none";
+    var finalrisk_ntagree_sur = document.getElementById("surrogate_ntagree_final_risk_block");
+    finalrisk_ntagree_sur.style.display = "none";
+    var surprocselect = document.getElementById("surprocselect");
+     var surprocselectdrop = surprocselect.options[surprocselect.selectedIndex].text;
+      document.getElementById("surprocessparameter").value = surprocselectdrop;
+
+
+}
+
+function myFunction1() {
+        var surrogate_pp =  document.getElementById("surrogate_pp");
+        var sur_risk = document.getElementById("sur_risk");
+        var surrogate_yesno= document.getElementById("surrogate_yesno");
+        var surr_yesno= document.getElementById("surr_yesno");
+
+
+
+        var applicant_risk_sur = document.getElementById("applicant_risk_sur");
+        var app_sur = document.getElementById("app_sur");
+        var sur_riskselect = document.getElementById("surriskselect");
+        var sur_assessor = document.getElementById("surr_Assessor");
+        var sur_ranking = document.getElementById("surr_Ranking");
+
+        var agree_message_sur = document.getElementById("surrogate_agree_mssg");
+        var finalrisk_sur = document.getElementById("surrogate_final_risk_block");
+        var ntagree_sur = document.getElementById("surrogate_notagree");
+        var ntagree_m_sur = document.getElementById("surrogate_notagree_m");
+        var ntagree_message_sur = document.getElementById("surr_notagree_message");
+        var finalrisk_m_sur = document.getElementById("surr_Final_Risk_Ranking_ntagree");
+        finalrisk_m_sur.innerHTML = "";
+        var assignrisk_m_sur= document.getElementById("surr_Assign_Risk");
+        var cpp_surr = document.getElementById("surrogate_cpp");
+        var finalrisk_ntagree_sur = document.getElementById("surrogate_ntagree_final_risk_block");
+
+        var applicant_risk1 = document.getElementById("applicant_risk");
+        var obp_risk1 = document.getElementById("obp_risk");
+        var risk1 = document.getElementById("risk");
+        risk1.selectedIndex = "default";
+        assignrisk_m_sur.selectedIndex = "default";
+
+        var newppinput =  document.getElementById("new_parameter");
+        newppinput.value = "";
+        var cpp_kpp_sur1 = document.getElementById("surr_CPP_KPP");
+        cpp_kpp_sur1.selectedIndex = "default";
+
+        var surr_yesno= document.getElementById("surr_yesno");
+        var sur_yesno_drop = surr_yesno.options[surr_yesno.selectedIndex].text;
+
+        blockmyFunction();
+
+        var app_sur_drop = app_sur.options[app_sur.selectedIndex].text;
+        var sur_riskselectdrop = sur_riskselect.innerText;
+
+        if (sur_yesno_drop === "YES") {
+            if (app_sur_drop === sur_riskselectdrop) {
+            blockmyFunction();
+            applicant_risk1.style.display ="none";
+            obp_risk1.style.display ="none";
+            finalrisk_sur.style.display = "block";
+            sur_ranking.innerHTML = sur_riskselectdrop;
+            document.getElementById("surrisk_text").value= sur_ranking.innerHTML ;
+
+            sur_assessor.innerHTML="Assessor Agrees with Applicant Risk Ranking";
+            agree_message_sur.style.display = "block";
+            finalrisk_m_sur.style.display = "block";
+            ntagree_sur.style.display = "none";
+            ntagree_m_sur.style.display = "none";
+            cpp_surr.style.display = "none";
+            finalrisk_ntagree_sur.style.display = "none";
+                if (app_sur_drop === "Low risk") {
+                blockmyFunction();
+                applicant_risk1.style.display ="none";
+                obp_risk1.style.display ="none";
+                cpp_surr.style.display = "none";
+                finalrisk_m_sur.style.visibility = "visible";
+                finalrisk_m_sur.innerHTML = app_sur_drop
+                } else if (app_sur_drop === "Medium risk" || "High risk") {
+                blockmyFunction();
+                applicant_risk1.style.display ="none";
+                obp_risk1.style.display ="none";
+                cpp_surr.style.display = "block";
+                finalrisk_m_sur.style.visibility = "visible";
+                finalrisk_m_sur.innerHTML = app_sur_drop;
+                } else {
+                blockmyFunction();
+                applicant_risk1.style.display ="none";
+                obp_risk1.style.display ="none";
+                cpp_surr.style.display = "none";
+                finalrisk_m_sur.style.visibility = "hidden";
+                }
+            } else {
+            blockmyFunction();
+            applicant_risk1.style.display ="none";
+            obp_risk1.style.display ="none";
+            agree_message_sur.style.display = "none";
+            finalrisk_sur.style.display = "none";
+            finalrisk_m_sur.style.display = "block";
+            ntagree_sur.style.display = "block";
+            ntagree_m_sur.style.display = "block";
+            ntagree_message_sur.innerHTML = "Assessor does not agree with Applicant risk ranking";
+            cpp_surr.style.display = "block";
+            finalrisk_ntagree_sur.style.display = "block";
+            sur_ranking.innerHTML = sur_riskselectdrop;
+            }
+        } else {
+            myFun1();
+        }
+}
+
+function myFun1() {
+    var assignrisk_m_sur1 = document.getElementById("surr_Assign_Risk");
+    var risk_n_sur1 = assignrisk_m_sur1.options[assignrisk_m_sur1.selectedIndex].text;
+    var finalrisk_m_sur1 = document.getElementById("surr_Final_Risk_Ranking_ntagree");
+    var cpp_sur1 = document.getElementById("surrogate_cpp");
+    var cpp_kpp_sur1 = document.getElementById("surr_CPP_KPP");
+    cpp_kpp_sur1.selectedIndex = "default";
+    finalrisk_m_sur1.innerHTML = "";
+
+    if (risk_n_sur1 === "--Select--") {
+        blockmyFunction();
+        finalrisk_m_sur1.style.visibility = "hidden";
+        cpp_sur1.style.display = "none";
+    } else if (risk_n_sur1 === "Low risk") {
+        blockmyFunction();
+        cpp_sur1.style.display = "none";
+        finalrisk_m_sur1.style.visibility = "visible";
+        finalrisk_m_sur1.innerHTML = risk_n_sur1;
+         document.getElementById("surrisk_text2").value = risk_n_sur1;
+    } else {
+        blockmyFunction();
+        cpp_sur1.style.display = "block";
+        cpp_kpp_sur1.selectedIndex = "default";
+        finalrisk_m_sur1.style.visibility = "visible";
+        finalrisk_m_sur1.innerHTML = risk_n_sur1;
+          document.getElementById("surrisk_text2").value = risk_n_sur1;
+    }
+}
+
+    </script>
+
+    <script id="modal">
+    $(document).ready(function(){
+        $(".comment").dblclick(function(){
+        $("#myModal").modal();
+        });
+
+    });
+
+    </script>
+
+    <script id="unitFun">
+    function unitFun() {
+        var unitoperations = document.getElementById("unitoperations");
+        var unitop_drop = unitoperations.options[unitoperations.selectedIndex].text;
+
+        var unit_name = document.getElementById("unit_name");
+        unit_name.innerHTML=unitop_drop;
+
+
+
+        var procdefault = document.getElementById("processparameter");
+        procdefault.selectedIndex = "default";
+
+        var applicantrisk = document.getElementById("risk");
+        applicantrisk.selectedIndex = "default";
+
+        blockmyFunction();
+        blockmyFunction1();
+
+        var chromatography_descriptor = document.getElementById("chromatography_descriptor_block");
+        var cellculture_descriptor = document.getElementById("cellculture_descriptor_block");
+        var uf_df_descriptor = document.getElementById("uf_df_descriptor_block");
+        var thaw_descriptor = document.getElementById("thaw_descriptor_block");
+        var prodbio_descriptor = document.getElementById("prodbio_descriptor_block");
+        var lowph_descriptor = document.getElementById("lowph_descriptor_block");
+        var detergent_descriptor = document.getElementById("detergent_block");
+        var viral_fil_descriptor = document.getElementById("viral_fil_block");
+        var seedbio_descriptor = document.getElementById("seedbio_block");
+
+        descriptorsnone();
+
+        if (unitop_drop === "Cell Culture - Seed Bioreactor") {
+            descriptorsnone();
+            seedbio_descriptor.style.display = "block";
+        } else if (unitop_drop === "Cell Culture - Vial thaw and inoculation expansion") {
+            descriptorsnone();
+            thaw_descriptor.style.display = "block";
+        } else if (unitop_drop === "Cell Culture - Production Bioreactor") {
+            descriptorsnone();
+            prodbio_descriptor.style.display = "block";
+        } else if (unitop_drop === "Cell Culture - Harvest") {
+            descriptorsnone();
+            cellculture_descriptor.style.display = "block";
+        } else if (unitop_drop === "Ultrafiltration/Diafiltration") {
+            descriptorsnone();
+            uf_df_descriptor.style.display = "block";
+        } else if (unitop_drop === "Viral Filtration") {
+            descriptorsnone();
+            viral_fil_descriptor.style.display = "block";
+        } else if (unitop_drop === "Virus inactivation - Low pH") {
+            descriptorsnone();
+            lowph_descriptor.style.display = "block";
+        } else if (unitop_drop === "--Select Unit Operation--") {
+            descriptorsnone();
+        } else {
+            descriptorsnone();
+            chromatography_descriptor.style.display = "block";
+        }
+    }
+
+    function descriptorsnone() {
+        var chromatography_descriptor1 = document.getElementById("chromatography_descriptor_block");
+        var cellculture_descriptor1 = document.getElementById("cellculture_descriptor_block");
+        var uf_df_descriptor1 = document.getElementById("uf_df_descriptor_block");
+        var thaw_descriptor1 = document.getElementById("thaw_descriptor_block");
+        var prodbio_descriptor1 = document.getElementById("prodbio_descriptor_block");
+        var lowph_descriptor1 = document.getElementById("lowph_descriptor_block");
+        var detergent_descriptor1 = document.getElementById("detergent_block");
+        var viral_fil_descriptor1 = document.getElementById("viral_fil_block");
+        var seedbio_descriptor1 = document.getElementById("seedbio_block");
+
+        chromatography_descriptor1.style.display = "none";
+        cellculture_descriptor1.style.display = "none";
+        uf_df_descriptor1.style.display = "none";
+        thaw_descriptor1.style.display = "none";
+        prodbio_descriptor1.style.display = "none";
+        lowph_descriptor1.style.display = "none";
+        detergent_descriptor1.style.display = "none";
+        viral_fil_descriptor1.style.display = "none";
+        seedbio_descriptor1.style.display = "none";
+    }
+
+    </script>
+
+    <script id="additional comments popup block">
+    $(document).ready(function(){
+        $("#process_para_comment").dblclick(function(){
+        $("#myModal1").modal();
+        });
+    });
+
+    </script>
+    <script>
+    $(document).ready(function(){
+        $("#cppdropdownselect").change(function(){
+            if ($(this).val() === 'No characterization data'){
+                $("#no-study-modal").modal('show');
+                $("#charac-range").hide();
+            }
+        });
+        $("#study-appropriate-select").change(function(){
+            if ($(this).val() === 'No Characterization is not appropriate'){
+                $("#no-study-modal").modal('show');
+            }
+        });
+        $("#study-appropriate-select").change(function(){
+            if ($(this).val() === 'Yes Characterization is appropriate'){
+                $("#charac-range").show();
+                $("#validation-module").show();
+            }
+
+        });
+        $("#pk-study-select").change(function(){
+            if ($(this).val() === 'No prior knowledge is not appropriate'){
+                $("#no-study-modal").modal('show');
+            }
+        });
+        $("#pk-study-select").change(function(){
+            if ($(this).val() === 'Yes prior knowledge is appropriate'){
+                $("#validation-module").show();
+            }
+        });
+        $("#cppdropdownselect").change(function(){
+            if ($(this).val() === 'Yes (Characterization data)'){
+                $("#characterization-study").show();
+                $("#pk-study").hide();
+                $("#no-study-modal").modal('hide');
+            }
+            else if ($(this).val() === 'Yes (Prior Knowledge data)'){
+                $("#characterization-study").hide();
+                $("#pk-study").show();
+                $("#no-study-modal").modal('hide');
+            }
+        });
+        $("#validation-select").change(function(){
+            if ($(this).val() === 'No'){
+                $("#validation-alert").show();
+                $("#pp-range-acceptable").hide();
+                $("#pp-range").hide();
+                $("#validation-range").hide();
+            }
+            else if ($(this).val() === 'Yes'){
+                $("#validation-range").show();
+                $("#pp-range").show();
+                $("#pp-range-acceptable").show();
+                $("#validation-alert").hide();
+            }
+        });
+        $("#response-select").change(function(){
+            if ($(this).val() === 'No'){
+                $("#dropdown-flag-modal").modal('show');
+
+            }
+            else if ($(this).val() === 'Yes'){
+                $("#validation-range").show();
+                $("#pp-range").show();
+                $("#pp-range-acceptable").show();
+                $("#response-adequate").hide();
+            }
+        });
+        $("#pp-range-select").change(function(){
+            if ($(this).val() === 'No'){
+                $("#par-alert").show();
+
+            }
+            else if ($(this).val() === 'Yes'){
+                $("#par-acceptable-alert").show();
+
+            }
+        });
+
+});
+function nocharacdata() {
+            $("#no-charac-alert").show();
+        }
+function captureIR() {
+            $("#ir-modal").modal('show');
+        }
+function closefunction() {
+	    $("#validation-module").show();
+        }
+function closefunction2() {
+	    $("#response-adequate").show();
+	    $("#pp-range-acceptable").hide();
+        }
+
+    </script>
+
+    <script>
+ function myfunction(){
+ var ctx =  document.getElementById('chart');
+ var   charac_range_low = document.getElementById("charac_range_low").value;
+ var   charac_range_high = document.getElementById("charac_range_high").value;
+ var  valid_range_low = document.getElementById("valid_range_low").value;
+ var  valid_range_high = document.getElementById("valid_range_high").value;
+ var par_range_low = document.getElementById("par_range_low").value;
+ var par_range_high = document.getElementById("par_range_high").value;
+   var chart = new Chart(ctx, {
+       type: 'bar',
+      data: {
+        labels: ['Characterization range', 'Validation range', 'PAR'],
+        datasets: [
+        {
+        label: 'Low',
+        data:[charac_range_low,valid_range_low, par_range_low],
+         backgroundColor: "rgba(0, 0, 0, 0)",
+
+         },
+         {
+        label: 'High',
+        data:[charac_range_high,valid_range_high,par_range_high],
+        backgroundColor: '#ff9f40' ,
+         },
+
+       ]
+       },
+       options: {
+       scales: {
+        xAxes: [{ stacked: true }],
+        yAxes: [{ stacked: true }]
+        }
+        }
+    });
+}
+
+    </script>
+
+
+</head>
+
+
+<!--Navigation Bar-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary" id="navigation">
+    <a class="navbar-brand" href="index.html">KASA</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item dropdown active">
+                <a class="nav-link dropdown-toggle" href="{% url 'home' %}" id="navbarDropdown" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Home
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{% url 'overview' %}">Overview</a>
+                    <a class="dropdown-item" href="{% url 'riskevaluation' %}">Risk Evaluation</a>
+                    <div class="dropdown-divider"></div>
+
+                </div>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Save<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Print<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Validate<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Finalize<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Email</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Submit<span class="sr-only">(current)</span></a>
+            </li>
+
+            <li class="nav-item" active>
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Audit</a>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+
+</nav>
+
+<!--Risk Evaluation Module-->
+
+<h1 class="title">
+    Knowledge-Aided Assessment and Structured Application
+</h1>
+<h4 class="textboxtitle">
+    Select the Unit Operations included in the application
+</h4>
+
+<!--Select Unit operations buttons -->
+<div class="container" id="unitop_buttons">
+    <div style="margin-left: 170px; margin-bottom:20px">
+        <button id="bioharvest" type="button" onclick='doSomething("bioharvest", "bioharvesttest")'
+                class="btn btn-outline-primary buttonselection">Cell Culture - Harvest
+        </button>
+        <button id="prodbio" type="button" onclick='doSomething("prodbio", "prodbiotest")'
+                class="btn btn-outline-primary buttonselection">Cell Culture – Production Bioreactor
+        </button>
+        <button id="seedbio" type="button" onclick='doSomething("seedbio", "seedbiotest")'
+                class="btn btn-outline-primary buttonselection">Cell Culture – Seed Bioreactor
+        </button>
+    </div>
+    <div style="margin-left: 170px; margin-bottom:20px">
+        <button id="viralinno" type="button" onclick='doSomething("viralinno", "viralinnotest")'
+                class="btn btn-outline-primary buttonselection">Cell Culture – Vial thaw and inoculation expansion
+        </button>
+        <button id="anion" type="button" onclick='doSomething("anion", "aniontest")'
+                class="btn btn-outline-primary buttonselection">Chromatography-Anion Exchange
+        </button>
+        <button id="cation" type="button" onclick='doSomething("cation", "cationtest")'
+                class="btn btn-outline-primary buttonselection">Chromatography-Cation Exchange
+        </button>
+    </div>
+    <div style="margin-left: 170px; margin-bottom:20px">
+        <button id="hydro" type="button" onclick='doSomething("hydro", "hydrotest")'
+                class="btn btn-outline-primary buttonselection">Chromatography – Hydrophobic Interaction
+        </button>
+        <button id="mmc" type="button" onclick='doSomething("mmc", "mmctest")'
+                class="btn btn-outline-primary buttonselection">Chromatography-Mixed Mode
+        </button>
+        <button id="proteina" type="button" onclick='doSomething("proteina", "proteinatest")'
+                class="btn btn-outline-primary buttonselection unitops">Chromatography-Protein A
+        </button>
+    </div>
+    <div style="margin-left: 170px; margin-bottom:20px">
+        <button id="ultradia" type="button" onclick='doSomething("ultradia", "ultradiatest")'
+                class="btn btn-outline-primary buttonselection">Ultrafiltration/Diafiltration
+        </button>
+        <button id="viralfil" type="button" onclick='doSomething("viralfil", "viralfiltest")'
+                class="btn btn-outline-primary buttonselection">Viral Filtration
+        </button>
+        <button id="lowph" type="button" onclick='doSomething("lowph", "lowphtest")'
+                class="btn btn-outline-primary buttonselection">Virus inactivation – Low pH
+        </button>
+    </div>
+
+</div>
+
+<!-- Selected Unit operations -->
+<h4 class="textboxtitle" style="margin-top= 50px; text-align: center">
+    Unit operations:
+</h4>
+
+<ul id="draggable">
+    <li><span class="ui-widget-content" id="proteinatest"></span></li>
+    <li><span class="ui-widget-content" id="mmctest"></span></li>
+    <li><span class="ui-widget-content" id="hydrotest"></span></li>
+    <li><span class="ui-widget-content" id="ultradiatest"></span></li>
+    <li><span class="ui-widget-content" id="lowphtest"></span></li>
+    <li><span class="ui-widget-content" id="viralinnotest"></span></li>
+    <li><span class="ui-widget-content" id="seedbiotest"></span></li>
+    <li><span class="ui-widget-content" id="prodbiotest"></span></li>
+    <li><span class="ui-widget-content" id="cationtest"></span></li>
+    <li><span class="ui-widget-content" id="aniontest"></span></li>
+    <li><span class="ui-widget-content" id="viralfiltest"></span></li>
+    <li><span class="ui-widget-content" id="bioharvesttest"></span></li>
+</ul>
+
+<!-- Selected Unit Operations -->
+
+<div class="container" id="unit_operation">
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div>
+                <label for="unitoperations">Select a unit operation: </label>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+
+            <select id="unitoperations1" class="form-control form-control-sm" style="display:none;"
+                    onchange="unitFun()">
+                <option selected="selected" value="">--Select Unit Operation--</option>
+                {% for x in unitoperation %}
+                <option value="{{x.id}}">{{x.unitoperation_name}}</option>
+                {% endfor %}
+            </select>
+            <select id="unitoperations" class="form-control form-control-sm" onchange="unitFun()">
+                <option selected="selected" value="">--Select Unit Operation--</option>
+
+            </select>
+
+
+        </div>
+    </div>
+</div>    <!-- end container for unit operations -->
+
+<div class="p-3"></div> <!-- space -->
+
+<h4 class="textboxtitle">Unit operation descriptors: </h4>
+
+
+<!--Add unit operation descriptors -->
+<div class="p-3"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4">
+
+        </div>
+        <div class="col-lg-4">
+
+            <p id="unit_name" name="unitname_text" style="font-weight:500; background-color:#28a745; text-align:center">
+                Unit Operation Selected here</p>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="container" id="cellculture_descriptor_block" style="display:none">
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+            <label style="background-color:#28a745; font-weight:500"> Unit operation Descriptors: </label>
+        </div>
+        <div class="col-lg-4">
+            <p style="text-align: center">Harvest Type</p>
+        </div>
+        <div class="col-lg-4">
+            <input type="text" id="harvest_descriptor" class="form-control form-control-sm"
+                   placeholder="Enter description">
+        </div>
+    </div>
+</div> <!--end harvest type descriptor -->
+<div class="container" id="chromatography_descriptor_block" style="display:none"> <!-- container for chromatography -->
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+            <label style="background-color:#28a745; font-weight:500"> Unit operation Descriptors: </label>
+        </div>
+        <div class="col-lg-4">
+            <p style="text-align: center">Bind & Elute or Flowthrough</p>
+        </div>
+        <div class="col-lg-4">
+            <input type="text" class="form-control form-control-sm" placeholder="Enter description">
+        </div>
+    </div>  <!-- end descriptor 1 for chromatography -->
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+
+        </div>
+        <div class="col-lg-4">
+            <p style="text-align: center">Resin type and Manufacturer</p>
+        </div>
+        <div class="col-lg-4">
+            <input type="text" class="form-control form-control-sm" placeholder="Enter description">
+        </div>
+    </div> <!-- end descriptor2 for chromatography -->
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+
+        </div>
+        <div class="col-lg-4">
+            <p style="text-align: center">Column Dimension</p>
+        </div>
+        <div class="col-lg-4">
+            <input type="text" class="form-control form-control-sm" placeholder="Enter description">
+        </div>
+    </div> <!-- end descriptor3 for chromatography -->
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+
+        </div>
+        <div class="col-lg-4">
+            <p style="text-align: center">Microbiological Hold Time</p>
+        </div>
+        <div class="col-lg-4">
+            <input type="text" class="form-control form-control-sm" placeholder="Enter description">
+        </div>
+    </div> <!-- end descriptor4 for chromatography -->
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+
+        </div>
+        <div class="col-lg-4">
+            <p style="text-align: center">Biochemical Hold Time</p>
+        </div>
+        <div class="col-lg-4">
+            <input type="text" class="form-control form-control-sm" placeholder="Enter description">
+        </div>
+    </div> <!-- end descriptor5 for chromatography -->
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+
+        </div>
+        <div class="col-lg-4">
+            <p style="text-align: center">Max Cycles per batch(not resin lifetime)</p>
+        </div>
+        <div class="col-lg-4">
+            <input type="text" class="form-control form-control-sm" placeholder="Enter description">
+        </div>
+    </div> <!-- end descriptor6 for chromatography -->
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+
+        </div>
+        <div class="col-lg-4">
+            <p style="text-align: center">Start Collection Criteria</p>
+        </div>
+        <div class="col-lg-4">
+            <input type="text" class="form-control form-control-sm" placeholder="Enter description">
+        </div>
+    </div> <!-- end descriptor7 for chromatography -->
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+
+        </div>
+        <div class="col-lg-4">
+            <p style="text-align: center">Stop Collection Criteria</p>
+        </div>
+        <div class="col-lg-4">
+            <input type="text" class="form-control form-control-sm" placeholder="Enter description">
+        </div>
+    </div> <!-- end descriptor8 for chromatography -->
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+
+        </div>
+        <div class="col-lg-4">
+            <p style="text-align: center">In-Process Tests</p>
+        </div>
+        <div class="col-lg-4">
+            <input type="text" class="form-control form-control-sm" placeholder="Enter description">
+        </div>
+    </div> <!-- end descriptor9 for chromatography -->
+</div> <!-- end chromatography descriptor block -->
+<div class="container" id="uf_df_descriptor_block" style="display:none">
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+            <label style="background-color:#28a745; font-weight:500"> Unit operation Descriptors: </label>
+        </div>
+        <div class="col-lg-4">
+            <p style="text-align: center">Membrane Type</p>
+        </div>
+        <div class="col-lg-4">
+            <input type="text" class="form-control form-control-sm" placeholder="Enter description">
+        </div>
+    </div>  <!-- end descriptor 1 for UF/DF -->
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+
+        </div>
+        <div class="col-lg-4">
+            <p style="text-align: center">Microbiological Hold Time</p>
+        </div>
+        <div class="col-lg-4">
+            <input type="text" class="form-control form-control-sm" placeholder="Enter description">
+        </div>
+    </div> <!-- end descriptor2 for UF/DF -->
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+
+        </div>
+        <div class="col-lg-4">
+            <p style="text-align: center">Biochemical Hold Time</p>
+        </div>
+        <div class="col-lg-4">
+            <input type="text" class="form-control form-control-sm" placeholder="Enter description">
+        </div>
+    </div> <!-- end descriptor3 for UF/DF -->
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+
+        </div>
+        <div class="col-lg-4">
+            <p style="text-align: center">In-Process Tests</p>
+        </div>
+        <div class="col-lg-4">
+            <input type="text" class="form-control form-control-sm" placeholder="Enter description">
+        </div>
+    </div> <!-- end descriptor4 for UF/DF -->
+
+</div> <!-- end descriptor block for UF/DF -->
+<div class="container" id="thaw_descriptor_block" style="display:none">
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+            <label style="background-color:#28a745; font-weight:500"> Unit operation Descriptors: </label>
+        </div>
+        <div class="col-lg-4">
+            <p style="text-align: center">Cell Type</p>
+        </div>
+        <div class="col-lg-4">
+            <input type="text" class="form-control form-control-sm" placeholder="Enter description">
+        </div>
+    </div>  <!-- end descriptor 1 for thaw -->
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+
+        </div>
+        <div class="col-lg-4">
+            <p style="text-align: center">Vessel Volume</p>
+        </div>
+        <div class="col-lg-4">
+            <input type="text" class="form-control form-control-sm" placeholder="Enter description">
+        </div>
+    </div> <!-- end descriptor2 for thaw -->
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+
+        </div>
+        <div class="col-lg-4">
+            <p style="text-align: center">Expansion Type(e.g Bag or Flask)</p>
+        </div>
+        <div class="col-lg-4">
+            <input type="text" class="form-control form-control-sm" placeholder="Enter description">
+        </div>
+    </div> <!-- end descriptor3 for thaw -->
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+
+        </div>
+        <div class="col-lg-4">
+            <p style="text-align: center">In-Process Tests</p>
+        </div>
+        <div class="col-lg-4">
+            <input type="text" class="form-control form-control-sm" placeholder="Enter description">
+        </div>
+    </div> <!-- end descriptor4 for thaw -->
+
+</div> <!-- end descriptor block for thaw expansion -->
+<div class="container" id="prodbio_descriptor_block" style="display:none">
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+            <label style="background-color:#28a745; font-weight:500"> Unit operation Descriptors: </label>
+        </div>
+        <div class="col-lg-4">
+            <p style="text-align: center">Media Type</p>
+        </div>
+        <div class="col-lg-4">
+            <input type="text" class="form-control form-control-sm" placeholder="Enter description">
+        </div>
+    </div>  <!-- end descriptor 1 for prodbio -->
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+
+        </div>
+        <div class="col-lg-4">
+            <p style="text-align: center">Vessel Volume</p>
+        </div>
+        <div class="col-lg-4">
+            <input type="text" class="form-control form-control-sm" placeholder="Enter description">
+        </div>
+    </div> <!-- end descriptor2 for prodbio -->
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+
+        </div>
+        <div class="col-lg-4">
+            <p style="text-align: center">Composition (Stainless steel or single use)</p>
+        </div>
+        <div class="col-lg-4">
+            <input type="text" class="form-control form-control-sm" placeholder="Enter description">
+        </div>
+    </div> <!-- end descriptor3 for prodbio -->
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+
+        </div>
+        <div class="col-lg-4">
+            <p style="text-align: center">In-Process Tests</p>
+        </div>
+        <div class="col-lg-4">
+            <input type="text" class="form-control form-control-sm" placeholder="Enter description">
+        </div>
+    </div> <!-- end descriptor4 for prodbio -->
+
+</div> <!-- end descriptor block for prodbio -->
+<div class="container" id="lowph_descriptor_block" style="display:none">
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+            <label style="background-color:#28a745; font-weight:500"> Unit operation Descriptors: </label>
+        </div>
+        <div class="col-lg-4">
+            <p style="text-align: center">Acid used for adjustment</p>
+        </div>
+        <div class="col-lg-4">
+            <input type="text" class="form-control form-control-sm" placeholder="Enter description">
+        </div>
+    </div>  <!-- end descriptor 1 for lowph -->
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+
+        </div>
+        <div class="col-lg-4">
+            <p style="text-align: center">Base used for neutralization</p>
+        </div>
+        <div class="col-lg-4">
+            <input type="text" class="form-control form-control-sm" placeholder="Enter description">
+        </div>
+    </div> <!-- end descriptor2 for lowph -->
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+
+        </div>
+        <div class="col-lg-4">
+            <p style="text-align: center">Microbiological Hold Time</p>
+        </div>
+        <div class="col-lg-4">
+            <input type="text" class="form-control form-control-sm" placeholder="Enter description">
+        </div>
+    </div> <!-- end descriptor3 for lowph -->
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+
+        </div>
+        <div class="col-lg-4">
+            <p style="text-align: center">Biochemical Hold Time</p>
+        </div>
+        <div class="col-lg-4">
+            <input type="text" class="form-control form-control-sm" placeholder="Enter description">
+        </div>
+    </div> <!-- end descriptor4 for lowph -->
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+
+        </div>
+        <div class="col-lg-4">
+            <p style="text-align: center">In-Process Tests</p>
+        </div>
+        <div class="col-lg-4">
+            <input type="text" class="form-control form-control-sm" placeholder="Enter description">
+        </div>
+    </div> <!-- end descriptor5 for lowph -->
+</div> <!-- end descriptor block for lowph -->
+<div class="container" id="detergent_block" style="display:none">
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+            <label style="background-color:#28a745; font-weight:500"> Unit operation Descriptors: </label>
+        </div>
+        <div class="col-lg-4">
+            <p style="text-align: center">Type of Detergent</p>
+        </div>
+        <div class="col-lg-4">
+            <input type="text" class="form-control form-control-sm" placeholder="Enter description">
+        </div>
+    </div>  <!-- end descriptor 1 for detergent -->
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+
+        </div>
+        <div class="col-lg-4">
+            <p style="text-align: center">Microbiological Hold Time</p>
+        </div>
+        <div class="col-lg-4">
+            <input type="text" class="form-control form-control-sm" placeholder="Enter description">
+        </div>
+    </div> <!-- end descriptor2 for detergent -->
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+
+        </div>
+        <div class="col-lg-4">
+            <p style="text-align: center">Biochemical Hold Time</p>
+        </div>
+        <div class="col-lg-4">
+            <input type="text" class="form-control form-control-sm" placeholder="Enter description">
+        </div>
+    </div> <!-- end descriptor3 for detergent -->
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+
+        </div>
+        <div class="col-lg-4">
+            <p style="text-align: center">In-Process Tests</p>
+        </div>
+        <div class="col-lg-4">
+            <input type="text" class="form-control form-control-sm" placeholder="Enter description">
+        </div>
+    </div> <!-- end descriptor4 for lowph -->
+</div>
+<div class="container" id="viral_fil_block" style="display:none">
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+            <label style="background-color:#28a745; font-weight:500"> Unit operation Descriptors: </label>
+        </div>
+        <div class="col-lg-4">
+            <p style="text-align: center">Filter Type and Vendor</p>
+        </div>
+        <div class="col-lg-4">
+            <input type="text" class="form-control form-control-sm" placeholder="Enter description">
+        </div>
+    </div>  <!-- end descriptor 1 for viral filtration -->
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+
+        </div>
+        <div class="col-lg-4">
+            <p style="text-align: center">Filter Material and Composition</p>
+        </div>
+        <div class="col-lg-4">
+            <input type="text" class="form-control form-control-sm" placeholder="Enter description">
+        </div>
+    </div> <!-- end descriptor2 for Viral Filtration -->
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+
+        </div>
+        <div class="col-lg-4">
+            <p style="text-align: center">In-Process Tests</p>
+        </div>
+        <div class="col-lg-4">
+            <input type="text" class="form-control form-control-sm" placeholder="Enter description">
+        </div>
+    </div> <!-- end descriptor3 for Viral fil -->
+
+</div> <!-- end container block for viral filtration -->
+<div class="container" id="seedbio_block" style="display:none">
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+            <label style="background-color:#28a745; font-weight:500"> Unit operation Descriptors: </label>
+        </div>
+        <div class="col-lg-4">
+            <p style="text-align: center">Composition (Stainless steel or Single use)</p>
+        </div>
+        <div class="col-lg-4">
+            <input type="text" class="form-control form-control-sm" placeholder="Enter description">
+        </div>
+    </div>  <!-- end descriptor 1 for seedbio -->
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+
+        </div>
+        <div class="col-lg-4">
+            <p style="text-align: center">Media Type</p>
+        </div>
+        <div class="col-lg-4">
+            <input type="text" class="form-control form-control-sm" placeholder="Enter description">
+        </div>
+    </div> <!-- end descriptor2 for seedbio -->
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+
+        </div>
+        <div class="col-lg-4">
+            <p style="text-align: center">In-Process Tests</p>
+        </div>
+        <div class="col-lg-4">
+            <input type="text" class="form-control form-control-sm" placeholder="Enter description">
+        </div>
+    </div> <!-- end descriptor3 for seedbio -->
+
+</div> <!-- end container block for seedbio -->
+
+<!-- Process parameters -->
+<div class="p-3"></div> <!-- space -->
+<h4 class="textboxtitle">Unit operation Process Parameters: </h4>
+
+<form method="POST" action="{% url 'processparametersummary' %}">
+    {% csrf_token %}
+    <div class="container" id="process_para">
+        <div class="p-3"></div>
+        <div class="row">
+            <div class="col-lg-4">
+                <label>Select Process parameter for unit operation:</label>
+            </div>
+            <div class="col-lg-4">
+                <select name="procname_text" class="form-control form-control-sm" id="processparameter"
+                        onchange="newppFun()">
+                    <option selected="selected" value="default">--Select Process Parameter--</option>
+                    {% for pp in processparameter %}
+                    <option value="-{{pp.unitoperation_id}}-{{pp.id}}">{{pp.processparameter_name}}</option>
+                    {% endfor %}
+                </select>
+                <input type="hidden" name="procname_text" id="procname_text" value=""/>
+            </div>
+            <div class="col-lg-4">
+
+                <input type="text" class="form-control form-control-sm comment"
+                       placeholder="Additional Comments if needed" id="process_para_comment">
+                <!-- Additional comments popup block -->
+                <div class="modal" id="myModal">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+
+                            <!-- Modal Header -->
+                            <div class="modal-header"
+                                 style="background-color:DodgerBlue;padding: 10px 24px; color:white">
+                                <h4 class="modal-title">Additional Comment or Supporting Information</h4>
+                                <button type="button" style="font-size =13px; color:white" class="close close1"
+                                        data-dismiss="modal">&times;
+                                </button>
+                            </div>
+
+                            <!-- Modal body -->
+                            <div class="modal-body">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div>
+                                                <textarea class="form-control form-control-sm" rows="3"
+                                                          id="comment1"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="p-3"></div>
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-lg-1">
+                                            <div>
+                                                <label>URL:</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <div>
+                                                <input type="text" placeholder="Description of the Link"
+                                                       class="form-control form-control-sm">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4">
+                                            <div>
+                                                <input type="url" placeholder="URL link for webpage or a pdf"
+                                                       class="form-control form-control-sm"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <input type="text" placeholder="Page" class="form-control form-control-sm"/>
+                                        </div>
+                                        <div class="col-lg-1">
+                                            <div>
+                                                <button type="button" class="btn btn-primary Go_button">Go</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-1">
+                                            <i class="fa fa-plus"
+                                               style="font-size:12px; cursor:pointer;color:#dc3545"></i>
+                                            <i class="fa fa-close close1"
+                                               style="font-size:13px;  cursor: pointer;color:#6c757d"></i>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary Go_button" data-dismiss="modal">Close
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- end additional comments popup block -->
+
+
+    <!--new process parameter+ surrogate yes/no question -->
+    <div class="container" style="display:none;" id="new_pp">
+        <div class="p-3"></div>
+        <div class="row">
+            <div class="col-lg-4">
+
+                <div>
+                    <label for="new_parameter">Enter New Process Parameter</label>
+                </div>
+            </div>
+            <div class="col-lg-4">
+
+                <div>
+                    <input type="text" name="textbox1" class="form-control form-control-sm comment"
+                           placeholder="New Process Parameter" id="new_parameter">
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container" style="display:none;" id="surrogate_yesno">
+        <div class="p-3"></div>
+        <div class="row">
+            <div class="col-lg-4">
+                <div>
+                    <label for="surr_yesno" style="font-size: 13pt;">Is it a Surrogate of another Process Parameter in
+                        the list?</label>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <select style="font-size: 13pt" class="form-control form-control-sm" id="surr_yesno"
+                        name="Applicant risk ranking" onchange="yesnoFun()">
+                    <option selected disabled="true" value="default">--Select--</option>
+                    <option value="YES">YES</option>
+                    <option value="NO">NO</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" style="display:none;" id="surrogate_pp">
+        <div class="p-3"></div>
+        <div class="row">
+            <div class="col-lg-4">
+                <div>
+                    <label for="surprocselect" style="font-size: 13pt">Select Surrogate to New Process
+                        Parameter:</label>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div>
+                    <select name="surprocessparameter" class="form-control form-control-sm" id="surprocselect"
+                            onchange="surrppFun()">
+                        <option selected="selected" value="default">--Select Process Parameter--</option>
+                        {% for procs in surrogate %}
+                        <option value="-{{procs.unitoperation_id}}-{{procs.id}}">{{procs.processparameter_name}}
+                        </option>
+                        {% endfor %}
+                    </select>
+                    <input type="hidden" name="surprocessparameter" id="surprocessparameter" value=""/>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div>
+                    <input type="text" class="form-control form-control-sm comment"
+                           placeholder="Additional Comments if needed" id="surr_pp_comment">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container" id="applicant_risk">
+        <div class="p-3"></div>
+        <div class="row">
+            <div class="col-lg-4">
+                <div>
+                    <label for="risk">Risk ranking assigned by applicant:</label>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div>
+
+                    <select class="form-control form-control-sm" id="risk"
+                            name="Applicant risk ranking" onchange="myFunction()">
+                        <option selected disabled="true">--Select--</option>
+                        <option value="High risk">High risk</option>
+                        <option value="Medium">Medium risk</option>
+                        <option value="Low">Low risk</option>
+                    </select>
+
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div>
+                    <input type="text" class="form-control form-control-sm comment"
+                           placeholder="Additional Comments if needed" id="Applicant risk ranking comment">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sireesha's code Risk ranking -->
+    <!-- surrogate + agreemessage+ surrogateagreemessage+ finalRisk ranking -->
+
+    <div class="container" id="obp_risk">
+        <div class="p-3"></div>
+        <div class="row" style="margin-bottom: 20px">
+            <div class="col-lg-4">
+                <div>
+                    <label for="riskselect">OBP Recommended Risk Ranking:</label>
+                </div>
+            </div>
+            <div class="col-lg-4" id="riskselect">
+
+                {% for risks in processparameter %}
+                <span name="OBP" id="-{{risks.unitoperation_id}}-{{risks.id}}">{{risks.risk_ranking}}</span>
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container" id="applicant_risk_sur" style="display:none;">
+        <div class="p-3"></div>
+        <div class="row">
+            <div class="col-lg-4">
+                <div>
+                    <label for="app_sur">Risk ranking assigned by applicant:</label>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div>
+                    <select class="form-control form-control-sm" id="app_sur"
+                            name="Applicant risk ranking" onchange="myFunction1()">
+                        <option selected disabled="true" value="default">--Select--</option>
+                        <option value="High">High risk</option>
+                        <option value="Medium">Medium risk</option>
+                        <option value="Low">Low risk</option>
+                    </select>
+
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div>
+                    <input type="text" class="form-control form-control-sm comment"
+                           placeholder="Additional Comments if needed" id="Applicant risk ranking comment sur">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="sur_risk" style="display:none;">
+        <div class="p-3"></div>
+        <div class="row">
+            <div class="col-lg-4">
+                <div>
+                    <label for="surriskselect">OBP Recommended Risk Ranking:</label>
+                </div>
+            </div>
+            <div class="col-lg-4" id="surriskselect">
+                <div>
+                    {% for risks in surrogate %}
+                    <span1 id="-{{risks.unitoperation_id}}-{{risks.id}}">{{risks.risk_ranking}}</span1>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="agree_message" style="display:none;">
+        <div class="p-3"></div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div>
+                    <p class="green_label" id="Assessor"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="final_risk_block" style="display:none;">
+        <div class="p-3"></div>
+        <div class="row">
+            <div class="col-lg-4">
+                <div>
+                    <label for="Ranking">Preliminary Risk: </label>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div>
+
+                    <label name="applicant_risktext" for="Ranking" id="Ranking" class="blue_label"
+                           style="font-size: 13pt;"></label>
+                    <input type="hidden" name="applicant_risktext" id="applicant_risktext" value=""/>
+
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div>
+                    <input type="text" class="form-control form-control-sm"
+                           placeholder="Reviewer Comments" id="Risk Ranking">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container" id="notagree_m" style="display:none;">
+        <div class="p-3"></div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div>
+                    <p class="red_label" id="notagree_message"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="notagree" style="display:none;">
+        <div class="p-3"></div>
+        <div class="row">
+            <div class="col-lg-4">
+                <label for="Assign_Risk">Reviewer Justifies/Assign Risk Ranking:</label>
+            </div>
+            <div class="col-lg-4">
+                <div>
+                    <select class="form-control form-control-sm" id="Assign_Risk"
+                            name="Assign Risk" onchange="myFun()">
+                        <option selected disabled="true" value="default">--Select--</option>
+                        <option value="low">Low risk</option>
+                        <option value="medium">Medium risk</option>
+                        <option value="high">High risk</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div>
+                    <input type="text" class="form-control form-control-sm comment"
+                           placeholder="Additional Comments if needed" id="Risk comment">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="cpp" style="display:none;">
+        <div class="p-3"></div>
+        <div class="row">
+            <div class="col-lg-4">
+                <div>
+                    <label for="CPP_KPP">Is it a CPP or KPP?:</label>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div>
+                    <select class="form-control form-control-sm" id="CPP_KPP" name="CPP or KPP">
+                        <option selected disabled="true" value="default">--Select--</option>
+                        <option value="CPP">Critical Process Parameter</option>
+                        <option value="KPP">Key Performance Process Parameter</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <input type="text" class="form-control form-control-sm comment"
+                       placeholder="Additional Comments if needed" id="CPP/KPP_comment">
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="ntagree_final_risk_block" style="display:none;">
+        <div class="p-3"></div>
+        <div class="row">
+            <div class="col-lg-4">
+                <label for="Final_Risk_Ranking_ntagree">Preliminary Risk:</label>
+            </div>
+            <div class="col-lg-4">
+                <label name="applicant_risk2" id="Final_Risk_Ranking_ntagree" class="blue_label"
+                       style="font-size: 13pt"></label>
+                <input type="hidden" name="applicant_risk2" id="applicant_risk2" value=""/>
+
+            </div>
+            <div class="col-lg-4">
+                <input type="text" class="form-control form-control-sm comment"
+                       placeholder="Reviewer Comments" id="risk_comment">
+            </div>
+        </div>
+    </div>
+    <input type="submit" name="Continue"/>
+
+
+    <div class="container" id="surrogate_agree_mssg" style="display:none;">
+        <div class="p-3"></div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div>
+                    <p class="green_label" id="surr_Assessor"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="surrogate_final_risk_block" style="display:none;">
+        <div class="p-3"></div>
+        <div class="row">
+            <div class="col-lg-4">
+                <div>
+                    <label for="surr_Ranking">Preliminary Risk: </label>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div>
+                    <label for="Ranking" name="surrisk_text" id="surr_Ranking" class="blue_label"
+                           style="font-size: 13pt;"></label>
+                    <input type="hidden" name="surrisk_text" id="surrisk_text" value=""/>
+
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div>
+                    <input type="text" class="form-control form-control-sm"
+                           placeholder="Reviewer Comments" id="surr_Ranking_comment">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container" id="surrogate_notagree_m" style="display:none;">
+        <div class="p-3"></div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div>
+                    <p class="red_label" id="surr_notagree_message"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="surrogate_notagree" style="display:none;">
+        <div class="p-3"></div>
+        <div class="row">
+            <div class="col-lg-4">
+                <label for="surr_Assign_Risk">Reviewer Justifies/Assign Risk Ranking:</label>
+            </div>
+            <div class="col-lg-4">
+                <div>
+                    <select class="form-control form-control-sm" id="surr_Assign_Risk"
+                            name="Assign Risk" onchange="myFun1()">
+                        <option selected disabled="true" value="default">--Select--</option>
+                        <option value="low">Low risk</option>
+                        <option value="medium">Medium risk</option>
+                        <option value="high">High risk</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div>
+                    <input type="text" class="form-control form-control-sm comment"
+                           placeholder="Additional Comments if needed" id="surr_Risk comment">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="surrogate_cpp" style="display:none;">
+        <div class="p-3"></div>
+        <div class="row">
+            <div class="col-lg-4">
+                <div>
+                    <label for="CPP_KPP">Is it a CPP or KPP?:</label>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div>
+                    <select class="form-control form-control-sm" id="surr_CPP_KPP" name="surrCPP or surrKPP">
+                        <option selected disabled="true" value="default">--Select--</option>
+                        <option value="CPP">Critical Process Parameter</option>
+                        <option value="KPP">Key Performance Process Parameter</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <input type="text" class="form-control form-control-sm comment"
+                       placeholder="Additional Comments if needed" id="surr_CPP/KPP_comment">
+            </div>
+        </div>
+    </div>
+
+    <div class="container" id="surrogate_ntagree_final_risk_block" style="display:none;">
+        <div class="p-3"></div>
+        <div class="row">
+            <div class="col-lg-4">
+                <label for="surr_Final_Risk_Ranking_ntagree">Preliminary Risk:</label>
+            </div>
+            <div class="col-lg-4">
+                <label name="surrisk_text2" id="surr_Final_Risk_Ranking_ntagree" class="blue_label"></label>
+                <input type="hidden" name="surrisk_text2" id="surrisk_text2" value=""/>
+
+            </div>
+            <div class="col-lg-4">
+                <input type="text" class="form-control form-control-sm comment"
+                       placeholder="Reviewer Comments" id="surr_risk_comment">
+            </div>
+        </div>
+    </div>
+</form>
+
+<!-- Characterization module -->
+
+
+<h4 class="textboxtitle">Process parameter characterization: </h4>
+<div class="p-3"></div>
+<div class="container p-3" id="">
+    <div class="row">
+        <div class="col-lg-6">
+            <label>Has the process parameter been characterized?</label>
+        </div>
+        <div class="col-lg-6">
+            <select class="form-control form-control-sm" id="cppdropdownselect">
+                <option>Yes (Characterization data)</option>
+                <option>Yes (Prior Knowledge data)</option>
+                <option>No characterization data</option>
+                <option selected disabled="true" value="default">Select</option>
+            </select>
+        </div>
+        <div>
+
+        </div>
+    </div>
+</div>
+<!-- No characterization data module-->
+<div class="modal" tabindex="-1" id="no-study-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">No supporting characterization </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>The process parameter has not been characterized.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" data-toggle="modal"
+                        data-target="#reviewer-comment-nostudy-modal" data-dismiss="modal">Comment
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- reviewer comment for characterization module -->
+<div class="modal" tabindex="-1" id="reviewer-comment-nostudy-modal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Reviewer's comments</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <textarea class="form-control form-control-sm" rows="3"></textarea>
+            </div>
+            <div class="modal-footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <button class="btn btn-primary" data-dismiss="modal" id="no-data" onclick="nocharacdata()">
+                                No data
+                            </button>
+                        </div>
+                        <div class="col-lg-4">
+                            <a href="#" class="alert-link" style="color: red">Tag process parameter</a>
+                        </div>
+                        <div class="col-lg-4">
+                            <button style="position: absolute; right: 10px " class="btn btn-primary"
+                                    data-dismiss="modal">New data
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Characterization study available-->
+<div class="container p-3" id="characterization-study" style="display: none">
+    <div class="row">
+        <div class="col-lg-4">
+            <label for="study-appropriate-select">Is the characterization study appropriate?</label>
+        </div>
+        <div class="col-lg-4">
+            <select name="characterization-study" id="study-appropriate-select" class="form-control form-control-sm">
+                <option selected disabled="true" value="default">Select</option>
+                <option>Yes Characterization is appropriate</option>
+                <option>No Characterization is not appropriate</option>
+            </select>
+        </div>
+        <div class="col-lg-4">
+            <input type="text" class="comment form-control form-control-sm" placeholder="Additional comments">
+        </div>
+    </div>
+
+</div>
+
+<!--Prior knowledge -->
+<div class="container p-3" id="pk-study" style="display:none">
+    <div class="row">
+        <div class="col-lg-4">
+            <label for="pk-study-select">Is the prior knowledge appropriate?</label>
+        </div>
+        <div class="col-lg-4">
+            <select name="characterization-study" id="pk-study-select" class="form-control form-control-sm">
+                <option selected disabled="true" value="default">Select</option>
+                <option>Yes prior knowledge is appropriate</option>
+                <option>No prior knowledge is not appropriate</option>
+            </select>
+        </div>
+        <div class="col-lg-4">
+            <input type="text" class="comment form-control form-control-sm" placeholder="Additional comments">
+        </div>
+    </div>
+
+</div>
+
+<!-- no characterization alert -->
+
+<div class="alert alert-danger p-3" role="alert" style="text-align: center; display: none; margin-top: 20px"
+     id="no-charac-alert">
+    The proposed range must be based on validated range <a href="#" class="alert-link">Tag process parameter for
+    review</a>.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="closefunction()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<!-- Characterization is appropriate -->
+
+<div class="container p-3" id="charac-range" style="display: none">
+    <div class="row">
+        <div class="col-lg-4">
+            <label>Characterization range:</label>
+        </div>
+        <div class="col-lg-4">
+            <input type="number" placeholder="Enter low range" class="form-control form-control-sm"
+                   id="charac_range_low" value=""/>
+        </div>
+        <div class="col-lg-4">
+            <input type="number" placeholder="Enter high range" class="form-control form-control-sm"
+                   id="charac_range_high" value=""/>
+        </div>
+    </div>
+</div>
+<!-- Validation module -->
+
+<div class="container p-3" id="validation-module" style="display: none">
+    <div class="row">
+        <div class="col-lg-4">
+            <label>Is validation appropriate/acceptable?:</label>
+        </div>
+        <div class="col-lg-4">
+            <select class="form-control form-control-sm" id="validation-select">
+                <option disabled selected value="default">Select</option>
+                <option> Yes</option>
+                <option> No</option>
+            </select>
+        </div>
+        <div class="col-lg-4">
+            <input placeholder="Additional comments" class="comment form-control form-control-sm">
+        </div>
+    </div>
+</div>
+<!-- validation is not appropriate alert -->
+
+<div class="alert alert-warning" role="alert" style="text-align: center; display:none" id="validation-alert">
+    Validation is not appropriate.
+    <button class="btn btn-danger" onclick="captureIR()">Capture IR</button>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="closefunction2()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<!-- information request modal -->
+
+<div class="modal fade" id="ir-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Information request</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div>
+                        <textarea class="form-control form-control-sm" rows="3" placeholder="Enter comments"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <input type="file" class="form-control form-control-sm">
+                        </div>
+                        <div class="col-lg-6">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Validation range -->
+
+<div class="container p-3" id="validation-range" style="display:none">
+    <div class="row">
+        <div class="col-lg-4">
+            <label>Validation range:</label>
+        </div>
+        <div class="col-lg-4">
+            <input type="number" placeholder="Enter low range" class="form-control form-control-sm" id="valid_range_low"
+                   value=""/>
+        </div>
+        <div class="col-lg-4">
+            <input type="number" placeholder="Enter high range" class="form-control form-control-sm"
+                   id="valid_range_high" value=""/>
+        </div>
+    </div>
+</div>
+
+<div class="container p-3" id="pp-range" style="display:none">
+    <div class="row">
+        <div class="col-lg-4">
+            <label>Proposed process parameter range range:</label>
+        </div>
+        <div class="col-lg-3">
+            <input type="number" placeholder="Enter low range" class="form-control form-control-sm" id="par_range_low"
+                   value=""/>
+        </div>
+        <div class="col-lg-3">
+            <input type="number" placeholder="Enter high range" class="form-control form-control-sm" id="par_range_high"
+                   value=""/>
+        </div>
+        <div class="col-lg-2">
+            <button onclick="myfunction()">create chart</button>
+            <div class="chart-container" style="position: relative; height:40vh; width:40vw">
+                <canvas id="chart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Response adequate -->
+<div class="container p-3" id="response-adequate" style="display:none">
+    <div class="row">
+        <div class="col-lg-4">
+            <label>Is the response adequate:</label>
+        </div>
+        <div class="col-lg-4">
+            <select class="form-control form-control-sm" id="response-select">
+                <option selected disabled value="default">Select</option>
+                <option>Yes</option>
+                <option>No</option>
+            </select>
+        </div>
+        <div class="col-lg-4">
+            <input type="text" placeholder="Additional comments" class="form-control form-control-sm comment">
+        </div>
+    </div>
+</div>
+
+<!-- Dropdown Flag Menu Modal-->
+<div class="modal fade" id="dropdown-flag-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header btn-danger">
+                <h5 class="modal-title">IR response</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <select class="form-control form-control-sm" id="dropdown-flag-select">
+                    <option selected disabled>Select a response option</option>
+                    <option>Approvability</option>
+                    <option>PMC</option>
+                    <option>TBD - Document</option>
+                </select>
+                <div class="p-3"></div>
+                <input class="form-control form-control-sm" type="text" placeholder="Additional comments">
+            </div>
+            <div class="modal-footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                        <div class="col-lg-4">
+                            <button type="button" class="btn btn-danger">Tag issue</button>
+                        </div>
+                        <div class="col-lg-4">
+                            <input class="form-control form-control-sm" type="file">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Proposed pp range acceptable -->
+
+
+<div class="container p-3" id="pp-range-acceptable" style="display:none">
+    <div class="row">
+        <div class="col-lg-4">
+            <label>Is the proposed PAR acceptable:</label>
+        </div>
+        <div class="col-lg-4">
+            <select class="form-control form-control-sm" id="pp-range-select">
+                <option selected disabled value="default">Select</option>
+                <option>Yes</option>
+                <option>No</option>
+            </select>
+        </div>
+        <div class="col-lg-4">
+            <input type="text" placeholder="Additional comments" class="form-control form-control-sm comment">
+        </div>
+    </div>
+</div>
+<!-- PAR is not appropriate alert -->
+<div class="alert alert-warning" role="alert" style="text-align: center; display:none" id="par-alert">
+    PAR is not acceptable.
+    <button class="btn btn-danger" onclick="captureIR()">Capture IR</button>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="closefunction2()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<!-- Proposed range is acceptable alert -->
+<div class="alert alert-success" role="alert" style="text-align: center; display:none" id="par-acceptable-alert">
+    The proposed process parameter range is acceptable.
+    <button class="btn btn-success">Continue</button>
+</div>
+
+
+<div class="p-3"></div>
+<div class="p-3"></div>
+<div class="p-3"></div>
+<div class="p-3"></div>
+
+<div class="p-3"></div>
+<div class="p-3"></div>
+<div class="p-3"></div>
+<div class="p-3"></div>
+
+<div class="p-3"></div>
+<div class="p-3"></div>
+<div class="p-3"></div>
+<div class="p-3"></div>
+
+
+</body>
+</html>

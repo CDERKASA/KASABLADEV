@@ -1,0 +1,130 @@
+#kasasearch{
+    margin: auto;
+    text-align:center;
+    }
+.unitbuttons{
+    margin-left: 170px;
+    margin-bottom:20px;
+}
+ul{
+    list-style-position: inside;
+    margin: 0;
+    padding: 2px;
+}
+
+}
+.title
+{  margin:auto;
+   text-align: center;
+   margin-bottom: 2em;
+   margin-top: 0.5em;
+   }
+.textboxtitle{
+        border-style: outset;
+        box-shadow: 10px 10px 5px grey;
+        text-align: center;
+        background-color: dodgerblue;
+        border-radius: 7px;
+        width: 100%;
+        margin-bottom: 40px;
+        margin-top: 40px;
+        }
+
+.review{
+      border-style: outset;
+      box-shadow: 10px 10px 5px grey;
+      text-align: center;
+      background-color: #d7d7d7;
+      width: 80%;
+      margin-top: 2em;
+      margin-bottom: 2.5em;
+      margin-left: 100px;
+}
+.reviewiteration{
+      margin-top:20px;
+      margin-bottom:20px;
+      margin-left: 100px;
+      margin-right: 20px;
+}
+.buttonselection{
+      width:300px;
+      height: 80px;
+}
+#draggable{
+     text-align: center;
+     cursor: move;
+     list-style-type: none;
+    }
+
+.unitoperations{
+    margin-left: 30px;
+    margin-top: 20px;
+    margin-bottom:20px;
+}
+
+
+.blue_label {
+  background-color: #5cbB5c;
+  color: white;
+  border: none;
+  padding: 5px 5px;
+}
+
+.green_label{
+background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 5px 5px;
+   text-align: center;
+}
+
+
+.red{
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 5px 5px;
+   text-align: center;
+
+}
+
+.orange_label{
+    background-color: #ffc107;
+    color: white;
+  border: none;
+  padding: 5px 5px;
+   text-align: center;
+      }
+
+.buttondifferent {
+  border: none;
+  color: white;
+  padding: 10px 14px;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+/* Darker background on mouse-over */
+.buttondifferent:hover {
+  background-color: Red;
+}
+
+.close1:hover{
+    background-color: #dc3545; /* red */
+	color: white
+	cursor: pointer
+	}
+.Go_button:hover{
+    cursor: pointer;
+    background-color: #dc3545;;
+    }
+
+    .close1:hover{
+    background-color: #dc3545; /* red */
+	color: white
+	cursor: pointer
+	}
+.Go_button:hover{
+    cursor: pointer;
+    background-color: #dc3545;;
+    }

@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% load static %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'kasaapp/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="//code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    {% load static %}
+    <script type="text/javascript" src="{% static 'kasaapp/app.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+            integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+            crossorigin="anonymous"></script>
+    <title>KASA BLA</title>
+
+    <script>
+       function finalrisk() {
+       var  tagged_processparameter = document.getElementById("tagged_processparameter");
+       var reviewer_risk = document.getElementById("reviewer_risk");
+       var final_parrange = document.getElementById("final_parrange");
+        var reporting_category = document.getElementById("reporting_category")
+        var category = document.getElementById("category");
+        var finalrisk = document.getElementById("finalrisk");
+        var finalrisk_fr = finalrisk.options[finalrisk.selectedIndex].text;
+
+        if (finalrisk_fr === "Low risk") {
+            category.innerHTML = "non-CPP (low risk) reporting via AR";
+
+        } else if (finalrisk_fr === "Medium risk") {
+            category.innerHTML = "CPP/KPP (EC reporting via CBE-30)";
+
+        } else {
+            category.innerHTML = "CPP/KPP (EC reporting via PAS)";
+
+        }
+}
+
+
+    </script>
+
+    <script>
+     function ppchange() {
+     var next_pp = document.getElementById("next_pp");
+     var final_submit =document.getElementById("final_submit");
+     var sponsorpp = document.getElementById("sponsorpp");
+     var pp_change = sponsorpp.options[sponsorpp.selectedIndex].text;
+
+     if (pp_change === "YES"){
+     next_pp.style.display ="none";
+     final_submit.style.display ="block";
+     }else{
+     next_pp.style.display ="block";
+     final_submit.style.display ="none";
+     }
+     }
+
+
+    </script>
+
+    <script id="modal">
+    $(document).ready(function(){
+        $(".comment").dblclick(function(){
+        $("#myModal").modal();
+        });
+
+    });
+
+    </script>
+
+    <script>
+    function preliminaryrisk() {
+     var preliminary = document.getElementById("preliminary");
+     var p = preliminary.innerText;
+     var preliminary1 = document.getElementById("preliminary1");
+     var p1 = preliminary1.innerText;
+     var surpreliminary = document.getElementById("surpreliminaryrisk");
+     var sp = surpreliminary.innerText;
+     var surpreliminaryrisk2 = document.getElementById("surpreliminaryrisk2");
+      var sp1 = surpreliminaryrisk2.innerText;
+     var tagged_processparameter = document.getElementById("tagged_processparameter");
+     var reviewer_risk = document.getElementById("reviewer_risk");
+     var final_parrange = document.getElementById("final_parrange");
+
+    if (p === "High risk" || p1 === "High risk" || sp === "High risk" || sp1 === "High risk") {
+        tagged_processparameter.style.display ="none";
+        reviewer_risk.style.display="block";
+        final_parrange.style.display = "block";
+    }
+    else if (p === "Medium risk" || p1 === "Medium risk" || sp === "Medium risk" || sp1 === "Medium risk" ) {
+        tagged_processparameter.style.display ="none";
+        reviewer_risk.style.display="block";
+        final_parrange.style.display = "block";
+    }
+    else {
+        tagged_processparameter.style.display ="none";
+        reviewer_risk.style.display="none";
+        final_parrange.style.display = "none";
+    }
+
+
+}
+
+    </script>
+    <script>
+    function exportHTML(){
+       var header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' "+
+            "xmlns:w='urn:schemas-microsoft-com:office:word' "+
+            "xmlns='http://www.w3.org/TR/REC-html40'>"+
+            "<head><meta charset='utf-8'><title>Process parameter Summary </title></head><body>";
+       var footer = "</body></html>";
+       var sourceHTML = header+document.getElementById("source-html").innerHTML+footer;
+
+       var source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
+       var fileDownload = document.createElement("a");
+       document.body.appendChild(fileDownload);
+       fileDownload.href = source;
+       fileDownload.download = 'document.doc';
+       fileDownload.click();
+       document.body.removeChild(fileDownload);
+    }
+
+    </script>
+    <style>
+    #kasasearch{
+    margin: auto;
+    text-align:center;
+    }
+.unitbuttons{
+    margin-left: 170px;
+    margin-bottom:20px;
+}
+ul{
+    list-style-position: inside;
+    margin: 0;
+    padding: 2px;
+}
+
+}
+.title
+{  margin:auto;
+   text-align: center;
+   margin-bottom: 2em;
+   margin-top: 0.5em;
+   }
+.textboxtitle{
+        border-style: outset;
+        box-shadow: 10px 10px 5px grey;
+        text-align: center;
+        background-color: dodgerblue;
+        border-radius: 7px;
+        width: 100%;
+        margin-bottom: 40px;
+        margin-top: 40px;
+        }
+
+.review{
+      border-style: outset;
+      box-shadow: 10px 10px 5px grey;
+      text-align: center;
+      background-color: #d7d7d7;
+      width: 80%;
+      margin-top: 2em;
+      margin-bottom: 2.5em;
+      margin-left: 100px;
+}
+.reviewiteration{
+      margin-top:20px;
+      margin-bottom:20px;
+      margin-left: 100px;
+      margin-right: 20px;
+}
+.buttonselection{
+      width:300px;
+      height: 80px;
+}
+#draggable{
+     text-align: center;
+     cursor: move;
+     list-style-type: none;
+    }
+
+.unitoperations{
+    margin-left: 30px;
+    margin-top: 20px;
+    margin-bottom:20px;
+}
+
+
+.blue_label {
+  background-color: #5cbB5c;
+  color: white;
+  border: none;
+  padding: 5px 5px;
+}
+
+.green_label{
+background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 5px 5px;
+   text-align: center;
+}
+
+
+.red{
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 5px 5px;
+   text-align: center;
+
+}
+
+.orange_label{
+    background-color: #ffc107;
+    color: white;
+  border: none;
+  padding: 5px 5px;
+   text-align: center;
+      }
+
+.buttondifferent {
+  border: none;
+  color: white;
+  padding: 10px 14px;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+/* Darker background on mouse-over */
+.buttondifferent:hover {
+  background-color: Red;
+}
+
+.close1:hover{
+    background-color: #dc3545; /* red */
+	color: white
+	cursor: pointer
+	}
+.Go_button:hover{
+    cursor: pointer;
+    background-color: #dc3545;;
+    }
+
+    .close1:hover{
+    background-color: #dc3545; /* red */
+	color: white
+	cursor: pointer
+	}
+.Go_button:hover{
+    cursor: pointer;
+    background-color: #dc3545;;
+    }
+
+
+    </style>
+
+</head>
+
+<body onload="preliminaryrisk()" id="source-html">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand" href="index.html">KASA</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item dropdown active">
+                <a class="nav-link dropdown-toggle" href="index.html" id="navbarDropdown" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Home
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="overview">Overview</a>
+                    <a class="dropdown-item" href="riskeval">Risk Evaluation</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="summary">Risk Summary</a>
+                </div>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Save<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Print<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Validate<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Finalize<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Email</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Submit<span class="sr-only">(current)</span></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Audit</a>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+
+</nav>
+
+<h1 class="title">
+    Knowledge-Aided Assessment and Structured Application
+</h1>
+<h4 class="textboxtitle">Process parameter Summary</h4>
+<div class="container" style="display:block;" id="pp_name">
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+            <div>
+                <label for="ppname">Process Parameter Name</label>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div>
+                {% if processparametername != "--Select Process Parameter--" %}
+                <b for="ppname" id="ppname">{{ processparametername }}</b>
+                {% endif %}
+
+                {% if surprocessparametername != "--Select Process Parameter--" %}
+                <b for="surpp" id="surprocessparametername">{{ surprocessparametername }}</b>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container" style="display:block;" id="preliminary_riskranking">
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+            <div>
+                <label for="preliminary">Preliminary Risk Ranking:</label>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            {% if preliminaryrisk != "none" %}
+            <label id="preliminary">{{ preliminaryrisk }}</label>
+            {% endif %}
+            {% if preliminaryrisk1 != "none" %}
+            <label id="preliminary1">{{ preliminaryrisk1 }}</label>
+            {% endif %}
+            {% if surpreliminaryrisk != "none" %}
+            <label id="surpreliminaryrisk">{{ surpreliminaryrisk }}</label>
+            {% endif %}
+            {% if surpreliminaryrisk2 != "none" %}
+            <label id="surpreliminaryrisk2">{{ surpreliminaryrisk2 }}</label>
+            {% endif %}
+
+        </div>
+    </div>
+</div>
+
+<div class="container" style="display:none;" id="tagged_processparameter">
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+            <div>
+                <label for="preliminary">Show Tagged Process Parameter:</label>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <p class="form-control form-control-sm" id="taggedparameter">
+        </div>
+    </div>
+</div>
+
+<div class="container" id="reviewer_risk" style="display:none;">
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+            <label for="reviewerriskranking">Assessor Assigned Risk Ranking:</label>
+        </div>
+        <div class="col-lg-4">
+            <div>
+                <select class="form-control form-control-sm" id="reviewerriskranking">
+                    <option selected disabled="true" value="default">--Select--</option>
+                    <option value="low">Low risk</option>
+                    <option value="medium">Medium risk</option>
+                    <option value="high">High risk</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-lg-4">
+
+            <input type="text" class="form-control form-control-sm comment"
+                   placeholder="Additional Comments if needed" id="process_para_comment">
+            <!-- Additional comments popup block -->
+            <div class="modal" id="myModal">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+
+                        <!-- Modal Header -->
+                        <div class="modal-header" style="background-color:DodgerBlue;padding: 10px 24px; color:white">
+                            <h4 class="modal-title">Additional Comment or Supporting Information</h4>
+                            <button type="button" style="font-size =13px; color:white" class="close close1"
+                                    data-dismiss="modal">&times;
+                            </button>
+                        </div>
+
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div>
+                                            <textarea class="form-control form-control-sm" rows="3"
+                                                      id="comment1"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="p-3"></div>
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-lg-1">
+                                        <div>
+                                            <label>URL:</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <div>
+                                            <input type="text" placeholder="Description of the Link"
+                                                   class="form-control form-control-sm">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div>
+                                            <input type="url" placeholder="URL link for webpage or a pdf"
+                                                   class="form-control form-control-sm"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <input type="text" placeholder="Page" class="form-control form-control-sm"/>
+                                    </div>
+                                    <div class="col-lg-1">
+                                        <div>
+                                            <button type="button" class="btn btn-primary Go_button">Go</button>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-1">
+                                        <i class="fa fa-plus" style="font-size:12px; cursor:pointer;color:#dc3545"></i>
+                                        <i class="fa fa-close close1"
+                                           style="font-size:13px;  cursor: pointer;color:#6c757d"></i>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary Go_button" data-dismiss="modal">Close
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="container" id="final_riskranking" style="display:block;">
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+            <div>
+                <label for="finalrisk">Final Risk Ranking: </label>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div>
+                <select class="form-control form-control-sm" id="finalrisk" onchange="finalrisk()">
+                    <option selected disabled="true" value="default">--Select--</option>
+                    <option value="low">Low risk</option>
+                    <option value="medium">Medium risk</option>
+                    <option value="high">High risk</option>
+                </select>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<div class="container" id="reporting_category" style="display:block;">
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+            <div>
+                <label for="category">Reporting Category:</label>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div>
+                <label for="category" id="category"></label>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<div class="container" id="final_parrange" style="display:none;">
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+            <div>
+                <label for="finalpar">Final PAR: </label>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div>
+                <label for="finalpar" id="finalpar">{{ finalpar }}</label>
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+<div class="container" style="display:block;" id="sponsor_listpp">
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+            <label for="sponsorpp">Is the Process Parameter List Provided by sponsor completed?</label>
+        </div>
+        <div class="col-lg-4">
+
+            <select class="form-control form-control-sm" id="sponsorpp" onchange="ppchange()">
+                <option selected disabled="true" value="default">--Select--</option>
+                <option value="YES">YES</option>
+                <option value="NO">NO</option>
+
+            </select>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="container" id="next_pp" style="display:none;">
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-10">
+            <a href="{% url 'riskevaluation' %}" class="btn btn-primary active pull-right ">Move to next process
+                parameter</a>
+        </div>
+    </div>
+</div>
+
+<div class="container" id="final_submit" style="display:none;">
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-10">
+            <button type="button" class="btn btn-primary active pull-right ">Final Submit</button>
+        </div>
+    </div>
+</div>
+
+<div>
+    <button id="btn-export" onclick="exportHTML();">Export to
+        word doc
+    </button>
+</div>
+
+</body>
+
+</html>
