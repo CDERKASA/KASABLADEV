@@ -78,11 +78,30 @@
 <h1 class="title">
     Knowledge-Aided Assessment and Structured Application
 </h1>
-<form class="form-inline my-2 my-lg-0">
+<form method="POST">
+         {% csrf_token %}
+<div class="form-inline my-2 my-lg-0">
     <div id="kasasearch">
-        <input class="form-control" type="search" placeholder="BLA #" aria-label="Search">
-        <button class="btn btn-outline-success " type="submit">Search</button>
+        <input class="form-control" type="search" name ="bla_number" placeholder="BLA #" aria-label="Search">
+        <button class="btn btn-outline-success " value="search" type="submit">Search</button>
     </div>
+</div>
+
+<center>
+    {% for display in appdata %}
+    <table  border="1">
+<tr>
+    <th>BLA Number</th>
+
+</tr>
+    <tr>
+      <td>{{display.bla_number}}</td>
+
+        <td><a href ="/kasaapp/overviewedit/{{display.bla_number}}">Load</a></td>
+    </tr>
+   {% endfor %}
+</table>
+    </center>
 </form>
 
 

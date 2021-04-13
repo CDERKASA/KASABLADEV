@@ -9,4 +9,5 @@ urlpatterns = [
     path('riskevaluation', views.riskevaluation, name='riskevaluation'),
     path('riskeval', views.riskeval, name='riskeval'),
     path('summary', views.summary, name='summary'),
+
 ]

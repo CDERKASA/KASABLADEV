@@ -220,7 +220,7 @@ background-color: #28a745;
     <h5 class="textboxtitle">
         BLA Information
     </h5>
-    <form action="" method="post" name="overviewForm">
+    <form action="" method="post" id="overviewForm" name="overviewForm">
         {% csrf_token %}
         <!-- NDA Basic Information-->
         <div class="p-3"></div>
@@ -232,7 +232,7 @@ background-color: #28a745;
                     </div>
                 </div>
                 <div class="col-lg-9">
-                    <select class="form-control form-control-sm">
+                    <select class="form-control form-control-sm"  name="application_path" id="application_path">
                         <option selected disabled>Select option</option>
                         <option>BLA under 351(a)</option>
                         <option>BLA under 351(k)</option>
@@ -246,11 +246,11 @@ background-color: #28a745;
         <div class="container review">
             <div class="row">
                 <div class="col-lg-6 custom-control custom-radio">
-                    <input type="radio" name="customRadio" id="radio1" class="custom-control-input">
+                    <input type="radio" name="review"  value="Priority Review" id="radio1" class="custom-control-input">
                     <label class="custom-control-label" for="radio1">Priority Review</label>
                 </div>
                 <div class="col-lg-6 custom-control custom-radio">
-                    <input type="radio" name="customRadio" id="radio2" class="custom-control-input">
+                    <input type="radio" name="review" value ="Standard Review" id="radio2" class="custom-control-input">
                     <label class="custom-control-label" for="radio2">Standard Review</label>
                 </div>
 
@@ -280,13 +280,13 @@ background-color: #28a745;
                     <label>Proprietary name:</label>
                 </div>
                 <div class="col-lg-3">
-                    <input type="text" class="form-control form-control-sm">
+                    <input type="text" name="proprietary_name" id="proprietary_name" class="form-control form-control-sm">
                 </div>
                 <div class="col-lg-3">
                     <label>Non-Proprietary name/USAN:</label>
                 </div>
                 <div class="col-lg-3">
-                    <input type="text" class="form-control form-control-sm">
+                    <input type="text" name="nonproprietary_name" id="nonproprietary_name" class="form-control form-control-sm">
                 </div>
             </div>
             <div class="p-3"></div>
@@ -295,13 +295,13 @@ background-color: #28a745;
                     <label>OBP systematic name:</label>
                 </div>
                 <div class="col-lg-3">
-                    <input type="text" class="form-control form-control-sm">
+                    <input type="text" name="obp_systematic_name"  id ="obp_systematic_name" class="form-control form-control-sm">
                 </div>
                 <div class="col-lg-3">
                     <label>Dosage form:</label>
                 </div>
                 <div class="col-lg-3">
-                    <input type="text" class="form-control form-control-sm">
+                    <input type="text" name="dosage_form" id ="dosage_form" class="form-control form-control-sm">
                 </div>
             </div>
             <div class="p-3"></div>
@@ -310,13 +310,13 @@ background-color: #28a745;
                     <label>Strength potency:</label>
                 </div>
                 <div class="col-lg-3">
-                    <input type="text" class="form-control form-control-sm">
+                    <input type="text" name ="strength_potency" id ="strength_potency" class="form-control form-control-sm">
                 </div>
                 <div class="col-lg-3">
                     <label>Route administration:</label>
                 </div>
                 <div class="col-lg-3">
-                    <input type="text" class="form-control form-control-sm">
+                    <input type="text"  name="route_administration" id ="route_administration" class="form-control form-control-sm">
                 </div>
             </div>
             <div class="p-3"></div>
@@ -325,28 +325,28 @@ background-color: #28a745;
                     <label>Primary Assessor:</label>
                 </div>
                 <div class="col-lg-3">
-                    <input type="text" class="form-control form-control-sm">
+                    <input type="text" name="primary_assessor" id="primary_assessor" class="form-control form-control-sm">
                 </div>
                 <div class="col-lg-3">
                     <label>Seconday Assessor:</label>
                 </div>
                 <div class="col-lg-3">
-                    <input type="text" class="form-control form-control-sm">
+                    <input type="text" name="secondary_assessor" id="secondary_assessor" class="form-control form-control-sm">
                 </div>
             </div>
 
         </div>
-    </form>
+
     <!-- Selection -->
     <div class="p-3"></div>
     <div class="container review">
         <div class="row">
             <div class="col-lg-6">
-                <input type="checkbox" id="1" value="orphandrug">
+                <input type="checkbox" name="drug" id="1"  >
                 <label>Orphan Drug</label>
             </div>
             <div class="col-lg-6">
-                <input type="checkbox" id="2" value="breakthrough">
+                <input type="checkbox" name="drug" id="2" >
                 <label>Breakthrough Therapy Designation</label>
             </div>
 
@@ -375,14 +375,14 @@ background-color: #28a745;
         <div class="p-3"></div>
         <div class="row">
             <div class="col-lg-4">
-                <select class="form-control form-control-sm">
+                <select name="review_iteration" id="review_iteration" class="form-control form-control-sm">
                     <option>Original Review</option>
                     <option>Secondary Review</option>
                     <option>Third Review</option>
                 </select>
             </div>
             <div class="col-lg-4">
-                <select class="form-control form-control-sm">
+                <select  name="reviewer_decision" id="reviewer_decision" class="form-control form-control-sm">
                     <option>IR</option>
                     <option>DRL</option>
                     <option>Inadequate Minor</option>
@@ -391,16 +391,26 @@ background-color: #28a745;
                 </select>
             </div>
             <div class="col-lg-4">
-                <input type="date" class="form-control form-control-sm">
+                <input name="submission_date" id="submission_date" type="date" class="form-control form-control-sm">
             </div>
             <div class="p-3"></div>
         </div>
 
 
     </div>
+<div class="container">
+    <div class="col-lg-12">
+        <button type="submit" class="btn btn-primary form-control form-control-sm"  form="overviewForm" formaction="overview">
+            <strong>Save</strong>
+        </button>
+    </div>
+</div>
+    </form>
+
+<div class="p-3"></div>
 
     <a class="btn btn-primary btn-lg" style="display: block; margin-left:auto; margin-right: auto; margin-bottom:20px"
-       role="button" href="riskeval">
+       role="button" href= "/kasaapp/riskeval">
         Continue
     </a>
 </div>

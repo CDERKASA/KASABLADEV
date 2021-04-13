@@ -310,6 +310,21 @@ background-color: #28a745;
 <h4 class="textboxtitle">Preliminary Risk Evaluation</h4>
 <form  method="post" id="unitopForm" name="unitopForm">
     {% csrf_token %}
+
+<div class="container">
+   <div class="row">
+       <div class="col-lg-3">
+           <label>BLA #:</label>
+       </div>
+       <div class="col-lg-3">
+
+           <input type="text" name="bla_number_id" id="bla_number_id"  placeholder="BLA #" class="form-control form-control-sm">
+
+       </div>
+   </div>
+    </div>
+
+
     <div class="container" id="unit-operation">
         <div class="row">
             <div class="col-lg-6">
@@ -1038,7 +1053,7 @@ background-color: #28a745;
                     </button>
                 </div>
                 <div class="modal-body">
-                    <textarea class="form-control" name="ircomments" id="ircommentsproc"
+                    <textarea class="form-control" name="procir_ircomments" id="ircommentsproc"
                               placeholder="Enter additional comments about IR" rows="4" cols="50"></textarea>
 
                 </div>
@@ -1161,7 +1176,7 @@ background-color: #28a745;
                     </button>
                 </div>
                 <div class="modal-body">
-                    <textarea class="form-control" name="ircomments" id="ircomments_newproc"
+                    <textarea class="form-control" name="ircomments_newproc" id="ircomments_newproc"
                               placeholder="Enter additional comments about IR" rows="4" cols="50"></textarea>
 
                 </div>
@@ -1185,7 +1200,7 @@ background-color: #28a745;
             </div>
             <div class="col-lg-4">
                 <select class="form-control form-control-sm" id="surr_yesno"
-                        name="Applicant risk ranking" onchange="yesnoFun()">
+                        name="surr_applicant_risk_ranking" onchange="yesnoFun()">
                     <option selected disabled value="default">--Select--</option>
                     <option value="YES">YES</option>
                     <option value="NO">NO</option>
@@ -1215,7 +1230,7 @@ background-color: #28a745;
                     </button>
                 </div>
                 <div class="modal-body">
-                    <textarea class="form-control" name="ircomments" id="ircomments_surrir"
+                    <textarea class="form-control" name="ircomments_surrir" id="ircomments_surrir"
                               placeholder="Enter additional comments about IR" rows="4" cols="50"></textarea>
 
                 </div>
@@ -1271,7 +1286,7 @@ background-color: #28a745;
                     </button>
                 </div>
                 <div class="modal-body">
-                    <textarea class="form-control" name="ircomments" id="surrproc_ircomments"
+                    <textarea class="form-control" name="surrproc_ircomments" id="surrproc_ircomments"
                               placeholder="Enter additional comments about IR" rows="4" cols="50"></textarea>
 
                 </div>
@@ -1297,7 +1312,7 @@ background-color: #28a745;
             </div>
             <div class="col-lg-4">
                 <select class="form-control form-control-sm" id="risk"
-                        name="Applicant risk ranking" onchange="myFunction()">
+                        name="applicant_risk_ranking" onchange="myFunction()">
                     <option selected disabled>--Select--</option>
                     <option value="High">High risk</option>
                     <option value="Medium">Medium risk</option>
@@ -1360,6 +1375,7 @@ background-color: #28a745;
                     </span>
                     {% endfor %}
                 </div>
+                <input type ="hidden" name ="OBP" id ="obpselect">
             </div>
             <div class="col-lg-3">
                 <input class="form-control form-control-sm comment irbtn" id="obp_risk_comment"
@@ -1385,7 +1401,7 @@ background-color: #28a745;
                     </button>
                 </div>
                 <div class="modal-body">
-                    <textarea class="form-control" name="ircomments_obp" id="ircomments_obp"
+                    <textarea class="form-control" name="obprisk_ircomments" id="ircomments_obp"
                               placeholder="Enter additional comments about IR" rows="4" cols="50"></textarea>
 
                 </div>
@@ -1414,7 +1430,7 @@ background-color: #28a745;
             <div class="col-lg-4">
                 <div>
                     <select class="form-control form-control-sm" id="app_sur"
-                            name="Applicant risk ranking" onchange="myFunction1()">
+                            name="app_sur" onchange="myFunction1()">
                         <option selected disabled value="default">--Select--</option>
                         <option value="High">High risk</option>
                         <option value="Medium">Medium risk</option>
@@ -1446,7 +1462,7 @@ background-color: #28a745;
                     </button>
                 </div>
                 <div class="modal-body">
-                    <textarea class="form-control" name="ircomments" id="ircomments_surrapp_risk"
+                    <textarea class="form-control" name="ircomments_surrapp_risk" id="ircomments_surrapp_risk"
                               placeholder="Enter additional comments about IR" rows="4" cols="50"></textarea>
 
                 </div>
@@ -1514,7 +1530,7 @@ background-color: #28a745;
                 </div>
             </div>
             <div class="col-lg-1">
-                <button class="btn btn-primary form-control form-control-sm irbtn" id="prelir_btn"
+                <button type="button" class="btn btn-primary form-control form-control-sm irbtn" id="prelir_btn"
                         onclick="irFn('prelir_btn', 'prelir_modal')">IR
                 </button>
             </div>
@@ -1531,7 +1547,7 @@ background-color: #28a745;
                     </button>
                 </div>
                 <div class="modal-body">
-                    <textarea class="form-control" name="ircomments_val" id="ircomments_val1"
+                    <textarea class="form-control" name="prelir_ircomments" id="ircomments_val1"
                               placeholder="Enter additional comments about IR" rows="4" cols="50"></textarea>
 
                 </div>
@@ -1562,7 +1578,7 @@ background-color: #28a745;
             </div>
             <div class="col-lg-4">
                 <div>
-                    <select class="form-control form-control-sm" id="Assign_Risk" onchange="myFun()">
+                    <select name="Assign_Risk" class="form-control form-control-sm" id="Assign_Risk" onchange="myFun()">
                         <option selected disabled value="default">--Select--</option>
                         <option value="Low risk">Low risk</option>
                         <option value="Medium risk">Medium risk</option>
@@ -1592,7 +1608,7 @@ background-color: #28a745;
             </div>
             <div class="col-lg-4">
                 <div>
-                    <select class="form-control form-control-sm" id="CPP_KPP" name="CPP or KPP">
+                    <select class="form-control form-control-sm" id="CPP_KPP" name="CPP_KPP">
                         <option selected disabled value="default">--Select--</option>
                         <option value="CPP">Critical Process Parameter</option>
                         <option value="KPP">Key Performance Process Parameter</option>
@@ -1621,7 +1637,7 @@ background-color: #28a745;
                     </button>
                 </div>
                 <div class="modal-body">
-                    <textarea class="form-control" name="ircomments" id="ircomments_cpp"
+                    <textarea class="form-control" name="cpp_ircomments" id="ircomments_cpp"
                               placeholder="Enter additional comments about IR" rows="4" cols="50"></textarea>
 
                 </div>
@@ -1711,7 +1727,7 @@ background-color: #28a745;
             <div class="col-lg-4">
                 <div>
                     <select class="form-control form-control-sm" id="surr_Assign_Risk"
-                            name="Assign Risk" onchange="myFun1()">
+                            name="surr_Assign_Risk" onchange="myFun1()">
                         <option selected disabled value="default">--Select--</option>
                         <option value="low">Low risk</option>
                         <option value="medium">Medium risk</option>
@@ -1738,7 +1754,7 @@ background-color: #28a745;
             </div>
             <div class="col-lg-4">
                 <div>
-                    <select class="form-control form-control-sm" id="surr_CPP_KPP" name="surrCPP or surrKPP">
+                    <select class="form-control form-control-sm" id="surr_CPP_KPP" name="surrCPP_surrKPP">
                         <option selected disabled value="default">--Select--</option>
                         <option value="CPP">Critical Process Parameter</option>
                         <option value="KPP">Key Performance Process Parameter</option>
@@ -1768,7 +1784,7 @@ background-color: #28a745;
                     </button>
                 </div>
                 <div class="modal-body">
-                    <textarea class="form-control" name="ircomments" id="ircomments_surrcpp"
+                    <textarea class="form-control" name="ircomments_surrcpp" id="ircomments_surrcpp"
                               placeholder="Enter additional comments about IR" rows="4" cols="50"></textarea>
 
                 </div>
@@ -1811,6 +1827,14 @@ background-color: #28a745;
 <div class="p-3"></div>
 <div class="container">
     <div class="col-lg-12">
+        <button type="submit" class="btn btn-primary form-control form-control-sm" id="save_btn2" form="unitopForm" formaction="riskeval" >
+            <strong>Save</strong>
+        </button>
+    </div>
+</div>
+<div class="p-3"></div>
+<div class="container">
+    <div class="col-lg-12">
         <button type="submit" class="btn btn-primary form-control form-control-sm" id="continue_btn">
             <strong>Continue</strong>
         </button>
@@ -1835,7 +1859,7 @@ background-color: #28a745;
             <label>Has the process parameter been characterized?</label>
         </div>
         <div class="col-lg-5">
-            <select class="form-control form-control-sm" id="cppdropdownselect">
+            <select class="form-control form-control-sm" name="cppdropdownselect" id="cppdropdownselect">
                 <option>Yes (Characterization data)</option>
                 <option>Yes (Prior Knowledge data)</option>
                 <option>No characterization data</option>
@@ -1860,7 +1884,7 @@ background-color: #28a745;
                 </button>
             </div>
             <div class="modal-body">
-                <textarea class="form-control" name="ircomments_charac" id="ircomments_charac"
+                <textarea class="form-control" name="characir_comments" id="ircomments_charac"
                           placeholder="Enter additional comments about IR" rows="4" cols="50"></textarea>
 
             </div>
@@ -1893,7 +1917,7 @@ background-color: #28a745;
             <label for="study-appropriate-select">Is the characterization study appropriate?</label>
         </div>
         <div class="col-lg-4">
-            <select name="characterization-study" id="study-appropriate-select" class="form-control form-control-sm">
+            <select name="study_appropriate_select" id="study-appropriate-select" class="form-control form-control-sm">
                 <option selected disabled="true" value="default">Select</option>
                 <option>Yes Characterization is appropriate</option>
                 <option>No Characterization is not appropriate</option>
@@ -1921,7 +1945,7 @@ background-color: #28a745;
                 </button>
             </div>
             <div class="modal-body">
-                <textarea class="form-control" name="ircomments_appro_charac" id="ircomments_appro_charac"
+                <textarea class="form-control" name="appro_charac_ircomments" id="ircomments_appro_charac"
                           placeholder="Enter additional comments about IR" rows="4" cols="50"></textarea>
 
             </div>
@@ -1955,7 +1979,7 @@ background-color: #28a745;
             <label for="pk-study-select">Is the prior knowledge appropriate?</label>
         </div>
         <div class="col-lg-4">
-            <select name="characterization-study" id="pk-study-select" class="form-control form-control-sm">
+            <select name="characterization_study_pk" id="pk-study-select" class="form-control form-control-sm">
                 <option selected disabled="true" value="default">Select</option>
                 <option>Yes prior knowledge is appropriate</option>
                 <option>No prior knowledge is not appropriate</option>
@@ -2044,7 +2068,7 @@ background-color: #28a745;
                 </button>
             </div>
             <div class="modal-body">
-                <textarea class="form-control" name="ircommentscharac_range" id="ircommentscharac_range"
+                <textarea class="form-control" name="charac_range_ircomments" id="ircommentscharac_range"
                           placeholder="Enter additional comments about IR" rows="4" cols="50"></textarea>
 
             </div>
@@ -2071,7 +2095,7 @@ background-color: #28a745;
             <label>Is validation appropriate/acceptable?:</label>
         </div>
         <div class="col-lg-4">
-            <select class="form-control form-control-sm" id="validation-select">
+            <select class="form-control form-control-sm"  name="validation_select" id="validation-select">
                 <option disabled selected value="default">Select</option>
                 <option> Yes</option>
                 <option> No</option>
@@ -2081,7 +2105,7 @@ background-color: #28a745;
             <input placeholder="Additional comments" class="comment form-control form-control-sm">
         </div>
         <div class="col-lg-1">
-            <button class="btn btn-primary form-control form-control-sm" id="val_ir_btn"
+            <button type="button" class="btn btn-primary form-control form-control-sm" id="val_ir_btn"
                     onclick="irFn('val_ir_btn', 'val_ir_modal')">IR
             </button>
         </div>
@@ -2249,7 +2273,7 @@ background-color: #28a745;
             <label>Is the response adequate:</label>
         </div>
         <div class="col-lg-4">
-            <select class="form-control form-control-sm" id="response-select">
+            <select class="form-control form-control-sm" name="response_select" id="response-select">
                 <option selected disabled value="default">Select</option>
                 <option>Yes</option>
                 <option>No</option>
@@ -2273,7 +2297,7 @@ background-color: #28a745;
             <label>Is the proposed PAR acceptable:</label>
         </div>
         <div class="col-lg-4">
-            <select class="form-control form-control-sm" id="pp-range-select">
+            <select name ="pp_range_select" class="form-control form-control-sm" id="pp-range-select">
                 <option selected disabled value="default">Select</option>
                 <option>Yes</option>
                 <option>No</option>
@@ -2333,7 +2357,13 @@ background-color: #28a745;
         <span aria-hidden="true">&times;</span>
     </button>
 </div>
-
+<div class="container">
+    <div class="col-lg-12">
+        <button type="submit" class="btn btn-primary form-control form-control-sm"  id="save_btn1"form="unitopForm" formaction="riskeval">
+            <strong>Save</strong>
+        </button>
+    </div>
+</div>
 <div class="container">
     <div class="col-lg-12">
         <button type="submit" class="btn btn-primary form-control form-control-sm" id="summary_btn" form="unitopForm" formaction="summary">
@@ -2760,6 +2790,7 @@ function myFunction() {
         assignrisk_m.selectedIndex = "default";
         var finalrisk_ntagree = document.getElementById("ntagree_final_risk_block");
         var risk_r = selectrisk.innerText;
+        document.getElementById('obpselect').value = document.getElementById('riskselect').innerText;
         var risk_p = applicantrisk.options[applicantrisk.selectedIndex].text;
         var risk_n = assignrisk_m.options[assignrisk_m.selectedIndex].text;
         finalrisk_m.innerHTML = "";
