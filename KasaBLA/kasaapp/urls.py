@@ -7,7 +7,7 @@ urlpatterns = [
     path('overview', views.overview, name='overview'),
     path('characterization', views.characterization, name='characterization'),
     path('riskevaluation', views.riskevaluation, name='riskevaluation'),
-    path('riskeval', views.riskeval, name='riskeval'),
+    path('riskeval/<int:pk>', views.riskeval, name='riskeval'),
     path('summary', views.summary, name='summary'),
 
 ]
