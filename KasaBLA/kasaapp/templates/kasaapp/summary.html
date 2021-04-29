@@ -156,7 +156,6 @@ background-color: #28a745;
     </style>
 
     <script>
-
     function descriptors(){
         var chromatography= document.getElementById("chromatography");
         var lowph = document.getElementById("lowph");
@@ -182,6 +181,7 @@ background-color: #28a745;
         if ("{{unitoperationname}}" === "Cell Culture - Seed Bioreactor") {
             descriptors();
             seed_bioreactor.style.display = "table-row";
+            console.log("selected");
         } else if ("{{unitoperationname}}" === "Cell Culture - Vial thaw and inoculation expansion") {
             descriptors();
             thawexpansion.style.display = "table-row";
@@ -206,42 +206,19 @@ background-color: #28a745;
             descriptors();
             chromatography.style.display = "table-row";
         }
-
-
     }
-function final_risk() {
-       var  tagged_processparameter = document.getElementById("tagged_processparameter");
-       var reviewer_risk = document.getElementById("reviewer_risk");
-       var final_parrange = document.getElementById("final_parrange");
-        var reporting_category = document.getElementById("reporting_category")
-        var category = document.getElementById("category");
-        var finalrisk = document.getElementById("finalrisk");
-        var finalrisk_fr = finalrisk.options[finalrisk.selectedIndex].text;
-
-        if (finalrisk_fr === "Low risk") {
-            category.innerHTML = "non-CPP (low risk) reporting via AR";
-
-
-        } else if (finalrisk_fr === "Medium risk") {
-            category.innerHTML = "CPP/KPP (EC reporting via CBE-30)";
-
-        } else {
-            category.innerHTML = "CPP/KPP (EC reporting via PAS)";
-
-        }
-}
-function chartFn(){
+ function chartFn(){
  if(window.myChart != undefined)
     window.myChart.destroy();
- var ctx =  document.getElementById('chart');
- window.myChart = new Chart(ctx, {
+    var ctx =  document.getElementById('chart');
+    window.myChart = new Chart(ctx, {
        type: 'bar',
-      data: {
+       data: {
         labels: ['Characterization range', 'Validation range', 'PAR'],
         datasets: [
         {
         label: 'Low',
-        data:[{{charac_range_low}},{{valid_range_low}}, {{par_range_low}}],
+        data:[({{charac_range_low}}),({{valid_range_low}}), ({{par_range_low}})],
          backgroundColor: "rgba(0, 0, 0, 0)",
 
          },
@@ -266,9 +243,29 @@ function chartFn(){
     });
     $(".chart-container").toggle();
 }
-function closegraph(){
-    $(".chart-container").hide();
+
+function final_risk() {
+       var  tagged_processparameter = document.getElementById("tagged_processparameter");
+       var reviewer_risk = document.getElementById("reviewer_risk");
+       var final_parrange = document.getElementById("final_parrange");
+        var reporting_category = document.getElementById("reporting_category")
+        var category = document.getElementById("category");
+        var finalrisk = document.getElementById("finalrisk");
+        var finalrisk_fr = finalrisk.options[finalrisk.selectedIndex].text;
+
+        if (finalrisk_fr === "Low risk") {
+            category.innerHTML = "non-CPP (low risk) reporting via AR";
+
+
+        } else if (finalrisk_fr === "Medium risk") {
+            category.innerHTML = "CPP/KPP (EC reporting via CBE-30)";
+
+        } else {
+            category.innerHTML = "CPP/KPP (EC reporting via PAS)";
+
+        }
 }
+
 function exportHTML(){
        var header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' "+
             "xmlns:w='urn:schemas-microsoft-com:office:word' "+
@@ -285,7 +282,6 @@ function exportHTML(){
        fileDownload.click();
        document.body.removeChild(fileDownload);
     }
-
     </script>
 
 
@@ -347,7 +343,7 @@ function exportHTML(){
 <table class="table table-bordered">
     <thead>
     <tr>
-        <th colspan="12" style="text-align: center" id="unitoperation"> Unit operation: {{unitop_text}}</th>
+        <th colspan="12" style="text-align: center" id="unitoperation"> Unit operation: {{unitoperationname}}</th>
     </tr>
     </thead>
     <tbody>
@@ -355,14 +351,14 @@ function exportHTML(){
         <th colspan="12" style="text-align:center">Descriptors:</th>
     </tr>
     <tr id="chromatography" style="display: none">
-        <td colspan="1.3"><strong>Bind & Elute or Flowthrough: </strong>{{Chromatography_descriptor1}}</td>
-        <td colspan="1.3"><strong>Resin Type and Manufacturer: </strong>{{Chromatography_descriptor2}}</td>
-        <td colspan="1.3"><strong>Column Dimension: </strong>{{Chromatography_descriptor3}}</td>
-        <td colspan="1.3"><strong>Microbiological Hold Time: </strong>{{Chromatography_descriptor4}}</td>
-        <td colspan="1.3"><strong>Biochemical Hold Time: </strong>{{Chromatography_descriptor5}}</td>
-        <td colspan="2"><strong>Max Cycles per batch: </strong>{{Chromatography_descriptor6}}</td>
-        <td colspan="1.3"><strong>Start Collection Criteria: </strong>{{Chromatography_descriptor7}}</td>
-        <td colspan="1.3"><strong>Stop Collection Criteria: </strong>{{Chromatography_descriptor8}}</td>
+        <td colspan="2"><strong>Bind & Elute or Flowthrough: </strong>{{Chromatography_descriptor1}}</td>
+        <td colspan="2"><strong>Resin Type and Manufacturer: </strong>{{Chromatography_descriptor2}}</td>
+        <td><strong>Column Dimension: </strong>{{Chromatography_descriptor3}}</td>
+        <td><strong>Microbiological Hold Time: </strong>{{Chromatography_descriptor4}}</td>
+        <td><strong>Biochemical Hold Time: </strong>{{Chromatography_descriptor5}}</td>
+        <td><strong>Max Cycles per batch: </strong>{{Chromatography_descriptor6}}</td>
+        <td><strong>Start Collection Criteria: </strong>{{Chromatography_descriptor7}}</td>
+        <td><strong>Stop Collection Criteria: </strong>{{Chromatography_descriptor8}}</td>
         <td colspan="2"><strong>In-process Tests: </strong>{{Chromatography_descriptor9}}</td>
     </tr>
     <tr id="lowph" style="display:none">
@@ -475,27 +471,41 @@ function exportHTML(){
 
     </tr>
     <tr>
-        <th style="text-align: center">Comments</th>
+        <th style="text-align: center">
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#comments"
+                    aria-expanded="false" aria-controls="comments">
+                Comments
+            </button>
+        </th>
         <td colspan="12" style="color: DodgerBlue; text-align: center">
-            <strong><em>Process parameter comment: </strong> {{proc_comment}}</em> <br/>
-            <strong><em>Risk ranking comment:</strong> {{app_risk}}</em> <br/>
-            <strong><em>OBP risk comment:</strong> {{obp_risk_comment}}</em> <br/>
+            <div class="collapse" id="comments">
+                <strong>Process parameter comment: </strong> {{proc_comment}}<br/>
+                <strong>Risk ranking comment:</strong> {{app_risk}}<br/>
+                <strong>OBP risk comment:</strong> {{obp_risk_comment}}<br/>
+            </div>
         </td>
     </tr>
     <tr style="text-align: center">
-        <th>IR</th>
+        <th>
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#ircomments"
+                    aria-expanded="false" aria-controls="ircomments">
+                IR
+            </button>
+        </th>
         <td colspan="12" style="color: DodgerBlue; text-align: center">
-            Unit operation: {{unitop_ircomments}}<br/>
-            Process parameter: {{procir_ircomments}}<br/>
-            Applicant risk ranking: {{apprisk_ircomments}}<br/>
-            OBP risk ranking: {{obprisk_ircomments}}<br/>
-            Process parameter characterization: {{characir_comments}}<br/>
-            Characterization appropriate: {{appro_charac_ircomments}}<br/>
-            Characterization range: {{charac_range_ircomments}}<br/>
-            Validation appropriate: {{val_ircomments}}<br/>
-            Validation range: {{valrange_ircomments}}<br/>
-            Proposed PAR range: {{par_ircomments}}<br/>
-            Acceptability of PAR: {{prop_par_ircomments}}<br/>
+            <div class="collapse" id="ircomments">
+                Unit operation: {{unitop_ircomments}}<br/>
+                Process parameter: {{procir_ircomments}}<br/>
+                Applicant risk ranking: {{apprisk_ircomments}}<br/>
+                OBP risk ranking: {{obprisk_ircomments}}<br/>
+                Process parameter characterization: {{characir_comments}}<br/>
+                Characterization appropriate: {{appro_charac_ircomments}}<br/>
+                Characterization range: {{charac_range_ircomments}}<br/>
+                Validation appropriate: {{val_ircomments}}<br/>
+                Validation range: {{valrange_ircomments}}<br/>
+                Proposed PAR range: {{par_ircomments}}<br/>
+                Acceptability of PAR: {{prop_par_ircomments}}<br/>
+            </div>
 
 
         </td>

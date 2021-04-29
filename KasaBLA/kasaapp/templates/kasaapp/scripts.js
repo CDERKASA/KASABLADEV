@@ -573,3 +573,59 @@ function myFun1() {
           document.getElementById("surrisk_text2").value = risk_n_sur1;
     }
 }
+
+function summary () {
+    $('.ajaxProgress').show();
+    console.log("create summary is working")
+    $.ajax({
+        url : "summary",
+        dataType: "json",
+        async: true,
+        type : "POST",
+        data : { csrfmiddlewaretoken: '{(csrf_token)}}',
+                Unit name: $('#unitoptext').val(),
+
+        },
+
+        // handle a successful response
+        success : function(json) {
+            $('summary').html(json.message);
+            $('.ajaxProgress').hide();
+            console.log(json);
+            console.log("success");
+        }
+
+
+    });
+}
+
+$('#overviewForm').on('submit', function(event){
+    event.preventDefault();
+    console.log("form submitted!")
+    $.ajax({
+        url: "overview",
+        type: "POST",
+        async: "true",
+        data: { csrfmiddlewaretoken: '{{ csrf_token }}',
+                application_path: 'application_path',
+                review: 'review',
+                bla_number: 'bla_number',
+                applicant_name: 'applicant_name',
+                prop_name: 'prop_name',
+                non_prop_name: 'non_prop_name',
+                obp_name: 'obp_name',
+                dosage_form: 'dosage_form',
+                strength_potency: 'strength_potency',
+                route_administration: 'route_administration',
+                primary_assessor: 'primary_assessor',
+                secondary_assessor: 'secondary_assessor',
+                orphan_drug: 'orphan_drug',
+                breakthrough: 'breakthrough',
+                designation: 'designation',
+                reviewer_decision: 'reviewer_decision',
+                submission_date: 'submission_date'
+                review_iteration: 'review_iteration'
+
+        }
+    })
+    });

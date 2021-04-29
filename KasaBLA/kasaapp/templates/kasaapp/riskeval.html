@@ -308,7 +308,7 @@ background-color: #28a745;
 </ul>
 <div class="p-3"></div>
 <h4 class="textboxtitle">Preliminary Risk Evaluation</h4>
-<form  method="post" id="unitopForm" name="unitopForm">
+<form method="POST" id="unitopForm" name="unitopForm">
     {% csrf_token %}
     <div class="container" id="unit-operation">
         <div class="row">
@@ -1514,7 +1514,7 @@ background-color: #28a745;
                 </div>
             </div>
             <div class="col-lg-1">
-                <button class="btn btn-primary form-control form-control-sm irbtn" id="prelir_btn"
+                <button class="btn btn-primary form-control form-control-sm irbtn" type="button" id="prelir_btn"
                         onclick="irFn('prelir_btn', 'prelir_modal')">IR
                 </button>
             </div>
@@ -1843,7 +1843,7 @@ background-color: #28a745;
             </select>
         </div>
         <div class="col-lg-1">
-            <button class="btn btn-primary form-control form-control-sm" id="characirbtn"
+            <button class="btn btn-primary form-control form-control-sm" type="button" id="characirbtn"
                     onclick="irFn('characirbtn', 'charac_IR')">IR
             </button>
         </div>
@@ -1903,7 +1903,7 @@ background-color: #28a745;
             <input type="text" class="comment form-control form-control-sm" placeholder="Additional comments">
         </div>
         <div class="col-lg-1">
-            <button class="btn btn-primary form-control form-control-sm" id="appro_charac_irbtn"
+            <button class="btn btn-primary form-control form-control-sm" type="button" id="appro_charac_irbtn"
                     onclick="irFn('appro_charac_irbtn', 'appro_charac_modal')">IR
             </button>
         </div>
@@ -1965,7 +1965,7 @@ background-color: #28a745;
             <input type="text" class="comment form-control form-control-sm" placeholder="Additional comments">
         </div>
         <div class="col-lg-1">
-            <button class="btn btn-primary form-control form-control-sm" id="pk_ir_btn"
+            <button class="btn btn-primary form-control form-control-sm" type="button" id="pk_ir_btn"
                     onclick="irFn('pk_ir_btn', 'pk_ir_modal')">IR
             </button>
         </div>
@@ -2147,7 +2147,8 @@ background-color: #28a745;
             </button>
         </div>
         <div class="col-lg-1">
-            <button class="btn btn-success form-control form-control-sm" onclick="chartFn()">Graph</button>
+            <button class="btn btn-success form-control form-control-sm" type="button" onclick="chartFn()">Graph
+            </button>
         </div>
     </div>
 </div>
@@ -2228,7 +2229,8 @@ background-color: #28a745;
             </button>
         </div>
         <div class="col-lg-1">
-            <button class="btn btn-success form-control form-control-sm" onclick="chartFn()">Graph</button>
+            <button class="btn btn-success form-control form-control-sm" type="button" onclick="chartFn()">Graph
+            </button>
         </div>
     </div>
     <div class="row">
@@ -3105,6 +3107,30 @@ function myFun1() {
         finalrisk_m_sur1.innerHTML = risk_n_sur1;
           document.getElementById("surrisk_text2").value = risk_n_sur1;
     }
+}
+$('#unitopForm').on('submit', function(event){
+    event.preventDefault();
+    console.log("form submitted!")  // sanity check
+    summary();
+});
+function summary () {
+    $('.ajaxProgress').show();
+    console.log("create summary is working")
+    $.ajax({
+        url : "riskeval",
+        async: true,
+        type : "POST",
+        data : {
+                unit: $('#unitop_text').val(),
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+        },
+        success : function() {
+            console.log("success");
+
+        }
+
+
+    });
 }
 
 </script>
