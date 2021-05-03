@@ -125,10 +125,9 @@ Found {{ total_results }} result {{total_results|pluralize}}
      $(document).ready(function(){
     $(".loadbtn").click(function(){
             var query = "{{ query }}";
-            $('#box').load("overviewload",
+            $("#box").load("overview",
             {application_path:"application_path",
             csrfmiddlewaretoken: '{{csrf_token}}',
-            action: 'post',
             applicant_name:"applicant_name",
             bla_number : query ,
             review :"review",
@@ -146,7 +145,6 @@ Found {{ total_results }} result {{total_results|pluralize}}
             );
     });
 });
-
 
 
 </script>

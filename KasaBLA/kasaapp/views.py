@@ -13,8 +13,8 @@ import json
 def home(request):
     query = None
     results = []
-    if request.method == "POST":
-        query = request.POST.POST('search')
+    if request.method == "GET":
+        query = request.GET.get('search')
         if query:
             results = Overview.objects.filter(Q(bla_number=query))
     return render(request, "kasaapp/home.html", {'query': query, 'results': results})
