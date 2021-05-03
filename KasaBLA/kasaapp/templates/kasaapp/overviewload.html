@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="//code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+            integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"
+            integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw=="
+            crossorigin="anonymous"></script>
+    <title>KASA BLA</title>
+
+    <style>
+    #kasasearch{
+    margin: auto;
+    text-align:center;
+    }
+.unitbuttons{
+    margin-left: 170px;
+    margin-bottom:20px;
+}
+ul{
+    list-style-position: inside;
+    margin: 0;
+    padding: 2px;
+}
+
+}
+.title
+{  margin:auto;
+   text-align: center;
+   margin-bottom: 2em;
+   margin-top: 0.5em;
+   }
+.textboxtitle{
+        border-style: outset;
+        box-shadow: 10px 10px 5px grey;
+        text-align: center;
+        background-color: dodgerblue;
+        border-radius: 7px;
+        width: 100%;
+        margin-bottom: 40px;
+        margin-top: 40px;
+        }
+
+.review{
+      border-style: outset;
+      box-shadow: 10px 10px 5px grey;
+      text-align: center;
+      background-color: #d7d7d7;
+      width: 100%;
+      margin-top: 2em;
+      margin-bottom: 2.5em;
+      margin-left: 380px;
+}
+.reviewiteration{
+      margin-top:20px;
+      margin-bottom:20px;
+      margin-left: 100px;
+      margin-right: 20px;
+}
+.buttonselection{
+      width:300px;
+      height: 80px;
+}
+#draggable{
+     text-align: center;
+     cursor: move;
+     list-style-type: none;
+    }
+
+.unitoperations{
+    margin-left: 30px;
+    margin-top: 20px;
+    margin-bottom:20px;
+}
+
+
+.blue_label {
+  background-color: #5cbB5c;
+  color: white;
+  border: none;
+  padding: 5px 5px;
+}
+
+.green_label{
+background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 5px 5px;
+   text-align: center;
+}
+
+
+.red{
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 5px 5px;
+   text-align: center;
+
+}
+
+.orange_label{
+    background-color: #ffc107;
+    color: white;
+  border: none;
+  padding: 5px 5px;
+   text-align: center;
+      }
+
+.buttondifferent {
+  border: none;
+  color: white;
+  padding: 10px 14px;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+/* Darker background on mouse-over */
+.buttondifferent:hover {
+  background-color: Red;
+}
+
+.close1:hover{
+    background-color: #dc3545; /* red */
+	color: white
+	cursor: pointer
+	}
+.Go_button:hover{
+    cursor: pointer;
+    background-color: #dc3545;;
+    }
+
+    .close1:hover{
+    background-color: #dc3545; /* red */
+	color: white
+	cursor: pointer
+	}
+.Go_button:hover{
+    cursor: pointer;
+    background-color: #dc3545;;
+    }
+
+
+
+
+    </style>
+
+</head>
+
+<body>
+<!-- Navigation Bar-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand" href="index.html">KASA</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item dropdown active">
+                <a class="nav-link dropdown-toggle" href="index.html" id="navbarDropdown" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Home
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="overview">Overview</a>
+                    <a class="dropdown-item" href="riskeval">Risk Evaluation</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="summary">Risk Summary</a>
+                </div>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Save<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Print<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Validate<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Finalize<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Email</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Submit<span class="sr-only">(current)</span></a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Audit</a>
+            </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search"
+                   id="searchbar">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+
+</nav>
+
+<h1 class="title">
+    Knowledge-Aided Assessment and Structured Application
+</h1>
+
+<h5 class="textboxtitle">
+    BLA Overview
+</h5>
+
+<!-- NDA Basic Information-->
+<div class="p-3"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3">
+            <div>
+                <label>Application path:</label>
+            </div>
+        </div>
+        <div class="col-lg-9">
+            <select class="form-control form-control-sm" name="application_path" id="application_path">
+                <option selected disabled>Select option</option>
+                <option>BLA under 351(a)</option>
+                <option>BLA under 351(k)</option>
+                <option>NDA under 505(b)(1)</option>
+            </select>
+
+        </div>
+    </div>
+</div>
+
+<div class="p-3"></div>
+<div class="container review">
+    <div class="row">
+        <div class="col-lg-6 custom-control custom-radio">
+            <input type="radio" name="review" id="radio1" class="custom-control-input review"
+                   value="Priority Review">
+            <label class="custom-control-label" for="radio1">Priority Review</label>
+        </div>
+        <div class="col-lg-6 custom-control custom-radio">
+            <input type="radio" name="review" id="radio2" class="custom-control-input review"
+                   value="Standard Review">
+            <label class="custom-control-label" for="radio2">Standard Review</label>
+        </div>
+
+    </div>
+</div>
+
+<div class="p-3"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3">
+            BLA #:
+        </div>
+        <div class="col-lg-3">
+            <input {{bla_number}}>
+        </div>
+        <div class="col-lg-3">
+            <label for="applicant_name">Applicant name:</label>
+        </div>
+        <div class="col-lg-3">
+            <input id="applicant_name" name="applicant_name" type="text" class="form-control form-control-sm">
+        </div>
+    </div>
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-3">
+            <label>Proprietary name:</label>
+        </div>
+        <div class="col-lg-3">
+            <input type="text" class="form-control form-control-sm" name="prop_name" id="prop_name">
+        </div>
+        <div class="col-lg-3">
+            <label>Non-Proprietary name/USAN:</label>
+        </div>
+        <div class="col-lg-3">
+            <input type="text" class="form-control form-control-sm" name="non_prop_name" id="non_prop_name">
+        </div>
+    </div>
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-3">
+            <label>OBP systematic name:</label>
+        </div>
+        <div class="col-lg-3">
+            <input type="text" class="form-control form-control-sm" name="obp_name" id="obp_name">
+        </div>
+        <div class="col-lg-3">
+            <label>Dosage form:</label>
+        </div>
+        <div class="col-lg-3">
+            <input type="text" class="form-control form-control-sm" name="dosage_form" id="dosage_form">
+        </div>
+    </div>
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-3">
+            <label>Strength potency:</label>
+        </div>
+        <div class="col-lg-3">
+            <input type="text" class="form-control form-control-sm" name="strength_potency"
+                   id="strength_potency">
+        </div>
+        <div class="col-lg-3">
+            <label>Route administration:</label>
+        </div>
+        <div class="col-lg-3">
+            <input type="text" class="form-control form-control-sm" name="route_administration"
+                   id="route_administration">
+        </div>
+    </div>
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-3">
+            <label>Primary Assessor:</label>
+        </div>
+        <div class="col-lg-3">
+            <input type="text" class="form-control form-control-sm" name="primary_assessor"
+                   id="primary_assessor">
+        </div>
+        <div class="col-lg-3">
+            <label>Seconday Assessor:</label>
+        </div>
+        <div class="col-lg-3">
+            <input type="text" class="form-control form-control-sm" name="secondary_assessor"
+                   id="secondary_assessor">
+        </div>
+    </div>
+
+</div>
+<!-- Selection -->
+<div class="p-3"></div>
+<div class="container review">
+    <div class="row">
+        <div class="col-lg-6">
+            <input type="checkbox" id="1" value="Orphan Drug" name="designation" class="designation">
+            <label>Orphan Drug</label>
+        </div>
+        <div class="col-lg-6">
+            <input type="checkbox" id="2" value="Breakthrough Therapy Designation" name="designation"
+                   class="designation">
+            <label>Breakthrough Therapy Designation</label>
+        </div>
+
+    </div>
+</div>
+
+<!-- Review Iterations -->
+
+
+<div class="review container">           <!-- divider for review iterations starts -->
+    <h6>
+        Review cycle
+    </h6>
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+            <label>Review Iteration</label>
+        </div>
+        <div class="col-lg-4">
+            <label>Reviewer Decision</label>
+        </div>
+        <div class="col-lg-4">
+            <label>Submission Date</label>
+        </div>
+    </div>
+    <div class="p-3"></div>
+    <div class="row">
+        <div class="col-lg-4">
+            <select class="form-control form-control-sm" name="review_iteration" id="review_iteration">
+                <option>Original Review</option>
+                <option>Secondary Review</option>
+                <option>Third Review</option>
+            </select>
+        </div>
+        <div class="col-lg-4">
+            <select class="form-control form-control-sm" name="review_decision" id="review_decision">
+                <option>IR</option>
+                <option>DRL</option>
+                <option>Inadequate Minor</option>
+                <option>Inadequate Major</option>
+                <option>Adequate</option>
+            </select>
+        </div>
+        <div class="col-lg-4">
+            <input type="date" class=" form-control form-control-sm" data-date-format="YYYY-MM-DD"
+                   name="submission_date" id="submission_date">
+        </div>
+        <div class="p-3"></div>
+    </div>
+</div>
+<div id="output">
+
+</div>
+<button type="submit" class="btn btn-primary form-control form-control-sm" id="summary_btn"
+        formaction="overview#">
+    continue
+</button>
+
+
+</body>
+
+</html>

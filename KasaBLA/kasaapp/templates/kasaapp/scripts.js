@@ -629,3 +629,15 @@ $('#overviewForm').on('submit', function(event){
         }
     })
     });
+
+    $(document).ready(function(){
+    $(".loadbtn").click(function(){
+        var query = "{{ query }}";
+        $.post("overview",
+        {
+          bla_number: query,
+          csrfmiddlewaretoken: '{{csrf_token}}',
+        },
+        );
+    });
+});

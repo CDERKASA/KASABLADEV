@@ -40,9 +40,6 @@ class Overview(models.Model):
     review = models.CharField(max_length=500)
     designation = models.CharField(max_length=500)
 
-    def blanumber(self):
-        Overview.save()
-
     def __str__(self):
         return self.applicant_name
 

@@ -165,7 +165,7 @@ background-color: #28a745;
     </style>
 
 </head>
-
+<body>
 <!-- Navigation Bar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary" id="navigation">
     <a class="navbar-brand" href="index.html">KASA</a>
@@ -212,7 +212,7 @@ background-color: #28a745;
                 <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Audit</a>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
+        <form class="form-inline my-2 my-lg-0" method="get">
             <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="searchbar">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
@@ -308,17 +308,17 @@ background-color: #28a745;
 </ul>
 <div class="p-3"></div>
 <h4 class="textboxtitle">Preliminary Risk Evaluation</h4>
-<form method="POST" id="unitopForm" name="unitopForm">
-    {% csrf_token %}
-    <div class="container" id="unit-operation">
-        <div class="row">
-            <div class="col-lg-6">
-                <label for="unitoperations">Select a unit operation: </label>
-            </div>
-            <div class="col-lg-5">
-                <select name="unitop_text" id="unitoperations" class="form-control form-control-sm"
-                        onchange="unitFun()">
-                    <option selected="selected" value="">--Select Unit Operation--</option>
+    <form method="POST" id="unitopForm" name="unitopForm" action="summary" onsubmit="return false">
+        {% csrf_token %}
+        <div class="container" id="unit-operation">
+            <div class="row">
+                <div class="col-lg-6">
+                    <label for="unitoperations">Select a unit operation: </label>
+                </div>
+                <div class="col-lg-5">
+                    <select name="unitop_text" id="unitoperations" class="form-control form-control-sm"
+                            onchange="unitFun()">
+                        <option selected="selected" value="">--Select Unit Operation--</option>
 
                 </select>
             </div>
@@ -1355,10 +1355,11 @@ background-color: #28a745;
             <div class="col-lg-4" id="riskselect">
                 <div class="form-control form-control-sm" style="text-align:center">
                     {% for risks in processparameter %}
-                    <span name="OBP" id="-{{risks.unitoperation_id}}-{{risks.id}}">
+                    <span id="-{{risks.unitoperation_id}}-{{risks.id}}">
                          {{risks.risk_ranking}}
                     </span>
                     {% endfor %}
+                    <input value="{{risks.risk_ranking}}" name="OBP" type="hidden">
                 </div>
             </div>
             <div class="col-lg-3">
@@ -1474,9 +1475,9 @@ background-color: #28a745;
             <div class="col-lg-4" id="surriskselect">
                 <div class="form-control form-control-sm" style="text-align:center">
                     {% for risks in surrogate %}
-                    <span1 id="-{{risks.unitoperation_id}}-{{risks.id}}">
+                    <span id="1-{{risks.unitoperation_id}}-{{risks.id}}">
                         {{risks.risk_ranking}}
-                    </span1>
+                    </span>
                     {% endfor %}
                 </div>
             </div>
@@ -1502,7 +1503,7 @@ background-color: #28a745;
             </div>
             <div class="col-lg-4">
                 <div>
-                    <label name="applicant_risk_text" for="Ranking" id="Ranking"
+                    <label for="Ranking" id="Ranking"
                            class="form-control form-control-sm blue_label" style="text-align:center"></label>
                     <input type="hidden" name="applicant_risktext" id="applicant_risktext" value=""/>
                 </div>
@@ -1677,7 +1678,7 @@ background-color: #28a745;
             </div>
             <div class="col-lg-4">
                 <div>
-                    <label for="Ranking" name="surrisk_text" id="surr_Ranking"
+                    <label for="Ranking" id="surr_Ranking"
                            class="blue_label form-control form-control-sm" style="text-align:center">
                     </label>
                     <input type="hidden" name="surrisk_text" id="surrisk_text" value=""/>
@@ -1791,7 +1792,7 @@ background-color: #28a745;
                 <label for="surr_Final_Risk_Ranking_ntagree">Preliminary Risk:</label>
             </div>
             <div class="col-lg-4">
-                <label name="surrisk_text2" id="surr_Final_Risk_Ranking_ntagree"
+                <label id="surr_Final_Risk_Ranking_ntagree"
                        class="blue_label form-control form-control-sm" style="text-align:center"></label>
                 <input type="hidden" name="surrisk_text2" id="surrisk_text2" value=""/>
 
@@ -1816,14 +1817,14 @@ background-color: #28a745;
         </button>
     </div>
 </div>
-<div class="container">
-    <div class="col-lg-12">
-        <button type="submit" class="btn btn-primary form-control form-control-sm" id="unitop_btn" form="unitopForm" formaction="summary">
-            <strong>Summary</strong>
-        </button>
-    </div>
-</div>
-
+        <div class="container">
+            <div class="col-lg-12">
+                <button type="submit" class="btn btn-primary form-control form-control-sm" id="unitop_btn"
+                        form="unitopForm" formmethod="post">Summary
+                </button>
+            </div>
+        </div>
+    </form>
 </div> <!-- end of risk eval module -->
 
 <div id="characterization_module" style="display:none">
@@ -1839,7 +1840,7 @@ background-color: #28a745;
                 <option>Yes (Characterization data)</option>
                 <option>Yes (Prior Knowledge data)</option>
                 <option>No characterization data</option>
-                <option selected disabled="true" value="default">Select</option>
+                <option selected disabled value="default">Select</option>
             </select>
         </div>
         <div class="col-lg-1">
@@ -1894,7 +1895,7 @@ background-color: #28a745;
         </div>
         <div class="col-lg-4">
             <select name="characterization-study" id="study-appropriate-select" class="form-control form-control-sm">
-                <option selected disabled="true" value="default">Select</option>
+                <option selected disabled value="default">Select</option>
                 <option>Yes Characterization is appropriate</option>
                 <option>No Characterization is not appropriate</option>
             </select>
@@ -1956,7 +1957,7 @@ background-color: #28a745;
         </div>
         <div class="col-lg-4">
             <select name="characterization-study" id="pk-study-select" class="form-control form-control-sm">
-                <option selected disabled="true" value="default">Select</option>
+                <option selected disabled value="default">Select</option>
                 <option>Yes prior knowledge is appropriate</option>
                 <option>No prior knowledge is not appropriate</option>
             </select>
@@ -2338,18 +2339,18 @@ background-color: #28a745;
 
 <div class="container">
     <div class="col-lg-12">
-        <button type="submit" class="btn btn-primary form-control form-control-sm" id="summary_btn" form="unitopForm" formaction="summary">
+        <button type="submit" class="btn btn-primary form-control form-control-sm" id="summary_btn" form="unitopForm">
             Summary
         </button>
     </div>
 </div>
 
-<div class="p-3">
+    <div class="p-3">
+    </div>
 </div>
-</div>
-</form>
 
-<script>
+
+<script type="text/javascript">
  function unit(u) {
         var x = document.getElementById(u).textContent;
         document.getElementById(u).innerHTML = x;
@@ -2443,7 +2444,7 @@ var $select11 = $('#unitoperations'),
     $surrogateOBPrisk = $('#surriskselect');
 
     $options22 = $select22.find('option');
-    $span33 = $surrogateOBPrisk.find('span1');
+    $span33 = $surrogateOBPrisk.find('span');
 
 
     $select11.on('change', function() {
@@ -2535,7 +2536,7 @@ $("#cppdropdownselect").change(function(){
             else if ($(this).val() === 'Yes (Prior Knowledge data)'){
                 $("#characterization-study").hide();
                 $("#pk-study").show();
-                $("#no-study-modal").modal('hide');
+         $("#no-study-modal").modal('hide');
             }
         });
         $("#validation-select").change(function(){
@@ -3110,22 +3111,148 @@ function myFun1() {
 }
 $('#unitopForm').on('submit', function(event){
     event.preventDefault();
-    console.log("form submitted!")  // sanity check
+    console.log("form submitted!")
     summary();
 });
 function summary () {
-    $('.ajaxProgress').show();
-    console.log("create summary is working")
+    console.log("summary is working");
     $.ajax({
-        url : "riskeval",
-        async: true,
-        type : "POST",
+        type: "POST",
+        url : "summary",
+        dataType: "Json",
         data : {
-                unit: $('#unitop_text').val(),
                 csrfmiddlewaretoken: '{{ csrf_token }}',
+                action: 'post',
+                unitop_text: $('#unitop_text').val(),
+                unitop_ircomments:$('#unitop_ircomments').val(),
+                harvest_descriptor:$('#harvest_descriptor').val(),
+                harvest_type_unit:$('#harvest_type_unit').val(),
+                chrom_descr_1:$('#chrom_descr_1').val(),
+                chrom_descr_1_unit:$('#chrom_descr_1_unit').val(),
+                chrom_descr_2:$('#chrom_descr_2').val(),
+                chrom_descr_2_unit:$('#chrom_descr_2_unit').val(),
+                chrom_descr_3:$('#chrom_descr_3').val(),
+                chrom_descr_3_unit:$('#chrom_descr_3_unit').val(),
+                chrom_descr_4:$('#chrom_descr_4').val(),
+                chrom_descr_4_unit:$('chrom_descr_4_unit').val(),
+                chrom_descr_5:$('#chrom_descr_5').val(),
+                chrom_descr_5_unit:$('#chrom_descr_5_unit').val(),
+                chrom_descr_6:$('#chrom_descr_6').val(),
+                chrom_descr_6_unit:$('#chrom_descr_6_unit').val(),
+                chrom_descr_7:$('#chrom_descr_7').val(),
+                chrom_descr_7_unit:$('#chrom_descr_7_unit').val(),
+                chrom_descr_8:$('#chrom_descr_8').val(),
+                chrom_descr_8_unit:$('#chrom_descr_8_unit').val(),
+                chrom_descr_9:$('#chrom_descr_9').val(),
+                chrom_descr_9_unit:$('#chrom_descr_9_unit').val(),
+                new_descriptor:$('#new_descriptor').val(),
+                newdescriptor_unit:$('#newdescriptor_unit').val(),
+                uf_df_membrane_type:$('#uf_df_membrane_type').val(),
+                membrane_unit:$('#membrane_unit').val(),
+                uf_df_mht:$('#uf_df_mht').val(),
+                micro_holdtime_unit:$('#micro_holdtime_unit').val(),
+                uf_df_bht:$('#uf_df_bht').val(),
+                biochem_holdtime_unit:$('#biochem_holdtime_unit').val(),
+                inprocess_unit:$('#inprocess_unit').val(),
+                thaw_celltype:$('#thaw_celltype').val(),
+                celltype_unit:$('#celltype_unit').val(),
+                thaw_vessel_type:$('#thaw_vessel_type').val(),
+                vessel_unit:$('#vessel_unit').val(),
+                thaw_expansion_type:$('#thaw_expansion_type').val(),
+                expansion_unit:$('#expansion_unit').val(),
+                thaw_ipt:$('#thaw_ipt').val(),
+                inprocess_thaw_unit:$('#inprocess_thaw_unit').val(),
+                prodbio_media_type:$('#prodbio_media_type').val(),
+                media_type_unit:$('#media_type_unit').val(),
+                prodbio_vessel_volume:$('#prodbio_vessel_volume').val(),
+                vessel_volume_unit:$('#vessel_volume_unit').val(),
+                prodbio_composition:$('#prodbio_composition').val(),
+                composition_unit:$('#composition_unit').val(),
+                prodbio_ipt:$('#prodbio_ipt').val(),
+                prodbioinprocess_unit:$('#prodbioinprocess_unit').val(),
+                lowph_acid:$('#lowph_acid').val(),
+                lowph_base:$('#lowph_base').val(),
+                base_unit:$('#base_unit').val(),
+                lowph_mht:$('#lowph_mht').val(),
+                micro_holdtime_lowph_unit:$('#micro_holdtime_lowph_unit').val(),
+                lowph_bht:$('#lowph_bht').val(),
+                biochem_holdtime_lowph_unit:$('#biochem_holdtime_lowph_unit').val(),
+                inprocess_lowph_unit:$('#inprocess_lowph_unit').val(),
+                detergent_type:$('#detergent_type').val(),
+                detergent_unit:$('#detergent_unit').val(),
+                detergent_mht:$('#detergent_mht').val(),
+                micro_holdtime_det_unit:$('#micro_holdtime_det_unit').val(),
+                detergent_bht:$('#detergent_bht').val(),
+                biochem_holdtime_det_unit:$('#biochem_holdtime_det_unit').val(),
+                detergent_ipt:$('#detergent_ipt').val(),
+                inprocess_det_unit:$('#inprocess_det_unit').val(),
+                fil_filter:$('#fil_filter').val(),
+                filter_unit:$('#filter_unit').val(),
+                fil_filter_type:$('#fil_filter_type').val(),
+                fil_filter_unit:$('#fil_filter_unit').val(),
+                fil_ipt:$('#fil_ipt').val(),
+                inprocess_viral_unit:$('#inprocess_viral_unit').val(),
+                seedbio_comp:$('#seedbio_comp').val(),
+                seed_bio_composition_unit:$('#seed_bio_composition_unit').val(),
+                seedbio_mediatype:$('#seedbio_mediatype').val(),
+                seedbio_media_unit:$('#seedbio_media_unit').val(),
+                seedbio_ipt:$('#seedbio_ipt').val(),
+                seedbio_inprocess_unit:$('#seedbio_inprocess_unit').val(),
+                procname_text:$('#procname_text').val(),
+                procir_ircomments:$('#procir_ircomments').val(),
+                new_parameter:$('#new_parameter').val(),
+                ircomments_newproc:$('#ircomments_newproc').val(),
+                OBP:$('#OBP').val(),
+                obprisk_ircomments:$('#obprisk_ircomments').val(),
+                ircomments_apprisk:$('#ircomments_apprisk').val(),
+                new_proc_comment:$('#new_proc_comment').val(),
+                Assign_Risk:$('#Assign_Risk').val(),
+                applicant_risktext:$('#applicant_risktext').val(),
+                CPP_KPP:$('#CPP_KPP').val(),
+                cpp_ircomments:$('#cpp_ircomments').val(),
+                applicant_risk2:$('#applicant_risk2').val(),
+                surr_applicant_risk_ranking:$('#surr_applicant_risk_ranking').val(),
+                ircomments_surrir:$('#ircomments_surrir').val(),
+                surprocessparameter:$('#surprocessparameter').val(),
+                surrproc_ircomments:$('#surrproc_ircomments').val(),
+                app_sur:$('#app_sur').val(),
+                ircomments_surrapp_risk:$('#ircomments_surrapp_risk').val(),
+                surriskselect:$('#surriskselect').val(),
+                risk_comment:$('#risk_comment').val(),
+                surrisk_text:$('#surrisk_text').val(),
+                surr_Assign_Risk:$('#surr_Assign_Risk').val(),
+                surrCPP_surrKPP:$('#surrCPP_surrKPP').val(),
+                ircomments_surrcpp:$('#ircomments_surrcpp').val(),
+                surrisk_text2:$('#surrisk_text2').val(),
+                cppdropdownselect:$('#cppdropdownselect').val(),
+                characir_comments:$('#characir_comments').val(),
+                study_appropriate_select:$('#study_appropriate_select').val(),
+                appro_charac_ircomments:$('#appro_charac_ircomments').val(),
+                characterization_study_pk:$('#characterization_study_pk').val(),
+                pk_ircomments:$('#pk_ircomments').val(),
+                charac_range_low:$('#charac_range_low').val(),
+                charac_range_high:$('#charac_range_high').val(),
+                charac_range_ircomments:$('#charac_range_ircomments').val(),
+                validation_select:$('#validation_select').val(),
+                prelir_ircomments:$('#prelir_ircomments').val(),
+                valid_range_low:$('#valid_range_low').val(),
+                valid_range_high:$('#valid_range_high').val(),
+                ircommentsvalrange:$('#ircommentsvalrange').val(),
+                par_ircomments:$('#par_ircomments').val(),
+                par_range_low:$('#par_range_low').val(),
+                par_range_high:$('#par_range_high').val(),
+                response_select:$('#response_select').val(),
+                pp_range_select:$('#pp_range_select').val(),
+                ircommentsprop_par:$('#ircommentsprop_par').val(),
+                acid_unit:$('#acid_unit').val(),
+                lowph_ipt:$('#lowph_ipt').val(),
+                applicant_risk_ranking:$('#applicant_risk_ranking').val(),
+                uf_df_ipt:$('#uf_df_ipt').val()
+
         },
         success : function() {
             console.log("success");
+            window.location ="summary";
 
         }
 
@@ -3134,8 +3261,6 @@ function summary () {
 }
 
 </script>
-
-
 
 </body>
 </html>

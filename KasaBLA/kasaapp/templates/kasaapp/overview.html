@@ -267,7 +267,7 @@ background-color: #28a745;
                 </div>
                 <div class="col-lg-3">
                     <input id="bla_number" name="bla_number" type="text" placeholder="BLA #"
-                           class="form-control form-control-sm">
+                           class="form-control form-control-sm" value="{{bla_number}}">
                 </div>
                 <div class="col-lg-3">
                     <label for="applicant_name">Applicant name:</label>
@@ -451,6 +451,12 @@ background-color: #28a745;
     }
     });
 });
+
+$("#summarybtn_btn").click(function(){
+                window.location ="riskeval";
+                return false;
+
+        });
 </script>
 </body>
 

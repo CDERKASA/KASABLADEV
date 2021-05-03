@@ -3,22 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    {% load static %}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
           integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="{% static 'kasaapp/style.css' %}">
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-            crossorigin="anonymous"></script>
-    {% load static %}
-    <script src="{% static 'kasaapp/app.js' %}"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="//code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
             integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
             crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
             integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
             crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"
+            integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw=="
+            crossorigin="anonymous"></script>
     <title>KASA BLA</title>
+    <style>
+        #kasasearch{
+    margin: auto;
+    text-align:center;
+    }
+    #button{
+        margin: auto;
+        font-size: 10px;
+    }
+
+    </style>
 </head>
 
 <body>
@@ -38,10 +49,10 @@
                     Home
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="Overview.html">Overview</a>
-                    <a class="dropdown-item" href="#">Risk Evaluation</a>
+                    <a class="dropdown-item" href="Overview">Overview</a>
+                    <a class="dropdown-item" href="riskeval">Risk Evaluation</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Risk Summary</a>
+                    <a class="dropdown-item" href="summary">Risk Summary</a>
                 </div>
             </li>
             <li class="nav-item active">
@@ -63,12 +74,12 @@
                 <a class="nav-link" href="#">Submit<span class="sr-only">(current)</span></a>
             </li>
 
-            <li class="nav-item" active>
+            <li class="nav-item">
                 <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Audit</a>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <form class="form-inline my-2 my-lg-0" method="get" action="home">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
     </div>
@@ -78,13 +89,66 @@
 <h1 class="title">
     Knowledge-Aided Assessment and Structured Application
 </h1>
-<form class="form-inline my-2 my-lg-0">
-    <div id="kasasearch">
-        <input class="form-control" type="search" placeholder="BLA #" aria-label="Search">
-        <button class="btn btn-outline-success " type="submit">Search</button>
+<div class="p-3"></div>
+<form method="GET" action="home">
+    {% csrf_token %}
+    <div class="form-inline my-2 my-lg-0">
+        <div id="kasasearch">
+            <input class="form-control" type="search" name="search" placeholder="BLA #" aria-label="Search">
+            <button class="btn btn-outline-success " value="search" type="submit">Search</button>
+        </div>
     </div>
 </form>
+<div class="p-3"></div>
+{% if query %}
+BLA containing "{{ query }}"
+{% with results.count as total_results %}
+Found {{ total_results }} result {{total_results|pluralize}}
+{% endwith %}
+{% endif %}
+<div class="p-3"></div>
+<ul>
+    {% if results %}
+    {% for n in results %}
+    <li>{{ n.bla_number }}
+        <button class="btn btn-success loadbtn" id="load">Load</button>
+        <div class="p-3"></div>
+    </li>
+    {% endfor %}
+    {% else %}
+    <li>Sorry, no BLA found.</li>
+    {% endif %}
+</ul>
+<div id="box"></div>
+
+<script>
+     $(document).ready(function(){
+    $(".loadbtn").click(function(){
+            var query = "{{ query }}";
+            $('#box').load("overviewload",
+            {application_path:"application_path",
+            csrfmiddlewaretoken: '{{csrf_token}}',
+            action: 'post',
+            applicant_name:"applicant_name",
+            bla_number : query ,
+            review :"review",
+            review_iteration :"review_iteration",
+            review_decision :"review_decision",
+            designation :"designation",
+            prop_name :"prop_name",
+            non_prop_name :"non_prop_name",
+            obp_name :"obp_name",
+            dosage_form :"dosage_form",
+            strength_potency :"strength_potency",
+            route_administration :"route_administration",
+            primary_assessor :"primary_assessor",
+            secondary_assessor :"secondary_assessor"}
+            );
+    });
+});
 
 
+
+</script>
 </body>
 </html>
