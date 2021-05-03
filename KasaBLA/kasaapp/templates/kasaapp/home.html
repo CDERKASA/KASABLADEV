@@ -125,7 +125,7 @@ Found {{ total_results }} result {{total_results|pluralize}}
      $(document).ready(function(){
     $(".loadbtn").click(function(){
             var query = "{{ query }}";
-            $("#box").load("overview",
+            $("#box").load("overviewload",
             {application_path:"application_path",
             csrfmiddlewaretoken: '{{csrf_token}}',
             applicant_name:"applicant_name",
