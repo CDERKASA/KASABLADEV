@@ -6,6 +6,7 @@ app_name = "kasaapp"
 
 urlpatterns = [
     path('home', views.home, name='home'),
+    path('index.html', views.home, name='home'),
     path('overview', views.overview, name='overview'),
     path('characterization', views.characterization, name='characterization'),
     path('riskeval', views.riskeval, name='riskeval'),

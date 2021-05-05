@@ -178,29 +178,29 @@ background-color: #28a745;
         viral_inactivation.style.display = "none";
     }
     function display(){
-        if ("{{unitoperationname}}" === "Cell Culture - Seed Bioreactor") {
+        if ("{{unitop_text}}" === "Cell Culture - Seed Bioreactor") {
             descriptors();
             seed_bioreactor.style.display = "table-row";
             console.log("selected");
-        } else if ("{{unitoperationname}}" === "Cell Culture - Vial thaw and inoculation expansion") {
+        } else if ("{{unitop_text}}" === "Cell Culture - Vial thaw and inoculation expansion") {
             descriptors();
             thawexpansion.style.display = "table-row";
-        } else if ("{{unitoperationname}}" === "Cell Culture - Production Bioreactor") {
+        } else if ("{{unitop_text}}" === "Cell Culture - Production Bioreactor") {
             descriptors();
             prod_bioreactor.style.display= "table-row";
-        } else if ("{{unitoperationname}}" === "Cell Culture - Harvest") {
+        } else if ("{{unitop_text}}" === "Cell Culture - Harvest") {
             descriptors();
             harvest.style.display = "table-row";
-        } else if ("{{unitoperationname}}" === "Ultrafiltration/Diafiltration") {
+        } else if ("{{unitop_text}}" === "Ultrafiltration/Diafiltration") {
             descriptors();
             uf_df.style.display = "table-row";
-        } else if ("{{unitoperationname}}" === "Viral Filtration") {
+        } else if ("{{unitop_text}}" === "Viral Filtration") {
             descriptors();
             viral_filtration.style.display = "table-row";
-        } else if ("{{unitoperationname}}" === "Virus inactivation - Low pH") {
+        } else if ("{{unitop_text}}" === "Virus inactivation - Low pH") {
             descriptors();
             lowph_descriptor.style.display = "table-row";
-        } else if ("{{unitoperationname}}" === "--Select Unit Operation--") {
+        } else if ("{{unitop_text}}" === "--Select Unit Operation--") {
             descriptors();
         } else {
             descriptors();
@@ -340,10 +340,11 @@ function exportHTML(){
 </nav>
 <div class="p-3"></div>
 <h4 class="textboxtitle">Summary</h4>
+{% for data in riskeval_data %}
 <table class="table table-bordered">
     <thead>
     <tr>
-        <th colspan="12" style="text-align: center" id="unitoperation"> Unit operation: {{unitoperationname}}</th>
+        <th colspan="12" style="text-align: center" id="unitoperation"> Unit operation: {{data.unitop_text}}</th>
     </tr>
     </thead>
     <tbody>
@@ -351,58 +352,63 @@ function exportHTML(){
         <th colspan="12" style="text-align:center">Descriptors:</th>
     </tr>
     <tr id="chromatography" style="display: none">
-        <td colspan="2"><strong>Bind & Elute or Flowthrough: </strong>{{Chromatography_descriptor1}}</td>
-        <td colspan="2"><strong>Resin Type and Manufacturer: </strong>{{Chromatography_descriptor2}}</td>
-        <td><strong>Column Dimension: </strong>{{Chromatography_descriptor3}}</td>
-        <td><strong>Microbiological Hold Time: </strong>{{Chromatography_descriptor4}}</td>
-        <td><strong>Biochemical Hold Time: </strong>{{Chromatography_descriptor5}}</td>
-        <td><strong>Max Cycles per batch: </strong>{{Chromatography_descriptor6}}</td>
-        <td><strong>Start Collection Criteria: </strong>{{Chromatography_descriptor7}}</td>
-        <td><strong>Stop Collection Criteria: </strong>{{Chromatography_descriptor8}}</td>
-        <td colspan="2"><strong>In-process Tests: </strong>{{Chromatography_descriptor9}}</td>
+        <td colspan="2"><strong>Bind & Elute or Flowthrough: </strong>{{data.chrom_descr_1}}</td>
+        <td colspan="2"><strong>Resin Type and Manufacturer: </strong>{{data.chrom_descr_2}}</td>
+        <td><strong>Column Dimension: </strong>{{data.Chromatography_descriptor3}}</td>
+        <td><strong>Microbiological Hold Time: </strong>{{data.Chromatography_descriptor4}}</td>
+        <td><strong>Biochemical Hold Time: </strong>{{data.Chromatography_descriptor5}}</td>
+        <td><strong>Max Cycles per batch: </strong>{{data.Chromatography_descriptor6}}</td>
+        <td><strong>Start Collection Criteria: </strong>{{data.Chromatography_descriptor7}}</td>
+        <td><strong>Stop Collection Criteria: </strong>{{data.Chromatography_descriptor8}}</td>
+        <td colspan="2"><strong>In-process Tests: </strong>{{data.Chromatography_descriptor9}}</td>
     </tr>
     <tr id="lowph" style="display:none">
-        <td colspan="2.4"><strong>Acid Used for adjustment: </strong>{{lowph_acid}} {{acid_unit}}</td>
-        <td colspan="2.5"><strong>Base used for Neutralization: </strong>{{lowph_base}} {{base_unit}}</td>
-        <td colspan="2.5"><strong>Microbiological Hold time: </strong>{{lowph_mht}} {{micro_holdtime_lowph_unit}}</td>
-        <td colspan="2.5"><strong>Biochemical Hold Time: </strong>{{lowph_bht}} {{biochem_holdtime_lowph_unit}}</td>
-        <td colspan="3"><strong>In-process Tests: </strong>{{lowph_ipt}} {{inprocess_lowph_unit}}</td>
+        <td colspan="2.4"><strong>Acid Used for adjustment: </strong>{{data.lowph_acid}} {{data.acid_unit}}</td>
+        <td colspan="2.5"><strong>Base used for Neutralization: </strong>{{data.lowph_base}} {{data.base_unit}}</td>
+        <td colspan="2.5"><strong>Microbiological Hold time: </strong>{{data.lowph_mht}}
+            {{data.micro_holdtime_lowph_unit}}
+        </td>
+        <td colspan="2.5"><strong>Biochemical Hold Time: </strong>{{data.lowph_bht}}
+            {{data.biochem_holdtime_lowph_unit}}
+        </td>
+        <td colspan="3"><strong>In-process Tests: </strong>{{data.lowph_ipt}} {{data.inprocess_lowph_unit}}</td>
     </tr>
     <tr id="uf_df" style="display:none">
-        <td colspan="4"><strong>Membrane Type: </strong>{{uf_df_membrane_type}} {{membrane_unit}}</td>
-        <td colspan="4"><strong>Microbiological Hold Time: </strong>{{uf_df_mht}} {{micro_holdtime_unit}}</td>
-        <td colspan="4"><strong>Biochemical Hold Time: </strong>{{uf_df_bht}} {{biochem_holdtime_unit}}</td>
-        <td colspan="4"><strong>In-process Tests: </strong>{{uf_df_ipt}} {{inprocess_unit}}</td>
+        <td colspan="4"><strong>Membrane Type: </strong>{{data.uf_df_membrane_type}} {{data.membrane_unit}}</td>
+        <td colspan="4"><strong>Microbiological Hold Time: </strong>{{data.uf_df_mht}} {{data.micro_holdtime_unit}}</td>
+        <td colspan="4"><strong>Biochemical Hold Time: </strong>{{data.uf_df_bht}} {{data.biochem_holdtime_unit}}</td>
+        <td colspan="4"><strong>In-process Tests: </strong>{{data.uf_df_ipt}} {{data.inprocess_unit}}</td>
     </tr>
     <tr id="viral_filtration" style="display:none">
-        <td colspan="4"><strong>Filter type and vendor: </strong>{{fil_filter_type}} {{fil_filter_unit}}</td>
-        <td colspan="4"><strong>Filter material composition: </strong>{{fil_filter}} {{filter_unit}}</td>
-        <td colspan="4"><strong>In-process Tests: </strong>{{fil_ipt}} {{inprocess_viral_unit}}</td>
+        <td colspan="4"><strong>Filter type and vendor: </strong>{{data.fil_filter_type}} {{data.fil_filter_unit}}</td>
+        <td colspan="4"><strong>Filter material composition: </strong>{{data.fil_filter}} {{data.filter_unit}}</td>
+        <td colspan="4"><strong>In-process Tests: </strong>{{data.fil_ipt}} {{data.inprocess_viral_unit}}</td>
     </tr>
     <tr id="thawexpansion" style="display:none">
-        <td colspan="3"><strong>Cell type: </strong>{{thaw_celltype}} {{celltype_unit}}</td>
-        <td colspan="3"><strong>Vessel Volume: </strong>{{thaw_vessel_type}} {{vessel_unit}}</td>
-        <td colspan="3"><strong>Expansion Type: </strong>{{thaw_expansion_type}} {{expansion_unit}}</td>
-        <td colspan="3"><strong>In-process Tests: </strong>{{thaw_ipt}} {{inprocess_thaw_unit}}</td>
+        <td colspan="3"><strong>Cell type: </strong>{{data.thaw_celltype}} {{data.celltype_unit}}</td>
+        <td colspan="3"><strong>Vessel Volume: </strong>{{data.thaw_vessel_type}} {{data.vessel_unit}}</td>
+        <td colspan="3"><strong>Expansion Type: </strong>{{data.thaw_expansion_type}} {{data.expansion_unit}}</td>
+        <td colspan="3"><strong>In-process Tests: </strong>{{data.thaw_ipt}} {{data.inprocess_thaw_unit}}</td>
     </tr>
     <tr id="harvest" style="display:none">
-        <td colspan="12"><strong>Harvest type: </strong>{{harvest_descriptor}} {{harvest_type_unit}}</td>
+        <td colspan="12"><strong>Harvest type: </strong>{{data.harvest_descriptor}} {{data.harvest_type_unit}}</td>
     </tr>
     <tr id="prod_bioreactor" style="display:none">
-        <td colspan="3"><strong>Vessel Volume: </strong>{{prodbio_vessel_volume}} {{vessel_volume_unit}}</td>
-        <td colspan="3"><strong>Composition: </strong>{{prodbio_composition}} {{composition_unit}}</td>
-        <td colspan="3"><strong>Media Type: </strong>{{prodbio_media_type}} {{media_type_unit}}</td>
-        <td colspan="3"><strong>In-process Tests: </strong>{{prodbio_ipt}} {{prodbioinprocess_unit}}</td>
+        <td colspan="3"><strong>Vessel Volume: </strong>{{data.prodbio_vessel_volume}} {{data.vessel_volume_unit}}</td>
+        <td colspan="3"><strong>Composition: </strong>{{data.prodbio_composition}} {{data.composition_unit}}</td>
+        <td colspan="3"><strong>Media Type: </strong>{{data.prodbio_media_type}} {{data.media_type_unit}}</td>
+        <td colspan="3"><strong>In-process Tests: </strong>{{data.prodbio_ipt}} {{data.prodbioinprocess_unit}}</td>
     </tr>
     <tr id="seed_bioreactor" style="display:none">
-        <td colspan="4"><strong>Composition: </strong>{{seedbio_comp}} {{seedbio_composition_unit}}</td>
-        <td colspan="4"><strong>Media Type: </strong>{{seedbio_mediatype}} {{seedbio_media_unit}}</td>
-        <td colspan="4"><strong>In-process Tests: </strong>{{seedbio_ipt}} {{seedbio_inprocess_unit}}</td>
+        <td colspan="4"><strong>Composition: </strong>{{data.seedbio_comp}} {{data.seedbio_composition_unit}}</td>
+        <td colspan="4"><strong>Media Type: </strong>{{data.seedbio_mediatype}} {{data.seedbio_media_unit}}</td>
+        <td colspan="4"><strong>In-process Tests: </strong>{{data.seedbio_ipt}} {{data.seedbio_inprocess_unit}}</td>
     </tr>
     <tr id="viral_inactivation" style="display:none">
-        <td colspan="4"><strong>Microbial Hold time: </strong>{{Chromatography_descriptor1}}</td>
-        <td colspan="4"><strong>Biochemical Hold time: </strong>{{Chromatography_descriptor2}}</td>
-        <td colspan="4"><strong>In-process Tests: </strong>{{seedbio_ipt}} {{seedbio_inprocess_unit}}</td>
+        <td colspan="4"><strong>Microbial Hold time: </strong>{{data.Chromatography_descriptor1}}</td>
+        <td colspan="4"><strong>Biochemical Hold time: </strong>{{data.Chromatography_descriptor2}}</td>
+        <td colspan="4"><strong>In-process Tests: </strong>{{data.seedbio_ipt}} {{data.data.seedbio_inprocess_unit}}
+        </td>
     </tr>
 
     <tr>
@@ -416,8 +422,8 @@ function exportHTML(){
         <th colspan="2" style="text-align: center">Qualification range</th>
         <th colspan="2" style="text-align: center">Validation range</th>
         <th rowspan="2" style="text-align: center">Preliminary risk</th>
-        <th colspan="2"style="text-align: center">Final parameters</th>
-        <th colspan="2"style="text-align: center">Final recommendations</th>
+        <th colspan="2" style="text-align: center">Final parameters</th>
+        <th colspan="2" style="text-align: center">Final recommendations</th>
     </tr>
     <tr style="text-align: center">
         <td><strong>Min</strong></td>
@@ -433,32 +439,32 @@ function exportHTML(){
 
     </tr>
     <tr>
-        <td>{{procname_text}}</td>
-        <td>{{charac_range_low}}</td>
-        <td>{{charac_range_high}}</td>
-        <td>{{valid_range_low}}</td>
-        <td>{{valid_range_high}}</td>
-        <td>{{par_range_low}}</td>
-        <td>{{par_range_high}}</td>
+        <td>{{data.procname_text}}</td>
+        <td>{{data.charac_range_low}}</td>
+        <td>{{data.charac_range_high}}</td>
+        <td>{{data.valid_range_low}}</td>
+        <td>{{data.valid_range_high}}</td>
+        <td>{{data.par_range_low}}</td>
+        <td>{{data.par_range_high}}</td>
         <td style="text-align:center; background-color: #28a745">
             {% if preliminaryrisk != None %}
-                <label id="preliminary">{{ preliminaryrisk }}</label>
-                {% endif %}
-                {% if preliminaryrisk1 != None %}
-                <label id="preliminary1">{{ preliminaryrisk1 }}</label>
-                {% endif %}
-                {% if surpreliminaryrisk != None %}
-                <label id="surpreliminaryrisk">{{ surpreliminaryrisk }}</label>
-                {% endif %}
+            <label id="preliminary">{{data.preliminaryrisk }}</label>
+            {% endif %}
+            {% if preliminaryrisk1 != None %}
+            <label id="preliminary1">{{data.preliminaryrisk1 }}</label>
+            {% endif %}
+            {% if surpreliminaryrisk != None %}
+            <label id="surpreliminaryrisk">{{data.surpreliminaryrisk }}</label>
+            {% endif %}
                 {% if surpreliminaryrisk2 != None %}
-                <label id="surpreliminaryrisk2">{{ surpreliminaryrisk2 }}</label>
+            <label id="surpreliminaryrisk2">{{data.surpreliminaryrisk2 }}</label>
                 {% endif %}
 
         </td>
         <td>None</td>
         <td>
             <select class="form-control form-control-sm" id="finalrisk" onchange="final_risk()">
-                        <option selected disabled="true" value="default">--Select--</option>
+                <option selected disabled value="default">--Select--</option>
                         <option value="low">Low risk</option>
                         <option value="medium">Medium risk</option>
                         <option value="high">High risk</option>
@@ -479,9 +485,9 @@ function exportHTML(){
         </th>
         <td colspan="12" style="color: DodgerBlue; text-align: center">
             <div class="collapse" id="comments">
-                <strong>Process parameter comment: </strong> {{proc_comment}}<br/>
-                <strong>Risk ranking comment:</strong> {{app_risk}}<br/>
-                <strong>OBP risk comment:</strong> {{obp_risk_comment}}<br/>
+                <strong>Process parameter comment: </strong> {{data.proc_comment}}<br/>
+                <strong>Risk ranking comment:</strong> {{data.app_risk}}<br/>
+                <strong>OBP risk comment:</strong> {{data.obp_risk_comment}}<br/>
             </div>
         </td>
     </tr>
@@ -494,17 +500,17 @@ function exportHTML(){
         </th>
         <td colspan="12" style="color: DodgerBlue; text-align: center">
             <div class="collapse" id="ircomments">
-                Unit operation: {{unitop_ircomments}}<br/>
-                Process parameter: {{procir_ircomments}}<br/>
-                Applicant risk ranking: {{apprisk_ircomments}}<br/>
-                OBP risk ranking: {{obprisk_ircomments}}<br/>
-                Process parameter characterization: {{characir_comments}}<br/>
-                Characterization appropriate: {{appro_charac_ircomments}}<br/>
-                Characterization range: {{charac_range_ircomments}}<br/>
-                Validation appropriate: {{val_ircomments}}<br/>
-                Validation range: {{valrange_ircomments}}<br/>
-                Proposed PAR range: {{par_ircomments}}<br/>
-                Acceptability of PAR: {{prop_par_ircomments}}<br/>
+                Unit operation: {{data.unitop_ircomments}}<br/>
+                Process parameter: {{data.procir_ircomments}}<br/>
+                Applicant risk ranking: {{data.apprisk_ircomments}}<br/>
+                OBP risk ranking: {{data.obprisk_ircomments}}<br/>
+                Process parameter characterization: {{data.characir_comments}}<br/>
+                Characterization appropriate: {{data.appro_charac_ircomments}}<br/>
+                Characterization range: {{data.charac_range_ircomments}}<br/>
+                Validation appropriate: {{data.val_ircomments}}<br/>
+                Validation range: {{data.valrange_ircomments}}<br/>
+                Proposed PAR range: {{data.par_ircomments}}<br/>
+                Acceptability of PAR: {{data.prop_par_ircomments}}<br/>
             </div>
 
 
@@ -524,6 +530,7 @@ function exportHTML(){
 
 
 </table>
+{% endfor %}
 
 </body>
 </html>

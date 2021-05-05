@@ -708,3 +708,131 @@ $("#summarybtn_btn").click(function(){
                 return false;
 
 });
+
+
+function descriptors(){
+        var chromatography= document.getElementById("chromatography");
+        var lowph = document.getElementById("lowph");
+        var uf_df = document.getElementById("uf_df");
+        var viral_filtration = document.getElementById("viral_filtration");
+        var thawexpansion = document.getElementById("thawexpansion");
+        var harvest = document.getElementById("harvest");
+        var prod_bioreactor = document.getElementById("prod_bioreactor");
+        var seed_bioreactor = document.getElementById("seed_bioreactor");
+        var viral_inactivation = document.getElementById("viral_inactivation");
+
+        chromatography.style.display = "none";
+        lowph.style.display = "none";
+        uf_df.style.display = "none";
+        viral_filtration.style.display = "none";
+        thawexpansion.style.display = "none";
+        harvest.style.display = "none";
+        prod_bioreactor.style.display = "none";
+        seed_bioreactor.style.display = "none";
+        viral_inactivation.style.display = "none";
+    }
+    function display(){
+        if ("{{unitoperationname}}" === "Cell Culture - Seed Bioreactor") {
+            descriptors();
+            seed_bioreactor.style.display = "table-row";
+            console.log("selected");
+        } else if ("{{unitoperationname}}" === "Cell Culture - Vial thaw and inoculation expansion") {
+            descriptors();
+            thawexpansion.style.display = "table-row";
+        } else if ("{{unitoperationname}}" === "Cell Culture - Production Bioreactor") {
+            descriptors();
+            prod_bioreactor.style.display= "table-row";
+        } else if ("{{unitoperationname}}" === "Cell Culture - Harvest") {
+            descriptors();
+            harvest.style.display = "table-row";
+        } else if ("{{unitoperationname}}" === "Ultrafiltration/Diafiltration") {
+            descriptors();
+            uf_df.style.display = "table-row";
+        } else if ("{{unitoperationname}}" === "Viral Filtration") {
+            descriptors();
+            viral_filtration.style.display = "table-row";
+        } else if ("{{unitoperationname}}" === "Virus inactivation - Low pH") {
+            descriptors();
+            lowph_descriptor.style.display = "table-row";
+        } else if ("{{unitoperationname}}" === "--Select Unit Operation--") {
+            descriptors();
+        } else {
+            descriptors();
+            chromatography.style.display = "table-row";
+        }
+    }
+ function chartFn(){
+ if(window.myChart != undefined)
+    window.myChart.destroy();
+    var ctx =  document.getElementById('chart');
+    window.myChart = new Chart(ctx, {
+       type: 'bar',
+       data: {
+        labels: ['Characterization range', 'Validation range', 'PAR'],
+        datasets: [
+        {
+        label: 'Low',
+        data:[({{charac_range_low}}),({{valid_range_low}}), ({{par_range_low}})],
+         backgroundColor: "rgba(0, 0, 0, 0)",
+
+         },
+         {
+        label: 'High',
+        data:[({{charac_range_high}}-{{charac_range_low}}),({{valid_range_high}}-{{valid_range_low}}),({{par_range_high}}-{{par_range_low}})],
+        backgroundColor: '#ff9f40' ,
+         },
+
+       ]
+       },
+       options: {
+        tooltips: {
+         enabled: false,
+        },
+       scales: {
+        xAxes: [{ stacked: true }],
+        yAxes: [{ stacked: true }]
+        }
+        }
+
+    });
+    $(".chart-container").toggle();
+}
+
+function final_risk() {
+       var  tagged_processparameter = document.getElementById("tagged_processparameter");
+       var reviewer_risk = document.getElementById("reviewer_risk");
+       var final_parrange = document.getElementById("final_parrange");
+        var reporting_category = document.getElementById("reporting_category")
+        var category = document.getElementById("category");
+        var finalrisk = document.getElementById("finalrisk");
+        var finalrisk_fr = finalrisk.options[finalrisk.selectedIndex].text;
+
+        if (finalrisk_fr === "Low risk") {
+            category.innerHTML = "non-CPP (low risk) reporting via AR";
+
+
+        } else if (finalrisk_fr === "Medium risk") {
+            category.innerHTML = "CPP/KPP (EC reporting via CBE-30)";
+
+        } else {
+            category.innerHTML = "CPP/KPP (EC reporting via PAS)";
+
+        }
+}
+
+function exportHTML(){
+       var header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' "+
+            "xmlns:w='urn:schemas-microsoft-com:office:word' "+
+            "xmlns='http://www.w3.org/TR/REC-html40'>"+
+            "<head><meta charset='utf-8'><title>Process parameter Summary </title></head><body>";
+       var footer = "</body></html>";
+       var sourceHTML = header+document.getElementById("source-html").innerHTML+footer;
+
+       var source = 'data:application/vnd.ms-word;charset=utf-8,' + encodeURIComponent(sourceHTML);
+       var fileDownload = document.createElement("a");
+       document.body.appendChild(fileDownload);
+       fileDownload.href = source;
+       fileDownload.download = 'BLA#summary.doc';
+       fileDownload.click();
+       document.body.removeChild(fileDownload);
+    }

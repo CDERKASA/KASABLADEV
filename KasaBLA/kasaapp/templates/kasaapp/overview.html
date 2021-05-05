@@ -412,7 +412,7 @@ background-color: #28a745;
 
         </div>
         <button type="submit" class="btn btn-primary form-control form-control-sm" id="summary_btn"
-                formaction="overview#">
+                formaction="overview#" onclick="window.location.href='riskeval'">
             continue
         </button>
     </form>
@@ -457,11 +457,6 @@ background-color: #28a745;
     });
 });
 
-$("#summarybtn_btn").click(function(){
-                window.location ="riskeval";
-                return false;
-
-        });
 </script>
 </body>
 
