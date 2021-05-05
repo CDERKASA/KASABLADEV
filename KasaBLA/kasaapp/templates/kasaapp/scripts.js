@@ -641,3 +641,70 @@ $('#overviewForm').on('submit', function(event){
         );
     });
 });
+
+$('#overviewForm').on('submit', function(event){
+    event.preventDefault();
+    console.log("form submitted!");
+    $.ajax({
+        type: 'POST',
+        url: "overview",
+        data: {
+            csrfmiddlewaretoken: '{{csrf_token}}',
+            action: 'post',
+                application_path: $('#application_path').val(),
+                review: $('.review').val(),
+                review_iteration: $('#review_iteration').val(),
+                review_decision: $('#review_decision').val(),
+                bla_number: $('#bla_number').val(),
+                applicant_name: $('#applicant_name').val(),
+                prop_name: $('#prop_name').val(),
+                non_prop_name: $('#non_prop_name').val(),
+                obp_name: $('#obp_name').val(),
+                dosage_form: $('#dosage_form').val(),
+                strength_potency: $('#strength_potency').val(),
+                route_administration: $('#route_administration').val(),
+                primary_assessor: $('#primary_assessor').val(),
+                secondary_assessor: $('#secondary_assessor').val(),
+                orphan_drug: $('#orphan_drug').val(),
+                breakthrough: $('#breakthrough').val(),
+                designation: $('.designation').val(),
+                reviewer_decision: $('#reviewer_decision').val()
+
+        },
+        success:function(json){
+            console.log('success');
+            $(".loadbtn").click(function(){
+            var query = "{{query}}";
+            $.post("overview",
+            {application_path:"application_path",
+            csrfmiddlewaretoken: '{{csrf_token}}',
+            applicant_name:'{{applicant_name}}',
+            bla_number : query ,
+            review :"review",
+            review_iteration :"review_iteration",
+            review_decision :"review_decision",
+            designation :"designation",
+            prop_name :"prop_name",
+            non_prop_name :"non_prop_name",
+            obp_name :"obp_name",
+            dosage_form :"dosage_form",
+            strength_potency :"strength_potency",
+            route_administration :"route_administration",
+            primary_assessor :"primary_assessor",
+            secondary_assessor :"secondary_assessor"}
+            );
+    return show('overview', 'search');
+    });
+    return show('search', 'overview');
+
+     },
+        error : function(xhr,errmsg,err) {
+        console.log(xhr.status + ": " + xhr.responseText);
+    }
+    });
+});
+$("#summarybtn_btn").click(function(){
+                window.location ="riskeval";
+                return false;
+
+});

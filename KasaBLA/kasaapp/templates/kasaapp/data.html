@@ -155,6 +155,7 @@ background-color: #28a745;
 
 
 
+
     </style>
 
 </head>
@@ -171,7 +172,7 @@ background-color: #28a745;
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item dropdown active">
-                <a class="nav-link dropdown-toggle" href="index.html" id="navbarDropdown" role="button"
+                <a class="nav-link dropdown-toggle" href="home" id="navbarDropdown" role="button"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Home
                 </a>
@@ -217,7 +218,7 @@ background-color: #28a745;
 <h1 class="title">
     Knowledge-Aided Assessment and Structured Application
 </h1>
-
+{% for data in overview_qs %}
 <h5 class="textboxtitle">
     BLA Overview
 </h5>
@@ -233,7 +234,7 @@ background-color: #28a745;
         </div>
         <div class="col-lg-9">
             <select class="form-control form-control-sm" name="application_path" id="application_path">
-                <option selected disabled>Select option</option>
+                <option selected disabled>{{data.application_path}}</option>
                 <option>BLA under 351(a)</option>
                 <option>BLA under 351(k)</option>
                 <option>NDA under 505(b)(1)</option>
@@ -267,13 +268,13 @@ background-color: #28a745;
             BLA #:
         </div>
         <div class="col-lg-3">
-            <input value="{{bla_number}}" class="form-control form-control-sm">
+            <input value="{{data.bla_number}}" class="form-control form-control-sm">
         </div>
         <div class="col-lg-3">
             <label>Applicant name:</label>
         </div>
         <div class="col-lg-3">
-            <input class="form-control form-control-sm" value="{{applicant_name}}">
+            <input class="form-control form-control-sm" value="{{data.applicant_name}}">
         </div>
     </div>
     <div class="p-3"></div>
@@ -283,14 +284,14 @@ background-color: #28a745;
         </div>
         <div class="col-lg-3">
             <input type="text" class="form-control form-control-sm" name="prop_name" id="prop_name"
-                   value="{{prop_name}}">
+                   value="{{data.prop_name}}">
         </div>
         <div class="col-lg-3">
             <label>Non-Proprietary name/USAN:</label>
         </div>
         <div class="col-lg-3">
             <input type="text" class="form-control form-control-sm" name="non_prop_name" id="non_prop_name"
-                   value="{{non_prop_name}}">
+                   value="{{data.non_prop_name}}">
         </div>
     </div>
     <div class="p-3"></div>
@@ -299,14 +300,15 @@ background-color: #28a745;
             <label>OBP systematic name:</label>
         </div>
         <div class="col-lg-3">
-            <input type="text" class="form-control form-control-sm" name="obp_name" id="obp_name" value="{{obp_name}}">
+            <input type="text" class="form-control form-control-sm" name="obp_name" id="obp_name"
+                   value="{{data.obp_name}}">
         </div>
         <div class="col-lg-3">
             <label>Dosage form:</label>
         </div>
         <div class="col-lg-3">
             <input type="text" class="form-control form-control-sm" name="dosage_form" id="dosage_form"
-                   value="{{dosage_form}}">
+                   value="{{data.dosage_form}}">
         </div>
     </div>
     <div class="p-3"></div>
@@ -316,14 +318,14 @@ background-color: #28a745;
         </div>
         <div class="col-lg-3">
             <input type="text" class="form-control form-control-sm" name="strength_potency"
-                   id="strength_potency" value="{{strength_potency}}">
+                   id="strength_potency" value="{{data.strength_potency}}">
         </div>
         <div class="col-lg-3">
             <label>Route administration:</label>
         </div>
         <div class="col-lg-3">
             <input type="text" class="form-control form-control-sm" name="route_administration"
-                   id="route_administration" value="{{route_administration}}">
+                   id="route_administration" value="{{data.route_administration}}">
         </div>
     </div>
     <div class="p-3"></div>
@@ -333,14 +335,14 @@ background-color: #28a745;
         </div>
         <div class="col-lg-3">
             <input type="text" class="form-control form-control-sm" name="primary_assessor"
-                   id="primary_assessor" value="{{primary_assessor}}">
+                   id="primary_assessor" value="{{data.primary_assessor}}">
         </div>
         <div class="col-lg-3">
             <label>Seconday Assessor:</label>
         </div>
         <div class="col-lg-3">
             <input type="text" class="form-control form-control-sm" name="secondary_assessor"
-                   id="secondary_assessor" value="{{secondary_assessor}}">
+                   id="secondary_assessor" value="{{data.secondary_assessor}}">
         </div>
     </div>
 
@@ -413,7 +415,7 @@ background-color: #28a745;
         formaction="overview#">
     continue
 </button>
-
+{% endfor %}
 
 </body>
 

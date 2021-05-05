@@ -1,23 +1,47 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
+from django.template.loader import get_template
 from django.shortcuts import render
-from .models import unitoperation
-from .models import processparameter
-from .models import Overview
-from .models import Riskeval
-from django.db.models import Q
+from .models import unitoperation, processparameter, Overview, Riskeval
+from django.core.mail import send_mail
 from django.core import serializers
 from django.http import JsonResponse
 import json
 
 
 def home(request):
-    query = None
-    results = []
-    if request.method == "GET":
-        query = request.GET.get('search')
-        if query:
-            results = Overview.objects.filter(Q(bla_number=query))
-    return render(request, "kasaapp/home.html", {'query': query, 'results': results})
+    if 'term' in request.GET:
+        qs = Overview.objects.filter(bla_number__icontains=request.GET.get('term'))
+        bla_numbers = list()
+
+        for number in qs:
+            number.append(number.bla_number)
+
+        return JsonResponse(bla_numbers, safe=False)
+    else:
+        print("no term in request")
+    return render(request, "kasaapp/home.html", {})
+
+
+def search(request):
+    if request.method == "POST":
+        search_str = json.loads(request.body).get('searchText', '')
+
+        bla = Overview.objects.filter(bla_number__icontains=search_str)
+
+        data = bla.values()
+
+        return JsonResponse(list(data), safe=False)
+
+
+def show_data(request, bla):
+    print("bla", bla)
+    overview_qs = Overview.objects.filter(bla_number__exact=bla)
+    riskeval_qs = Riskeval.objects.filter(bla_number__exact=bla)
+
+    return render(request, 'kasaapp/data.html', {
+        'overview_qs': overview_qs,
+        'riskeval_qs': riskeval_qs,
+    })
 
 
 def characterization(request):
@@ -28,25 +52,24 @@ def characterization(request):
 
 
 def overview(request):
-    overview_page = Overview.objects.all()
     response_data = {}
 
-    if request.POST.POST('action') == 'POST':
-        application_path = request.POST.POST('application_path')
-        applicant_name = request.POST.POST('applicant_name')
-        bla_number = request.POST.POST('bla_number')
-        review = request.POST.POST('review')
-        review_iteration = request.POST.POST('review_iteration')
-        review_decision = request.POST.POST('review_decision')
-        designation = request.POST.POST('designation')
-        prop_name = request.POST.POST('prop_name')
-        non_prop_name = request.POST.POST('non_prop_name')
-        obp_name = request.POST.POST('obp_name')
-        dosage_form = request.POST.POST('dosage_form')
-        strength_potency = request.POST.POST('strength_potency')
-        route_administration = request.POST.POST('route_administration')
-        primary_assessor = request.POST.POST('primary_assessor')
-        secondary_assessor = request.POST.POST('secondary_assessor')
+    if request.is_ajax and request.method == 'POST':
+        application_path = request.POST.get('application_path')
+        applicant_name = request.POST.get('applicant_name')
+        bla_number = request.POST.get('bla_number')
+        review = request.POST.get('review')
+        review_iteration = request.POST.get('review_iteration')
+        review_decision = request.POST.get('review_decision')
+        designation = request.POST.get('designation')
+        prop_name = request.POST.get('prop_name')
+        non_prop_name = request.POST.get('non_prop_name')
+        obp_name = request.POST.get('obp_name')
+        dosage_form = request.POST.get('dosage_form')
+        strength_potency = request.POST.get('strength_potency')
+        route_administration = request.POST.get('route_administration')
+        primary_assessor = request.POST.get('primary_assessor')
+        secondary_assessor = request.POST.get('secondary_assessor')
 
         response_data['application_path'] = application_path
         response_data['applicant_name'] = applicant_name
@@ -73,7 +96,7 @@ def overview(request):
         ins.save()
         return JsonResponse(response_data)
 
-    return render(request, "kasaapp/overview.html", {"overview_page": overview_page})
+    return render(request, "kasaapp/overview.html", {})
 
 
 def riskeval(request):
@@ -474,35 +497,5 @@ def summary(request):
 
 
 def overviewload(request):
-    application_path = request.POST.get('application_path')
-    applicant_name = request.POST.get('applicant_name')
-    bla_number = request.POST.get('bla_number')
-    review = request.POST.get('review')
-    review_iteration = request.POST.get('review_iteration')
-    review_decision = request.POST.get('review_decision')
-    designation = request.POST.get('designation')
-    prop_name = request.POST.get('prop_name')
-    non_prop_name = request.POST.get('non_prop_name')
-    obp_name = request.POST.get('obp_name')
-    dosage_form = request.POST.get('dosage_form')
-    strength_potency = request.POST.get('strength_potency')
-    route_administration = request.POST.get('route_administration')
-    primary_assessor = request.POST.get('primary_assessor')
-    secondary_assessor = request.POST.get('secondary_assessor')
-
-    return render(request, "kasaapp/overviewload.html", {"bla_number": bla_number,
-                                                         "applicant_name": applicant_name,
-                                                         "application_path": application_path,
-                                                         "review": review,
-                                                         "review_iteration": review_iteration,
-                                                         "review_decision": review_decision,
-                                                         "designation": designation,
-                                                         "prop_name": prop_name,
-                                                         "non_prop_name": non_prop_name,
-                                                         "obp_name": obp_name,
-                                                         "dosage_form": dosage_form,
-                                                         "strength_potency": strength_potency,
-                                                         "route_administration": route_administration,
-                                                         "primary_assessor": primary_assessor,
-                                                         "secondary_assessor": secondary_assessor,
-                                                         })
+    overview_load = Overview.objects.all()
+    return render(request, "kasaapp/overviewload.html", {"overview_load": overview_load})
